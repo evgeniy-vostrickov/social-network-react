@@ -166,14 +166,16 @@ header nav .nav-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  padding-top: 2rem;
 }
 .profile-content .about-me h2 {
   font-size: 2.5rem;
   font-weight: 800;
 }
 .profile-content .about-me .photo-user {
-  width: 30rem;
-  max-height: 45rem;
+  min-width: 30rem;
+  max-width: 70rem;
+  height: 45rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -182,12 +184,13 @@ header nav .nav-item {
           align-items: center;
 }
 .profile-content .about-me .photo-user img {
-  width: 100%;
-  height: auto;
+  height: 100%;
+  width: auto;
+  max-width: 70rem;
 }
 .profile-content .about-me .personal-data {
   margin-left: 5rem;
-  margin-top: 2.8rem;
+  margin-top: 0.8rem;
 }
 .profile-content .about-me .personal-data h3 {
   margin-top: 1rem;
@@ -534,9 +537,12 @@ header nav .nav-item {
   padding: 2rem;
   border-radius: 2rem;
 }
-.block-reviews .write-review textarea {
+.block-reviews .write-review form {
   width: 100%;
   margin-left: 2rem;
+}
+.block-reviews .write-review form textarea {
+  width: 100%;
   border-radius: .5rem;
   padding: 1rem;
 }

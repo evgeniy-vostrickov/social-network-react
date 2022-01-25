@@ -1,6 +1,9 @@
 import React from 'react';
 import moment from 'moment';
+import 'moment/locale/ru'
 import './Message.css';
+
+
 
 export default function Message(props) {
     const {
@@ -10,8 +13,8 @@ export default function Message(props) {
       endsSequence,
       showTimestamp
     } = props;
-
-    const friendlyTimestamp = moment(data.timestamp).format('LLLL');
+    moment.locale('ru');
+    const friendlyTimestamp = moment(data.timestamp).format('LL');
     return (
       <div className={[
         'message',
@@ -28,7 +31,7 @@ export default function Message(props) {
 
         <div className="bubble-container">
           <div className="bubble" title={friendlyTimestamp}>
-            { data.message }
+            { data.text_message }
           </div>
         </div>
       </div>

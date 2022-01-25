@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const ProfileRetractableMenu = (props) => {
     const retractableMenu = () => {
@@ -13,7 +14,7 @@ const ProfileRetractableMenu = (props) => {
                 <li key="0"><a href="#" className="retractable-menu-link"><i className="bi bi-house-door"></i><span>Домашняя страница</span></a></li>
                 <li key="1"><a href="#" className="retractable-menu-link"><i className="bi bi-globe2"></i><span>Группы</span></a></li>
                 <li key="2"><a href="#" className="retractable-menu-link"><i className="bi bi-people"></i><span>Друзья</span></a></li>
-                <li key="3"><a href="#" className="retractable-menu-link"><i className="bi bi-chat"></i><span>Сообщения</span></a></li>
+                <li key="3"><NavLink to="dialog/" className="retractable-menu-link"><i className="bi bi-chat"></i><span>Сообщения</span></NavLink></li>
                 <li key="4"><a href="#" className="retractable-menu-link"><i className="bi bi-book"></i><span>Дневник читателя</span><i className="bi bi-caret-right"></i></a></li>
                 <li key="5"><a href="#" className="retractable-menu-link"><i className="bi bi-chat-square-dots"></i><span>Комментарии</span><i className="bi bi-caret-right"></i></a></li>
                 <li key="6"><a href="#" className="retractable-menu-link"><i className="bi bi-cash-coin"></i><span>Книги на продажу</span></a></li>

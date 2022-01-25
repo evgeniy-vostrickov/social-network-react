@@ -1,8 +1,9 @@
 import axios from 'axios'
+import baseURL from '../common/baseUrl/serverUrl';
 
 const instance = axios.create({
     // withCredentials: true,
-    baseURL: 'http://192.168.0.165:3500/',
+    baseURL: baseURL,
     // timeout: 100,
 })
 
@@ -88,7 +89,7 @@ export const authAPI = {
     },
     login(email, password) {
         return instance.post(`auth/signin`, { email, password })
-            .then(response => response.data, error => error.response.data)
+            .then(response => response.data.values, error => error.response.data.values.message)
     },
     logout() {
         return instance.delete(`auth/login`)
@@ -101,15 +102,53 @@ export const messageAPI = {
             .then(response => response.data.values);
     },
     getAllMessages(dialogId) {
-        return instance.get(`messages?dialog=` + dialogId)
+        return instance.get(`dialog/message/all?dialog=` + dialogId)
             .then(response => response.data.values);
     },
     addNewDialog(user_id, message) {
         return instance.post(`dialog/add`, {user_id, message})
             .then(response => response.data);
     },
-    addNewMessage(dialogId, numLastMessage, userId, message) {
-        return instance.post(`message/send`, {dialogId, numLastMessage, userId, message})
-            .then(response => response.data);
+    addNewMessage(dialogId, numLastMessage, message, timestamp) {
+        return instance.post(`dialog/message/send`, {dialogId, numLastMessage, message, timestamp})
+            .then(response => response.data.values);
     }
+}
+export const bookAPI = {
+    getPayloadForAddBook() {
+        return instance.get(`book/add/payload`)
+            .then(response => response.data.values);
+    },
+    addNewBook(dataAboutBook) {
+        const fd = new FormData();
+        for (const [key, value] of Object.entries(dataAboutBook)){
+            fd.append(key, value);
+        }
+        return instance.post(`book/add`, fd)
+            .then(response => response.data.values)
+    },
+    getFullInfoBook(bookId) {
+        return instance.get(`book/info/full?book=${bookId}`)
+            .then(response => response.data.values);
+    },
+    getAdditionalDataBook(language_id, genre_id, publish_id) {
+        return instance.get(`book/info/additional?language=${language_id}&genre=${genre_id}&publish=${publish_id}`)
+            .then(response => response.data.values);
+    },
+    getAllComments(bookId, commentName) {
+        return instance.get(`book/comments?book=${bookId}&comment=${commentName}`)
+            .then(response => response.data.values);
+    },
+    addNewComment(bookId, commentName, comment) {
+        return instance.post(`book/comments?book=${bookId}&comment=${commentName}`, {comment})
+            .then(response => response.data.values);
+    },
+    addBookInDiaryReader(bookId, sectionDiary) {
+        return instance.post(`book/diary/add?book=${bookId}`, {sectionDiary})
+            .then(response => response.data.values);
+    },
+    getAllBooks(page, count) {
+        return instance.get(`book/all?page=${page}&count=${count}`)
+            .then(response => response.data.values);
+    },
 }

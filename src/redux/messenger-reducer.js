@@ -1,9 +1,11 @@
 import { profileAPI, messageAPI } from "../api/api";
+import moment from 'moment';
 
 // const ADD_POST = 'addPost';
 const SET_ITEMS_DIALOGS = 'DIALOGS:SET_ITEMS';
 const SET_ITEMS_MESSAGE = 'MESSAGE:SET_ITEMS';
 const SET_USER = 'DIALOGS:SET_USER';
+const SET_FIRST_DIALOG = 'DIALOGS:SET_FIRST_DIALOG';
 const ADD_NEW_DIALOG = 'DIALOGS:ADD_NEW_DIALOG';
 const ADD_NEW_MESSAGE = 'MESSAGE:ADD_NEW_MESSAGE';
 const NUM_LAST_MESSAGE = 'MESSAGE:NUM_LAST_MESSAGE';
@@ -11,9 +13,8 @@ const NUM_LAST_MESSAGE = 'MESSAGE:NUM_LAST_MESSAGE';
 let initialState = {
     dialogsItems: [],
     messageItems: [],
-    numLastMessage: 1,
-    userId: 3,
-    currentDialogId: null,
+    numLastMessage: null,
+    firstDialogId: null,
 }
 
 const messengerReducer = (state = initialState, action) => {
@@ -29,11 +30,11 @@ const messengerReducer = (state = initialState, action) => {
                 ...state,
                 messageItems: [...action.messages],
             };
-        case SET_USER:
-            return {
-                ...state,
-                userId: action.userId,
-            };
+        // case SET_USER:
+        //     return {
+        //         ...state,
+        //         userId: action.userId,
+        //     };
         case ADD_NEW_DIALOG:
             return {
                 ...state,
@@ -49,6 +50,11 @@ const messengerReducer = (state = initialState, action) => {
                 ...state,
                 numLastMessage: action.number
             }
+        case SET_FIRST_DIALOG:
+            return {
+                ...state,
+                firstDialogId: action.dialogId
+            }
         // case 'DIALOGS:LAST_MESSAGE_READED_STATUS':
         //     return {
         //         ...state,
@@ -59,32 +65,32 @@ const messengerReducer = (state = initialState, action) => {
         //             return dialog;
         //         }),
         //     };
-        case 'DIALOGS:SET_CURRENT_DIALOG_ID':
-            return {
-                ...state,
-                currentDialogId: action,
-            };
-        case 'MESSAGES:ADD_MESSAGE':
-            return {
-                ...state,
-                items: [...state.items, action],
-            };
-        case 'MESSAGES:SET_ITEMS':
-            return {
-                ...state,
-                items: action,
-                isLoading: false,
-            };
-        case 'DIALOGS:LAST_MESSAGE_READED_STATUS':
-            return {
-                ...state,
-                items: state.items.map(message => {
-                    if (message.dialog._id === action.dialogId) {
-                        message.readed = true;
-                    }
-                    return message;
-                }),
-            };
+        // case 'DIALOGS:SET_CURRENT_DIALOG_ID':
+        //     return {
+        //         ...state,
+        //         currentDialogId: action,
+        //     };
+        // case 'MESSAGES:ADD_MESSAGE':
+        //     return {
+        //         ...state,
+        //         items: [...state.items, action],
+        //     };
+        // case 'MESSAGES:SET_ITEMS':
+        //     return {
+        //         ...state,
+        //         items: action,
+        //         isLoading: false,
+        //     };
+        // case 'DIALOGS:LAST_MESSAGE_READED_STATUS':
+        //     return {
+        //         ...state,
+        //         items: state.items.map(message => {
+        //             if (message.dialog._id === action.dialogId) {
+        //                 message.readed = true;
+        //             }
+        //             return message;
+        //         }),
+        //     };
         // case 'MESSAGES:REMOVE_MESSAGE':
         //     return {
         //         ...state,
@@ -103,7 +109,8 @@ const messengerReducer = (state = initialState, action) => {
 
 export const setDialogsAction = (dialogs) => ({ type: SET_ITEMS_DIALOGS, dialogs });
 export const setMessagesAction = (messages) => ({ type: SET_ITEMS_MESSAGE, messages });
-export const setUserAction = (userId) => ({ type: SET_USER, userId });
+// export const setUserAction = (userId) => ({ type: SET_USER, userId });
+export const setFirstDialogAction = (dialogId) => ({ type: SET_FIRST_DIALOG, dialogId });
 export const addNewDialogAction = (dialog) => ({ type: ADD_NEW_DIALOG, dialog });
 export const addNewMessageAction = (message) => ({ type: ADD_NEW_MESSAGE, message });
 export const numLastMessageAction = (number) => ({ type: NUM_LAST_MESSAGE, number });
@@ -117,6 +124,7 @@ export const getAllDialogsThunk = () => {
                 dialogs => {
                     console.log(dialogs);
                     dispatch(setDialogsAction(dialogs));
+                    dispatch(setFirstDialogAction(dialogs[0].dialog_id))
                 }
             )
     }
@@ -128,9 +136,10 @@ export const getAllMessagesThunk = (dialogId) => {
             .then(
                 data => {
                     console.log(data);
-                    dispatch(setUserAction(data.userId))
-                    dispatch(setMessagesAction(data.messages))
-                    dispatch(numLastMessageAction(data.messages.length - 1))
+                    // dispatch(setUserAction(data.userId))
+                    dispatch(setMessagesAction(data))
+                    // console.log(data.messages.length - 1)
+                    dispatch(numLastMessageAction(data.length))
                 }
             )
     }
@@ -148,13 +157,15 @@ export const addNewDialogThunk = (userId, message) => {
     }
 }
 
-export const addNewMessageThunk = (dialogId, numLastMessage, userId, message) => {
+export const addNewMessageThunk = (dialogId, numLastMessage, message) => {
+    const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     return (dispatch) => {
-        messageAPI.addNewMessage(dialogId, numLastMessage, userId, message)
+        messageAPI.addNewMessage(dialogId, numLastMessage, message, timestamp)
             .then(
                 newMessage => {
-                    console.log(newMessage);
-                    // dispatch(addNewMessageAction(newMessage));
+                    console.log(newMessage)
+                    // dispatch(addNewMessageAction(newMessage))
+                    // dispatch(numLastMessageAction(numLastMessage + 1))
                 }
             )
     }

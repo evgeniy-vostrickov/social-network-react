@@ -1,38 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom'
 import Friend from './Friend/Friend'
 import Group from './Group/Group'
 import ProfileStatusHook from './Status/ProfileStatusHook'
-import userPhotoDefault from '../../assets/images/nature.jpg'
+import { checkFilePhoto } from '../../common/validate/checkImage'
+import userPhotoDefault from '../../assets/images/user.jpg'
 import moment from 'moment'
 
 const ProfileContent = (props) => {
 
     const savePhotoOnAvatar = (event) => {
-        if (!event.target.files.length) {
-            // Alert с ошибкой
-            console.log("Ничего не выбрано");
-        }
-        else if (event.target.files[0].type != "image/jpeg" && event.target.files[0].type != "image/png") {
-            console.log("Неверный тип");
-        }
-        else if (event.target.files[0].size > 350000) {
-            console.log("Слишком большой размер");
-        }
-        else {
-            console.log("Всё хорошо");
-            console.log(event.target.files[0])
-            // Всё хорошо
-            props.saveAvatarThunk(event.target.files[0]);
-        }
-
-
+        checkFilePhoto(event.target.files) && props.saveAvatarThunk(event.target.files[0])
     }
     return (
         <section className="main-content profile-content">
             <div className="about-me">
                 <div className="photo-user">
-                    <img src={userPhotoDefault} />
+                    <img src={!props.avatar ? userPhotoDefault : props.avatar} />
                 </div>
                 <div className="personal-data">
                     <h2>{props.user_name} {props.surname}</h2>

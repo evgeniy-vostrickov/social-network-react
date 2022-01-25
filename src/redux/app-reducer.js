@@ -1,4 +1,4 @@
-// import { authUserThunk } from "./auth_reducer";
+import { authUserThunk } from "./auth_reducer";
 
 const INITIALIZED_SUCCESS = 'initialized_success';
 
@@ -27,13 +27,11 @@ export const initializedSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
 export const initializeAppThunk = () => {
     return (dispatch) => {
-        // Временно закоментируем
-        // let promise = dispatch(authUserThunk());
+        let promise = dispatch(authUserThunk());
         // //dispatch(...)
-        // promise.then(() => {
-        //     dispatch(initializedSuccess());
-        // }
-        // );
-        dispatch(initializedSuccess());
+        promise.then(() => {
+            dispatch(initializedSuccess());
+        }
+        );
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import { useForm } from "react-hook-form";
 import { connect } from 'react-redux';
 import { loginUserThunk } from '../../redux/auth_reducer'
@@ -9,6 +10,9 @@ const Login = ({loginUserThunk, isAuth}) => {
     const onSubmit = (formData) => {
         loginUserThunk(formData.email, formData.password);
     };
+
+    if (isAuth)
+        return <Redirect to={"/profile"}/>
     
     return (
         <section className="main-content registration">

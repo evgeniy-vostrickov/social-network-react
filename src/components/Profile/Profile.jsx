@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import { getFriendsThunk, getGroupsThunk, setStatusUserThunk, saveAvatarThunk } from '../../redux/profile-reducer';
-import { authUserThunk } from '../../redux/auth_reducer';
-import ProfileContent from './ProfileContent';
+import { getFriendsThunk, getGroupsThunk } from '../../redux/profile-reducer';
+import { authUserThunk, setStatusUserThunk, saveAvatarThunk } from '../../redux/auth_reducer';
+import ProfileContent from './ProfileContainer';
 import ProfileRetractableMenu from './ProfileRetractableMenu';
 
 const Profile = (props) => {
@@ -14,9 +14,9 @@ const Profile = (props) => {
         props.getGroupsThunk();
     }, [props.groups.length])
     
-    useEffect(() => {
-        props.authUserThunk();
-    }, [])
+    // useEffect(() => {
+    //     props.authUserThunk();
+    // }, [])
     
     return (
         <>

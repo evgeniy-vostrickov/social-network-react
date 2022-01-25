@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router'
 import socket from '../../common/socket/socket';
-import { addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk } from '../../redux/messenger-reducer';
+import { addNewMessageAction, numLastMessageAction, addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk } from '../../redux/messenger-reducer';
 
 
 const MessengerApp = (props) => {
@@ -26,15 +26,15 @@ const MessengerApp = (props) => {
     //     };
     // }, [])
 
-    useEffect(() => {
-        const dialogId = props.match.params.dialogId;
-        props.getAllMessagesThunk(dialogId);
-        socket.on('SERVER:NEW_MESSAGE', onNewMessage);
-        socket.emit('DIALOGS:JOIN', dialogId);
-        return () => {
-            socket.removeListener('SERVER:NEW_MESSAGE', onNewMessage);
-        };
-    }, [props.match.params.dialogId])
+    // useEffect(() => {
+    //     const dialogId = props.match.params.dialogId;
+    //     props.getAllMessagesThunk(dialogId);
+    //     socket.on('SERVER:NEW_MESSAGE', onNewMessage);
+    //     socket.emit('DIALOGS:JOIN', dialogId);
+    //     return () => {
+    //         socket.removeListener('SERVER:NEW_MESSAGE', onNewMessage);
+    //     };
+    // }, [props.match.params.dialogId])
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -90,15 +90,17 @@ const MessengerApp = (props) => {
 
     return (
         <div className="MessengerApp">
-            <Messenger numLastMessage={props.numLastMessage} userId={props.userId} messageItems={props.messageItems} addNewMessageThunk={props.addNewMessageThunk}/>
+            <Messenger dialogId={props.match.params.dialogId} firstDialogId={props.firstDialogId} myUserId={props.myUserId} numLastMessage={props.numLastMessage} userId={props.userId} messageItems={props.messageItems} dialogsItems={props.dialogsItems} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} addNewMessageThunk={props.addNewMessageThunk} getAllDialogsThunk={props.getAllDialogsThunk} getAllMessagesThunk={props.getAllMessagesThunk} />
         </div>
     );
 }
 
 const mapStateToProps = (state) => ({
+    myUserId: state.auth.user_id,
     numLastMessage: state.messengerPage.numLastMessage,
-    userId: state.messengerPage.userId,
-    messageItems: state.messengerPage.messageItems
+    firstDialogId: state.messengerPage.firstDialogId,
+    messageItems: state.messengerPage.messageItems,
+    dialogsItems: state.messengerPage.dialogsItems
 })
 
-export default compose(connect(mapStateToProps, { addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk }), withRouter)(MessengerApp);
+export default compose(connect(mapStateToProps, { addNewMessageAction, numLastMessageAction, addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk }), withRouter)(MessengerApp);

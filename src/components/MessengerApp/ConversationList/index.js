@@ -8,23 +8,23 @@ import axios from 'axios';
 import './ConversationList.css';
 
 export default function ConversationList(props) {
-  const [conversations, setConversations] = useState([]);
-  useEffect(() => {
-    getConversations()
-  },[])
+//   const [conversations, setConversations] = useState([]);
+//   useEffect(() => {
+//     getConversations()
+//   },[])
 
- const getConversations = () => {
-    axios.get('https://randomuser.me/api/?results=20').then(response => {
-        let newConversations = response.data.results.map(result => {
-          return {
-            photo: result.picture.large,
-            name: `${result.name.first} ${result.name.last}`,
-            text: 'Hello world! This is a long message that needs to be truncated.'
-          };
-        });
-        setConversations([...conversations, ...newConversations])
-    });
-  }
+//  const getConversations = () => {
+//     axios.get('https://randomuser.me/api/?results=20').then(response => {
+//         let newConversations = response.data.results.map(result => {
+//           return {
+//             photo: result.picture.large,
+//             name: `${result.name.first} ${result.name.last}`,
+//             text: 'Hello world! This is a long message that needs to be truncated.'
+//           };
+//         });
+//         setConversations([...conversations, ...newConversations])
+//     });
+//   }
 
     return (
       <div className="conversation-list">
@@ -39,10 +39,10 @@ export default function ConversationList(props) {
         />
         <ConversationSearch />
         {
-          conversations.map(conversation =>
+          props.dialogsItems.map(dialog =>
             <ConversationListItem
-              key={conversation.name}
-              data={conversation}
+              key={dialog.dialog_id}
+              dialog={dialog}
             />
           )
         }
