@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router'
 import socket from '../../common/socket/socket';
-import { addNewMessageAction, numLastMessageAction, addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk } from '../../redux/messenger-reducer';
+import { addNewMessageAction, numLastMessageAction, setUserAction, addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk } from '../../redux/messenger-reducer';
 
 
 const MessengerApp = (props) => {
@@ -89,8 +89,8 @@ const MessengerApp = (props) => {
     // )
 
     return (
-        <div className="MessengerApp">
-            <Messenger dialogId={props.match.params.dialogId} firstDialogId={props.firstDialogId} myUserId={props.myUserId} numLastMessage={props.numLastMessage} userId={props.userId} messageItems={props.messageItems} dialogsItems={props.dialogsItems} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} addNewMessageThunk={props.addNewMessageThunk} getAllDialogsThunk={props.getAllDialogsThunk} getAllMessagesThunk={props.getAllMessagesThunk} />
+        <div className="message-content">
+            <Messenger dialogId={props.match.params.dialogId} firstDialogId={props.firstDialogId} myUserId={props.myUserId} numLastMessage={props.numLastMessage} userIdRecipient={props.userIdRecipient} messageItems={props.messageItems} dialogsItems={props.dialogsItems} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} setUserAction={props.setUserAction} addNewMessageThunk={props.addNewMessageThunk} getAllDialogsThunk={props.getAllDialogsThunk} getAllMessagesThunk={props.getAllMessagesThunk} />
         </div>
     );
 }
@@ -100,7 +100,8 @@ const mapStateToProps = (state) => ({
     numLastMessage: state.messengerPage.numLastMessage,
     firstDialogId: state.messengerPage.firstDialogId,
     messageItems: state.messengerPage.messageItems,
-    dialogsItems: state.messengerPage.dialogsItems
+    dialogsItems: state.messengerPage.dialogsItems,
+    userIdRecipient: state.messengerPage.userIdRecipient
 })
 
-export default compose(connect(mapStateToProps, { addNewMessageAction, numLastMessageAction, addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk }), withRouter)(MessengerApp);
+export default compose(connect(mapStateToProps, { addNewMessageAction, numLastMessageAction, setUserAction, addNewDialogThunk, getAllDialogsThunk, addNewMessageThunk, getAllMessagesThunk }), withRouter)(MessengerApp);

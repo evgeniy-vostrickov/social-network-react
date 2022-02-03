@@ -19,7 +19,7 @@ const Header = (props) => {
                                 <NavLink className="nav-link" to="/main">Главная</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/books/found">Книги</NavLink>
+                                <NavLink className="nav-link" to="/books">Книги</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/groups">Группы</NavLink>

@@ -10,12 +10,12 @@ export default function ConversationListItem(props) {
   })
 
   const text = "Hello"
-  const { dialog_id, name, surname, avatar } = props.dialog;
+  const { user_id, dialog_id, name, surname, avatar } = props.dialog;
 
   return (
-    <NavLink to={"/dialog/" + dialog_id}>
+    <NavLink to={"/profile/dialog/" + dialog_id} onClick={() => props.setUserAction(user_id)}>
       <div className="conversation-list-item">
-        <img className="conversation-photo" src={avatar} alt="conversation" />
+        <img className="conversation-photo" src={avatar} />
         <div className="conversation-info">
           <h1 className="conversation-title">{name} {surname}</h1>
           <p className="conversation-snippet">{text}</p>

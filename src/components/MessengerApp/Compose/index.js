@@ -8,7 +8,7 @@ export default function Compose(props) {
 
   //Отправка нового сообщение в текущий диалог
   const onSubmit = (formData) => {
-    props.addNewMessageThunk(props.dialogId, props.numLastMessage, formData.textMessage);
+    props.addNewMessageThunk(props.dialogId, props.numLastMessage, props.userIdRecipient, formData.textMessage);
     document.querySelector("input[name='textMessage']").value = ''
   };
 

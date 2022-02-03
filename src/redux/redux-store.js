@@ -6,8 +6,10 @@ import messengerReducer from "./messenger-reducer";
 import authReducer from "./auth_reducer";
 import appReducer from "./app-reducer";
 import bookReducer from "./book-reducer";
+import groupReducer from "./group-reducer";
 import commentsReducer from "./comments-reducer";
 import thunkMiddleware from "redux-thunk";
+import userReducer from "./users-reducer";
 // import { reducer as formReducer } from 'redux-form';
 
 let reducers = combineReducers({
@@ -17,6 +19,8 @@ let reducers = combineReducers({
     // usersPage: usersRedux,
     auth: authReducer, //это уже не страница, а аутентификация поэтому Page опускаем
     bookPages: bookReducer,
+    groupPages: groupReducer,
+    userPages: userReducer,
     comments: commentsReducer,
     app: appReducer
 });

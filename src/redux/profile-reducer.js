@@ -5,10 +5,12 @@ const GET_FRIENDS = 'getFriends';
 const GET_GROUPS = 'getGroups';
 const UPDATE_INFO = 'updateInfo';
 const SET_USER_PROFILE = 'setUserProfile';
+// const SET_MAS_EMAIL_FRIEND = 'setMasEmailFriend'; //для определения какие пользователи являются друзьями а какие нет
 
 let initialState = {
     friends: [],
     groups: [],
+    masEmailFriend: []
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -19,7 +21,7 @@ const profileReducer = (state = initialState, action) => {
         //     return { ...state, posts: [...state.posts, newPost], newPost: '' };
 
         case GET_FRIENDS:
-            return { ...state, friends: [...action.friends] };
+            return { ...state, friends: [...action.friends], masEmailFriend: action.friends.map(item => item.email) };
 
         case GET_GROUPS:
             return { ...state, groups: [...action.groups] };
@@ -31,6 +33,9 @@ const profileReducer = (state = initialState, action) => {
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile };
 
+        // case SET_MAS_EMAIL_FRIEND:
+        //     return { ...state, masEmailFriend: state.friends.map(item => item.email) };
+
         default:
             return state;
     }
@@ -41,6 +46,7 @@ export const getFriendsAction = (friends) => ({ type: GET_FRIENDS, friends });
 export const getGroupsAction = (groups) => ({ type: GET_GROUPS, groups });
 export const updateInfoActionCreator = (text) => ({ type: UPDATE_INFO, text });
 export const setUserProfileAction = (profile) => ({ type: SET_USER_PROFILE, profile });
+// export const setMasEmailFriendAction = () => ({ type: SET_MAS_EMAIL_FRIEND });
 
 // в файл помещаются все redux элементы, что бы разгрузить dispatch
 
@@ -54,10 +60,7 @@ export const getFriendsThunk = () => {
         .then(
             friends => {
                 console.log(friends);
-                dispatch(getFriendsAction(friends.values));
-            },
-            error => {
-                console.log(error);
+                dispatch(getFriendsAction(friends));
             }
         )
     }
@@ -69,7 +72,7 @@ export const getGroupsThunk = () => {
         .then(
             groups => {
                 console.log(groups);
-                dispatch(getGroupsAction(groups.values));
+                dispatch(getGroupsAction(groups));
             },
             error => {
                 console.log(error);

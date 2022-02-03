@@ -1,27 +1,42 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import { getFriendsThunk, getGroupsThunk } from '../../redux/profile-reducer';
 import { authUserThunk, setStatusUserThunk, saveAvatarThunk } from '../../redux/auth_reducer';
 import ProfileContent from './ProfileContainer';
 import ProfileRetractableMenu from './ProfileRetractableMenu';
+import Friends from './Friends/Friends';
+import Groups from './Groups/Groups';
+import DiaryReader from './DiaryReader/DiaryReader';
+import FoundUsers from './Users/FoundUsers';
+import UserProfile from './Users/UserProfile';
+import MessengerApp from '../MessengerApp/MessengerApp';
 
 const Profile = (props) => {
     useEffect(() => {
         props.getFriendsThunk();
     }, [props.friends.length])
-    
+
     useEffect(() => {
         props.getGroupsThunk();
     }, [props.groups.length])
-    
+
     // useEffect(() => {
     //     props.authUserThunk();
     // }, [])
-    
+
     return (
         <>
             <ProfileRetractableMenu />
-            <ProfileContent friends={props.friends} groups={props.groups} user_name={props.user_name} surname={props.surname} email={props.email} date_births={props.date_births} place_work_study={props.place_work_study} direction_work_study={props.direction_work_study} status={props.status} avatar={props.avatar} setStatusUserThunk={props.setStatusUserThunk} saveAvatarThunk={props.saveAvatarThunk} />
+            <Switch>
+                <Route path="/profile/users/:userId" render={() => <UserProfile />} />
+                <Route path="/profile/users" render={() => <FoundUsers />} />
+                <Route path="/profile/friends" render={() => <Friends />} />
+                <Route path="/profile/groups" render={() => <Groups />} />
+                <Route path="/profile/dialog/:dialogId?" render={() => <MessengerApp />} />
+                <Route path="/profile/diary/:typeDiary" render={() => <DiaryReader />} />
+                <Route path="/profile" render={() => <ProfileContent friends={props.friends} groups={props.groups} user_name={props.user_name} surname={props.surname} email={props.email} date_births={props.date_births} place_work_study={props.place_work_study} direction_work_study={props.direction_work_study} status={props.status} avatar={props.avatar} setStatusUserThunk={props.setStatusUserThunk} saveAvatarThunk={props.saveAvatarThunk} />} />
+            </Switch>
         </>
     )
 }
@@ -39,4 +54,4 @@ const mapStateToProps = (state) => ({
     avatar: state.auth.avatar
 })
 
-export default connect(mapStateToProps, {getFriendsThunk, getGroupsThunk, authUserThunk, setStatusUserThunk, saveAvatarThunk})(Profile);
+export default connect(mapStateToProps, { getFriendsThunk, getGroupsThunk, authUserThunk, setStatusUserThunk, saveAvatarThunk })(Profile);

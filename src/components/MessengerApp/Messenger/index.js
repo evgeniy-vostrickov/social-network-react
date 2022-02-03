@@ -13,10 +13,11 @@ export default function Messenger(props) {
 
   useEffect(() => {
     fetchDialogs("Пробный запуск при открытии страницы с диалогами");
-    socket.on('SERVER:DIALOG_CREATED', fetchDialogs);
+    socket.emit('DIALOGS:JOIN', props.myUserId);
+    // socket.on('SERVER:DIALOG_CREATED', fetchDialogs);
     socket.on('CLIENT:NEW_MESSAGE', fetchDialogs);
     return () => {
-      socket.removeListener('SERVER:DIALOG_CREATED', fetchDialogs);
+      // socket.removeListener('SERVER:DIALOG_CREATED', fetchDialogs);
       socket.removeListener('CLIENT:NEW_MESSAGE', fetchDialogs);
     };
   }, [])
@@ -47,11 +48,11 @@ export default function Messenger(props) {
         /> */}
 
       <div className="scrollable sidebar">
-        <ConversationList dialogsItems={props.dialogsItems} lastMessage={props.lastMessage} messageItems={props.messageItems} />
+        <ConversationList dialogsItems={props.dialogsItems} lastMessage={props.lastMessage} messageItems={props.messageItems} setUserAction={props.setUserAction} />
       </div>
 
-      <div className="scrollable content">
-        <MessageList dialogId={props.dialogId} myUserId={props.myUserId} messageItems={props.messageItems} firstDialogId={props.firstDialogId} numLastMessage={props.numLastMessage} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} getAllMessagesThunk={props.getAllMessagesThunk} addNewMessageThunk={props.addNewMessageThunk} />
+      <div className="content">
+        <MessageList dialogId={props.dialogId} myUserId={props.myUserId} userIdRecipient={props.userIdRecipient} messageItems={props.messageItems} firstDialogId={props.firstDialogId} numLastMessage={props.numLastMessage} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} getAllMessagesThunk={props.getAllMessagesThunk} addNewMessageThunk={props.addNewMessageThunk} />
       </div>
     </div>
   );

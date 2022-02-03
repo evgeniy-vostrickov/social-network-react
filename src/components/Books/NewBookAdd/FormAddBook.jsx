@@ -29,7 +29,7 @@ const FormAddBook = (props) => {
     const onSubmit = (formData) => {
         formData.illustration_cover = formData.illustration_cover[0];
         console.log(formData);
-        const promise = props.addNewBookThunk(formData);
+        props.addNewBookThunk(formData);
         // if (checkChange)
         // promise.then(() => {
         //     props.history.push(`/books/${props.bookId}`);
@@ -164,7 +164,7 @@ const FormAddBook = (props) => {
                 <div>
                     {errors?.illustration_cover && <p>{errors?.illustration_cover?.message || "Выберите другой файл"}</p>}
                 </div>
-                <div className="but-center"><input type="submit" value="Загрузить" className="btn btn-primary" /></div>
+                <div className="but-center"><input type="submit" value="Добавить" className="btn btn-primary" /></div>
             </form>
         </section>
     )

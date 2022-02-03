@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import Friend from './Friend/Friend'
-import Group from './Group/Group'
+import Friend from './Friends/Friend'
+import Group from './Groups/Group'
 import ProfileStatusHook from './Status/ProfileStatusHook'
 import { checkFilePhoto } from '../../common/validate/checkImage'
 import userPhotoDefault from '../../assets/images/user.jpg'
@@ -20,18 +20,17 @@ const ProfileContent = (props) => {
                 </div>
                 <div className="personal-data">
                     <h2>{props.user_name} {props.surname}</h2>
-                    <h3>Дата рождения </h3><div className="date-birth">{moment.utc(props.date_births).format('DD.MM.YYYY')}</div>
-                    <h3>Возраст </h3><div className="age">43 года</div>
-                    <h3>Место работы/учебы </h3><div className="height">{props.place_work_study}</div>
-                    <h3>Направление работы/учебы </h3><div className="height">{props.direction_work_study}</div>
-                    <h3>Email </h3><div className="height">{props.email}</div>
+                    <h3>Дата рождения </h3><div className="date-birth">{props.date_births ? moment.utc(props.date_births).format('DD.MM.YYYY') : "---------"}</div>
+                    <h3>Место работы/учебы </h3><div className="height">{props.place_work_study || "---------"}</div>
+                    <h3>Направление работы/учебы </h3><div className="height">{props.direction_work_study || "---------"}</div>
+                    <h3>Email </h3><div className="height">{props.email || "---------"}</div>
                     {/* <h3>Статус </h3><div className="status">{props.status}</div> */}
-                    <h3>Статус </h3><ProfileStatusHook currentStatus={props.status} setStatusUserThunk={props.setStatusUserThunk} />
+                    <h3>Статус </h3>{window.location.pathname === "/profile" ? <ProfileStatusHook currentStatus={props.status} setStatusUserThunk={props.setStatusUserThunk} /> : props.status}
                 </div>
             </div>
 
             <div className="load-photo">
-                <label><span className="nav-link">Изменить изображение <input type="file" className="load-photo-input" name="input-name" onChange={savePhotoOnAvatar} /></span></label>
+                { window.location.pathname === "/profile" && <label><span className="nav-link">Изменить изображение <input type="file" className="load-photo-input" name="input-name" onChange={savePhotoOnAvatar} /></span></label> }
             </div>
             {/* <input type="file" /> */}
 
@@ -168,6 +167,8 @@ const ProfileContent = (props) => {
                 <h3>Любимые книги</h3>
                 <div className="list-books"></div>
                 <h3>Любимые авторы</h3>
+                <div className="list-authors"></div>
+                <h3>Любимые жанры</h3>
                 <div className="list-authors"></div>
                 {/* <div className="list-authors"></div> */}
             </div>

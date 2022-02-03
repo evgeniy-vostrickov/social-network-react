@@ -62,7 +62,7 @@ export const setStatusUserThunk = (status) => {
         .then(
             newStatus => {
                 console.log(newStatus);
-                dispatch(setStatusUserSuccess(newStatus));
+                dispatch(setStatusUserSuccess(status));
             },
             error => {
                 console.log(error);

@@ -1,6 +1,9 @@
 html {
   font-size: 10px;
 }
+body {
+  background-color: #76a0f3;
+}
 ul {
   list-style: none;
 }
@@ -67,7 +70,6 @@ header nav .nav-item {
   -webkit-transform: translateX(-80%);
           transform: translateX(-80%);
   z-index: 99;
-  /*Делаем кнопку "гамбургер"*/
 }
 .retractable-menu-active {
   -webkit-transform: translateX(0%);
@@ -92,6 +94,12 @@ header nav .nav-item {
 .retractable-menu-link:hover {
   background-color: #1f1f2f;
 }
+.retractable-menu .inner-link {
+  padding-left: 3rem;
+}
+.retractable-menu .inner-list {
+  background-color: #252850;
+}
 .retractable-menu ul {
   padding-left: 0;
 }
@@ -99,23 +107,36 @@ header nav .nav-item {
   position: relative;
   height: 5rem;
 }
+.retractable-menu ul li ul {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: none;
+  width: 25rem;
+}
+.retractable-menu ul li:hover ul {
+  display: block;
+}
 .retractable-menu .bi-caret-right {
   position: absolute;
   right: 0rem;
 }
-.retractable-menu .menu-btn {
+/*Делаем кнопку "гамбургер"*/
+.menu-btn {
   display: block;
   width: 3rem;
   height: 3rem;
-  background-color: #252537;
   border-radius: 50%;
   right: 2.5rem;
   top: 1rem;
   position: absolute;
 }
-.retractable-menu .menu-btn span,
-.retractable-menu .menu-btn span::before,
-.retractable-menu .menu-btn span::after {
+.card-btn {
+  top: 1rem;
+}
+.menu-btn span,
+.menu-btn span::before,
+.menu-btn span::after {
   position: absolute;
   top: 50%;
   margin-top: -0.1rem;
@@ -125,26 +146,26 @@ header nav .nav-item {
   height: .2rem;
   background-color: #fff;
 }
-.retractable-menu .menu-btn span::before,
-.retractable-menu .menu-btn span::after {
+.menu-btn span::before,
+.menu-btn span::after {
   content: '';
   display: block;
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-.retractable-menu .menu-btn span::before {
+.menu-btn span::before {
   -webkit-transform: translateY(-0.5rem);
           transform: translateY(-0.5rem);
 }
-.retractable-menu .menu-btn span::after {
+.menu-btn span::after {
   -webkit-transform: translateY(0.5rem);
           transform: translateY(0.5rem);
 }
-.retractable-menu .menu-btn_active span::before {
+.menu-btn_active span::before {
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
 }
-.retractable-menu .menu-btn_active span::after {
+.menu-btn_active span::after {
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }
@@ -158,6 +179,20 @@ header nav .nav-item {
   padding-bottom: 2rem;
   margin-left: 4.5rem;
   border-radius: 2rem;
+}
+.message-content {
+  position: relative;
+  top: 6.5rem;
+  margin-left: 8.5rem;
+}
+.load-photo-input {
+  display: none;
+}
+.load-photo span {
+  font-size: 1.8rem;
+}
+.load-photo span:hover {
+  cursor: pointer;
 }
 .profile-content {
   margin-left: 8.5rem;
@@ -195,12 +230,6 @@ header nav .nav-item {
 .profile-content .about-me .personal-data h3 {
   margin-top: 1rem;
 }
-.profile-content .load-photo-input {
-  display: none;
-}
-.profile-content .load-photo span {
-  font-size: 1.8rem;
-}
 .profile-content .block-friends-and-group {
   position: relative;
   margin-top: 3rem;
@@ -219,7 +248,12 @@ header nav .nav-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-top: 3rem;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 .profile-content .block-friends-and-group .list-elements .list-elements-item {
   display: -webkit-box;
@@ -237,7 +271,9 @@ header nav .nav-item {
           justify-content: center;
   height: 20rem;
   background-color: white;
-  margin-right: 3.5%;
+  border-radius: 10%;
+  margin-top: 3rem;
+  margin-right: 3%;
 }
 .profile-content .block-friends-and-group .list-elements .list-elements-item .item-img {
   width: 8.5rem;
@@ -256,6 +292,19 @@ header nav .nav-item {
   color: #6c7293;
   font-weight: 600;
 }
+.profile-content .block-friends-and-group .list-elements .list-elements-item .item-book-img {
+  height: 35rem;
+}
+.profile-content .block-friends-and-group .list-elements .list-elements-item .item-book-img img {
+  width: auto;
+  height: 100%;
+}
+.profile-content .block-friends-and-group .list-elements .diary-reader {
+  position: relative;
+  height: 50rem;
+  margin-right: 4.5%;
+  margin-left: 3.5%;
+}
 .profile-content .separate-page-friends-and-group {
   margin-top: 0;
   padding-top: 2rem;
@@ -263,7 +312,7 @@ header nav .nav-item {
 .profile-content .separate-page-friends-and-group .find-other-elements {
   position: absolute;
   right: 0;
-  top: 3%;
+  top: 5%;
   margin-right: 3.5%;
   font-weight: 800;
   font-size: 2rem;
@@ -612,4 +661,180 @@ header nav .nav-item {
   text-align: center;
   font-size: 3rem;
   font-weight: 800;
+}
+.registration-form {
+  padding: 10px 0;
+}
+.registration-form form {
+  background-color: #fff;
+  max-width: 600px;
+  margin: auto;
+  padding: 30px 50px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+          box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+.registration-form .form-icon {
+  text-align: center;
+  background-color: #5891ff;
+  border-radius: 50%;
+  font-size: 40px;
+  color: white;
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  margin-bottom: 30px;
+  line-height: 70px;
+}
+.registration-form .item {
+  border-radius: 20px;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+  font-size: 1.7rem;
+}
+.registration-form .create-account {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #5791ff;
+  border: none;
+  color: white;
+  margin-top: 20px;
+}
+.registration-form .social-media {
+  max-width: 600px;
+  background-color: #fff;
+  margin: auto;
+  padding: 35px 0;
+  text-align: center;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  color: #9fadca;
+  border-top: 1px solid #dee9ff;
+  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+          box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+.registration-form .social-icons {
+  margin-top: 30px;
+  margin-bottom: 16px;
+}
+.registration-form .social-icons a {
+  font-size: 23px;
+  margin: 0 3px;
+  color: #5691ff;
+  border: 1px solid;
+  border-radius: 50%;
+  width: 45px;
+  display: inline-block;
+  height: 45px;
+  text-align: center;
+  background-color: #fff;
+  line-height: 45px;
+}
+.registration-form .social-icons a:hover {
+  text-decoration: none;
+  opacity: 0.6;
+}
+@media (max-width: 576px) {
+  .registration-form form {
+    padding: 50px 20px;
+  }
+  .registration-form .form-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    line-height: 70px;
+  }
+}
+.rad-label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 100px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+.rad-label:hover,
+.rad-label:focus-within {
+  background: rgba(204, 204, 204, 0.14);
+}
+.rad-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  z-index: -1;
+}
+.rad-design {
+  width: 22px;
+  height: 22px;
+  border-radius: 100px;
+  background: -webkit-gradient(linear, left top, right bottom, from(#40fcab), to(#406ffc));
+  background: linear-gradient(to right bottom, #40fcab, #406ffc);
+  position: relative;
+}
+.rad-design::before {
+  content: '';
+  display: inline-block;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  background: #e6e6e6;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+.rad-input:checked + .rad-design::before {
+  -webkit-transform: scale(0);
+          transform: scale(0);
+}
+.rad-text {
+  color: #999999;
+  margin-left: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 900;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+.rad-input:checked ~ .rad-text {
+  color: #666666;
+}
+.h100vh {
+  height: 90vh;
+}
+.w80r {
+  max-width: 80rem;
+}
+.w60r {
+  max-width: 60rem;
+}
+.fs2-2r {
+  font-size: 2.2rem;
+}
+.br50 {
+  border-radius: 50% !important;
+}
+.ml4-5r {
+  margin-left: 4.5rem;
+}
+.text-center {
+  text-align: center;
+}
+.card-diary span,
+.card-diary span::before,
+.card-diary span::after {
+  background-color: #000;
 }

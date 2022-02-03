@@ -3,6 +3,10 @@ html {
     font-size: 10px;
 }
 
+body {
+    background-color: #76a0f3;
+}
+
 ul {
     list-style: none;
 }
@@ -108,12 +112,34 @@ header nav {
         }
     }
 
+    .inner {
+        &-link {
+            padding-left: 3rem;
+        }
+
+        &-list {
+            background-color: #252850;
+        }
+    }
+
     ul {
         padding-left: 0;
 
         li {
             position: relative;
             height: 5rem;
+
+            ul {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                display: none;
+                width: 25rem;
+            }
+        }
+
+        li:hover ul {
+            display: block;
         }
     }
 
@@ -121,56 +147,63 @@ header nav {
         position: absolute;
         right: 0rem;
     }
-
-    /*Делаем кнопку "гамбургер"*/
-
-    .menu-btn {
-        display: block;
-        width: 3rem;
-        height: 3rem;
-        background-color: #252537;
-        border-radius: 50%;
-        right: 2.5rem;
-        top: 1rem;
-        position: absolute;
-    }
-
-    .menu-btn span,
-    .menu-btn span::before,
-    .menu-btn span::after {
-        position: absolute;
-        top: 50%;
-        margin-top: -.1rem;
-        left: 50%;
-        margin-left: -1rem;
-        width: 2rem;
-        height: .2rem;
-        background-color: #fff;
-    }
-
-    .menu-btn span::before,
-    .menu-btn span::after {
-        content: '';
-        display: block;
-        transition: 0.2s;
-    }
-
-    .menu-btn span::before {
-        transform: translateY(-.5rem);
-    }
-
-    .menu-btn span::after {
-        transform: translateY(.5rem);
-    }
-
-    .menu-btn_active span::before {
-        transform: rotate(45deg);
-    }
-
-    .menu-btn_active span::after {
-        transform: rotate(-45deg);
-    }
 }
+
+/*Делаем кнопку "гамбургер"*/
+
+.menu-btn {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    right: 2.5rem;
+    top: 1rem;
+    position: absolute;
+}
+
+//Для карточек книг в дневнике читателя
+.card-btn {
+    top: 1rem;
+
+}
+
+//Для меню выдвигающегося
+.menu-btn span,
+.menu-btn span::before,
+.menu-btn span::after {
+    position: absolute;
+    top: 50%;
+    margin-top: -.1rem;
+    left: 50%;
+    margin-left: -1rem;
+    width: 2rem;
+    height: .2rem;
+    background-color: #fff;
+}
+
+.menu-btn span::before,
+.menu-btn span::after {
+    content: '';
+    display: block;
+    transition: 0.2s;
+}
+
+.menu-btn span::before {
+    transform: translateY(-.5rem);
+}
+
+.menu-btn span::after {
+    transform: translateY(.5rem);
+}
+
+.menu-btn_active span::before {
+    transform: rotate(45deg);
+}
+
+.menu-btn_active span::after {
+    transform: rotate(-45deg);
+}
+
 
 //Основной блок
 .main-content {
@@ -183,6 +216,29 @@ header nav {
     padding-bottom: 2rem;
     margin-left: 4.5rem;
     border-radius: 2rem;
+}
+
+//Страница сообщений
+.message-content {
+    position: relative;
+    top: 6.5rem;
+    margin-left: 8.5rem;
+}
+
+//Загрузка аватарки пользователя
+.load-photo {
+
+    &-input {
+        display: none;
+    }
+
+    span {
+        font-size: 1.8rem;
+    }
+
+    span:hover {
+        cursor: pointer;
+    }
 }
 
 //Страница профиля
@@ -224,17 +280,6 @@ header nav {
         }
     }
 
-    //Загрузка аватарки пользователя
-    .load-photo {
-        &-input {
-            display: none;
-        }
-
-        span {
-            font-size: 1.8rem;
-        }
-    }
-
     //Блок друзей и групп
     .block-friends-and-group {
         position: relative;
@@ -254,7 +299,8 @@ header nav {
 
         .list-elements {
             display: flex;
-            margin-top: 3rem;
+            flex-direction: row;
+            flex-wrap: wrap;
 
             .list-elements-item {
                 display: flex;
@@ -263,7 +309,9 @@ header nav {
                 justify-content: center;
                 height: 20rem;
                 background-color: white;
-                margin-right: 3.5%;
+                border-radius: 10%; //может быть
+                margin-top: 3rem;
+                margin-right: 3%;
 
                 .item-img {
                     width: 8.5rem;
@@ -285,6 +333,22 @@ header nav {
                     color: #6c7293;
                     font-weight: 600;
                 }
+
+                .item-book-img {
+                    height: 35rem;
+
+                    img {
+                        width: auto;
+                        height: 100%;
+                    }
+                }
+            }
+
+            .diary-reader {
+                position: relative;
+                height: 50rem;
+                margin-right: 4.5%;
+                margin-left: 3.5%;
             }
         }
     }
@@ -297,7 +361,7 @@ header nav {
         .find-other-elements {
             position: absolute;
             right: 0;
-            top: 3%;
+            top: 5%;
             margin-right: 3.5%;
             font-weight: 800;
             font-size: 2rem;
@@ -357,7 +421,6 @@ header nav {
                 box-shadow: 0 0 .5rem black;
             }
         }
-
     }
 }
 
@@ -705,4 +768,209 @@ header nav {
         font-size: 3rem;
         font-weight: 800;
     }
+}
+
+//Форма (не дефолтная)
+.registration-form {
+    padding: 10px 0;
+
+    form {
+        background-color: #fff;
+        max-width: 600px;
+        margin: auto;
+        padding: 30px 50px;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    }
+
+    .form-icon {
+        text-align: center;
+        background-color: #5891ff;
+        border-radius: 50%;
+        font-size: 40px;
+        color: white;
+        width: 70px;
+        height: 70px;
+        margin: auto;
+        margin-bottom: 30px;
+        line-height: 70px;
+    }
+
+    .item {
+        border-radius: 20px;
+        margin-bottom: 25px;
+        padding: 10px 20px;
+        font-size: 1.7rem;
+    }
+
+    .create-account {
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background-color: #5791ff;
+        border: none;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .social-media {
+        max-width: 600px;
+        background-color: #fff;
+        margin: auto;
+        padding: 35px 0;
+        text-align: center;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        color: #9fadca;
+        border-top: 1px solid #dee9ff;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    }
+
+    .social-icons {
+        margin-top: 30px;
+        margin-bottom: 16px;
+
+        a {
+            font-size: 23px;
+            margin: 0 3px;
+            color: #5691ff;
+            border: 1px solid;
+            border-radius: 50%;
+            width: 45px;
+            display: inline-block;
+            height: 45px;
+            text-align: center;
+            background-color: #fff;
+            line-height: 45px;
+        }
+
+        a:hover {
+            text-decoration: none;
+            opacity: 0.6;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .registration-form form {
+        padding: 50px 20px;
+    }
+
+    .registration-form .form-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+        line-height: 70px;
+    }
+}
+
+
+//Радио кнопки
+.rad-label {
+    display: flex;
+    align-items: center;
+
+    border-radius: 100px;
+    padding: 14px 16px;
+    margin: 10px 0;
+
+    cursor: pointer;
+    transition: .3s;
+}
+
+.rad-label:hover,
+.rad-label:focus-within {
+    background: hsla(0, 0%, 80%, .14);
+}
+
+.rad-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    z-index: -1;
+}
+
+.rad-design {
+    width: 22px;
+    height: 22px;
+    border-radius: 100px;
+
+    background: linear-gradient(to right bottom, hsl(154, 97%, 62%), hsl(225, 97%, 62%));
+    position: relative;
+}
+
+.rad-design::before {
+    content: '';
+
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+
+    background: hsl(0, 0%, 90%);
+    transform: scale(1.1);
+    transition: .3s;
+}
+
+.rad-input:checked+.rad-design::before {
+    transform: scale(0);
+}
+
+.rad-text {
+    color: hsl(0, 0%, 60%);
+    margin-left: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 900;
+
+    transition: .3s;
+}
+
+.rad-input:checked~.rad-text {
+    color: hsl(0, 0%, 40%);
+}
+
+
+
+
+
+//Дополнительные стили для разового пользования
+.h100vh {
+    height: 90vh;
+}
+
+.w80r {
+    max-width: 80rem;
+}
+
+.w60r {
+    max-width: 60rem;
+}
+
+.fs2-2r {
+    font-size: 2.2rem;
+}
+
+.br50 {
+    border-radius: 50% !important;
+}
+
+.ml4-5r {
+    margin-left: 4.5rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.card-diary span,
+.card-diary span::before,
+.card-diary span::after {
+    background-color: #000;
 }

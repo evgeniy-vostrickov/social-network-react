@@ -43,6 +43,7 @@ export default function ConversationList(props) {
             <ConversationListItem
               key={dialog.dialog_id}
               dialog={dialog}
+              setUserAction={props.setUserAction}
             />
           )
         }

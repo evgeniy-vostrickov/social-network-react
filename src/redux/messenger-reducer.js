@@ -15,6 +15,7 @@ let initialState = {
     messageItems: [],
     numLastMessage: null,
     firstDialogId: null,
+    userIdRecipient: null
 }
 
 const messengerReducer = (state = initialState, action) => {
@@ -30,11 +31,11 @@ const messengerReducer = (state = initialState, action) => {
                 ...state,
                 messageItems: [...action.messages],
             };
-        // case SET_USER:
-        //     return {
-        //         ...state,
-        //         userId: action.userId,
-        //     };
+        case SET_USER:
+            return {
+                ...state,
+                userIdRecipient: action.userIdRecipient,
+            };
         case ADD_NEW_DIALOG:
             return {
                 ...state,
@@ -109,7 +110,7 @@ const messengerReducer = (state = initialState, action) => {
 
 export const setDialogsAction = (dialogs) => ({ type: SET_ITEMS_DIALOGS, dialogs });
 export const setMessagesAction = (messages) => ({ type: SET_ITEMS_MESSAGE, messages });
-// export const setUserAction = (userId) => ({ type: SET_USER, userId });
+export const setUserAction = (userIdRecipient) => ({ type: SET_USER, userIdRecipient });
 export const setFirstDialogAction = (dialogId) => ({ type: SET_FIRST_DIALOG, dialogId });
 export const addNewDialogAction = (dialog) => ({ type: ADD_NEW_DIALOG, dialog });
 export const addNewMessageAction = (message) => ({ type: ADD_NEW_MESSAGE, message });
@@ -125,6 +126,7 @@ export const getAllDialogsThunk = () => {
                     console.log(dialogs);
                     dispatch(setDialogsAction(dialogs));
                     dispatch(setFirstDialogAction(dialogs[0].dialog_id))
+                    dispatch(setUserAction(dialogs[0].user_id))
                 }
             )
     }
@@ -146,21 +148,26 @@ export const getAllMessagesThunk = (dialogId) => {
 }
 
 export const addNewDialogThunk = (userId, message) => {
+    const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     return (dispatch) => {
-        messageAPI.addNewDialog(userId, message)
+        messageAPI.addNewDialog(userId, message, timestamp)
             .then(
-                newDialog => {
-                    console.log(newDialog);
+                data => {
+                    if (data.satus === 302)
+                        //Alert вывести с сообщением
+                        console.log("302 ошибка " + data.values.dialogExists);
+                    else
+                        console.log(data);
                     // dispatch(addNewDialogAction(newDialog));
                 }
             )
     }
 }
 
-export const addNewMessageThunk = (dialogId, numLastMessage, message) => {
+export const addNewMessageThunk = (dialogId, numLastMessage, userIdRecipient, message) => {
     const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     return (dispatch) => {
-        messageAPI.addNewMessage(dialogId, numLastMessage, message, timestamp)
+        messageAPI.addNewMessage(dialogId, numLastMessage, userIdRecipient, message, timestamp)
             .then(
                 newMessage => {
                     console.log(newMessage)

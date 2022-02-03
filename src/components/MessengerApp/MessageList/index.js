@@ -36,7 +36,6 @@ export default function MessageList(props) {
       props.getAllMessagesThunk(dialogId);
     }
     socket.on('CLIENT:NEW_MESSAGE', onNewMessage);
-    socket.emit('DIALOGS:JOIN', dialogId);
     return () => {
       socket.removeListener('CLIENT:NEW_MESSAGE', onNewMessage);
     };
@@ -188,7 +187,7 @@ export default function MessageList(props) {
         <ToolbarButton key="money" icon="ion-ios-card" />,
         <ToolbarButton key="games" icon="ion-logo-game-controller-b" />,
         <ToolbarButton key="emoji" icon="ion-ios-happy" />
-      ]} numLastMessage={props.numLastMessage} dialogId={props.dialogId} addNewMessageThunk={props.addNewMessageThunk} />
+      ]} numLastMessage={props.numLastMessage} userIdRecipient={props.userIdRecipient} dialogId={props.dialogId} addNewMessageThunk={props.addNewMessageThunk} />
     </div>
   );
 }

@@ -4,7 +4,15 @@ import baseURL from "../common/baseUrl/serverUrl";
 const GET_PAYLOAD_DATA_ADD_BOOK = 'getPayloadDataAddBook';
 const GET_DATA_ABOUT_BOOK = 'getDataAboutBook';
 const SET_BOOK_ID_NULL = 'setBookIdNull';
+const SET_BOOK_ID = 'setBookId';
 const GET_ALL_BOOKS = 'getAllBooks';
+
+const typesDiary = {
+    past: 'Прочитанные книги',
+    unfinished: 'Не дочитал',
+    want: 'Хочу прочитать',
+    now: 'Читаю сейчас',
+}
 
 let initialState = {
     bookId: null,
@@ -19,7 +27,7 @@ let initialState = {
     ageRestrictions: "",
     booksItems: [],
     pageSize: 3, //число книг на странице
-    totalBooksCount: null, //общее число пользователей
+    totalBooksCount: null, //общее число книг
     portionSize: 10, //количество страниц в paginations
     listAllLanguage: [],
     listAllPublication: [],
@@ -34,8 +42,10 @@ const bookReducer = (state = initialState, action) => {
             return { ...state, bookId: action.dataAboutBook.book_id, bookName: action.dataAboutBook.book_name, bookDescription: action.dataAboutBook.book_description, author: action.dataAboutBook.author, yearPublication: action.dataAboutBook.year_publication, illustrationCover: baseURL + action.dataAboutBook.illustration_cover, ageRestrictions: action.dataAboutBook.age_restrictions, language: action.additionalData.language_name, genre: action.additionalData.genre_name, publish: action.additionalData.publish_name }
         case SET_BOOK_ID_NULL:
             return { ...state, bookId: null }
+        case SET_BOOK_ID:
+            return { ...state, bookId: action.bookId }
         case GET_ALL_BOOKS:
-            return { ...state, booksItems: [...action.books.rows], totalCount: action.books.totalCount }
+            return { ...state, booksItems: [...action.listBooks.books], totalBooksCount: action.listBooks.totalCount }
         default:
             return state;
     }
@@ -47,7 +57,8 @@ export default bookReducer;
 export const getPayloadDataAddBook = (payload) => ({ type: GET_PAYLOAD_DATA_ADD_BOOK, payload });
 export const getDataAboutBook = (dataAboutBook, additionalData) => ({ type: GET_DATA_ABOUT_BOOK, dataAboutBook, additionalData });
 export const setBookIdNull = () => ({ type: SET_BOOK_ID_NULL });
-export const getAllBooks = (books) => ({ type: GET_ALL_BOOKS, books });
+export const setBookId = (bookId) => ({ type: SET_BOOK_ID, bookId });
+export const getAllBooks = (listBooks) => ({ type: GET_ALL_BOOKS, listBooks });
 
 
 export const getPayloadForAddBookThunk = () => {
@@ -104,9 +115,41 @@ export const addBookInDiaryReaderThunk = (bookId, sectionDiary) => (dispatch) =>
 export const getAllBooksThunk = (page, count) => (dispatch) => {
     bookAPI.getAllBooks(page, count)
         .then(
-            books => {
-                console.log(books)
-                dispatch(getAllBooks(books))
+            listBooks => {
+                console.log(listBooks)
+                dispatch(getAllBooks(listBooks))
+            }
+        )
+}
+
+export const foundBooksThunk = (page, count, fieldFind, searchField) => (dispatch) => {
+    bookAPI.foundBooks(page, count, fieldFind, searchField)
+        .then(
+            listBooks => {
+                console.log(listBooks)
+                dispatch(getAllBooks(listBooks))
+            }
+        )
+}
+
+export const getBooksDiaryReaderThunk = (typeDiary) => (dispatch) => {
+    console.log(typesDiary[typeDiary])
+    bookAPI.getBooksDiaryReader(typesDiary[typeDiary])
+        .then(
+            listBooks => {
+                console.log(listBooks)
+                dispatch(getAllBooks(listBooks))
+            }
+        )
+}
+
+export const setBooksDiaryReaderThunk = (bookId, typeDiary, currentTypeDiary) => (dispatch) => {
+    console.log(bookId, typesDiary[typeDiary])
+    bookAPI.setBooksDiaryReader(bookId, typesDiary[typeDiary])
+        .then(
+            data => {
+                console.log(data)
+                dispatch(getBooksDiaryReaderThunk(currentTypeDiary))
             }
         )
 }

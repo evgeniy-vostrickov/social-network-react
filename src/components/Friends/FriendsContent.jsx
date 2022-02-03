@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import Friend from '../Profile/Friend/Friend'
+import Friend from '../Profile/Friends/Friend'
 
 const FriendsContent = (props) => {
     return (

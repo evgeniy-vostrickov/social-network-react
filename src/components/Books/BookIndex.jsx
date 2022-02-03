@@ -7,14 +7,18 @@ import { getFullInfoBookThunk, addBookInDiaryReaderThunk } from '../../redux/boo
 import { getAllCommentsThunk, addNewCommentThunk } from '../../redux/comments-reducer';
 import BasicInfoBook from './BasicInfoBook/BasicInfoBook';
 import Comments from './Comments/Comments';
-import BookNavigation from './ImmutablePartPage.jsx/BookNavigation';
-import LeftSidebar from './ImmutablePartPage.jsx/LeftSidebar';
+import BookNavigation from './ImmutablePartPage/BookNavigation';
+import LeftSidebar from './ImmutablePartPage/LeftSidebar';
 
 const BookIndex = (props) => {
     useEffect(() => {
         console.log(props.match.params)
         props.getFullInfoBookThunk(props.match.params.bookId)
     }, [])
+
+    // !!!! Мерцаание, когда меняешь книги
+    // if (!props.bookId)
+    //     return <div>Loading...</div>
 
     return (
         <section className="main-content full-book-content">
