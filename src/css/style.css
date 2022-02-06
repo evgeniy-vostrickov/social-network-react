@@ -395,23 +395,11 @@ header nav .nav-item {
 .full-group-content h3 {
   font-weight: 700;
 }
-.full-book-content .book-full-info .evaluations,
-.full-group-content .book-full-info .evaluations,
-.full-book-content .group-full-info .evaluations,
-.full-group-content .group-full-info .evaluations {
-  font-size: 2rem;
-}
 .full-book-content .book-full-info .evaluations .yellow,
 .full-group-content .book-full-info .evaluations .yellow,
 .full-book-content .group-full-info .evaluations .yellow,
 .full-group-content .group-full-info .evaluations .yellow {
   color: #f5794d;
-}
-.full-book-content .book-full-info .evaluations .bi-star-fill,
-.full-group-content .book-full-info .evaluations .bi-star-fill,
-.full-book-content .group-full-info .evaluations .bi-star-fill,
-.full-group-content .group-full-info .evaluations .bi-star-fill {
-  color: red;
 }
 .full-book-content .book-full-info .evaluations .average-rating,
 .full-group-content .book-full-info .evaluations .average-rating,
@@ -419,6 +407,85 @@ header nav .nav-item {
 .full-group-content .group-full-info .evaluations .average-rating {
   font-size: 2.5rem;
   margin-right: 3rem;
+}
+.full-book-content .book-full-info .evaluations .rating-area,
+.full-group-content .book-full-info .evaluations .rating-area,
+.full-book-content .group-full-info .evaluations .rating-area,
+.full-group-content .group-full-info .evaluations .rating-area {
+  overflow: hidden;
+  width: 265px;
+  margin: 0 auto;
+}
+.full-book-content .book-full-info .evaluations .rating-area:not(:checked) > input,
+.full-group-content .book-full-info .evaluations .rating-area:not(:checked) > input,
+.full-book-content .group-full-info .evaluations .rating-area:not(:checked) > input,
+.full-group-content .group-full-info .evaluations .rating-area:not(:checked) > input {
+  display: none;
+}
+.full-book-content .book-full-info .evaluations .rating-area:not(:checked) > label,
+.full-group-content .book-full-info .evaluations .rating-area:not(:checked) > label,
+.full-book-content .group-full-info .evaluations .rating-area:not(:checked) > label,
+.full-group-content .group-full-info .evaluations .rating-area:not(:checked) > label {
+  float: right;
+  width: 42px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 32px;
+  color: lightgrey;
+  text-shadow: 1px 1px #bbb;
+}
+.full-book-content .book-full-info .evaluations .rating-area:not(:checked) > label:before,
+.full-group-content .book-full-info .evaluations .rating-area:not(:checked) > label:before,
+.full-book-content .group-full-info .evaluations .rating-area:not(:checked) > label:before,
+.full-group-content .group-full-info .evaluations .rating-area:not(:checked) > label:before {
+  content: '★';
+}
+.full-book-content .book-full-info .evaluations .rating-area > input:checked ~ label,
+.full-group-content .book-full-info .evaluations .rating-area > input:checked ~ label,
+.full-book-content .group-full-info .evaluations .rating-area > input:checked ~ label,
+.full-group-content .group-full-info .evaluations .rating-area > input:checked ~ label {
+  color: gold;
+  text-shadow: 1px 1px #c60;
+}
+.full-book-content .book-full-info .evaluations .rating-area:not(:checked) > label:hover,
+.full-group-content .book-full-info .evaluations .rating-area:not(:checked) > label:hover,
+.full-book-content .group-full-info .evaluations .rating-area:not(:checked) > label:hover,
+.full-group-content .group-full-info .evaluations .rating-area:not(:checked) > label:hover,
+.full-book-content .book-full-info .evaluations .rating-area:not(:checked) > label:hover ~ label,
+.full-group-content .book-full-info .evaluations .rating-area:not(:checked) > label:hover ~ label,
+.full-book-content .group-full-info .evaluations .rating-area:not(:checked) > label:hover ~ label,
+.full-group-content .group-full-info .evaluations .rating-area:not(:checked) > label:hover ~ label {
+  color: gold;
+}
+.full-book-content .book-full-info .evaluations .rating-area > input:checked + label:hover,
+.full-group-content .book-full-info .evaluations .rating-area > input:checked + label:hover,
+.full-book-content .group-full-info .evaluations .rating-area > input:checked + label:hover,
+.full-group-content .group-full-info .evaluations .rating-area > input:checked + label:hover,
+.full-book-content .book-full-info .evaluations .rating-area > input:checked + label:hover ~ label,
+.full-group-content .book-full-info .evaluations .rating-area > input:checked + label:hover ~ label,
+.full-book-content .group-full-info .evaluations .rating-area > input:checked + label:hover ~ label,
+.full-group-content .group-full-info .evaluations .rating-area > input:checked + label:hover ~ label,
+.full-book-content .book-full-info .evaluations .rating-area > input:checked ~ label:hover,
+.full-group-content .book-full-info .evaluations .rating-area > input:checked ~ label:hover,
+.full-book-content .group-full-info .evaluations .rating-area > input:checked ~ label:hover,
+.full-group-content .group-full-info .evaluations .rating-area > input:checked ~ label:hover,
+.full-book-content .book-full-info .evaluations .rating-area > input:checked ~ label:hover ~ label,
+.full-group-content .book-full-info .evaluations .rating-area > input:checked ~ label:hover ~ label,
+.full-book-content .group-full-info .evaluations .rating-area > input:checked ~ label:hover ~ label,
+.full-group-content .group-full-info .evaluations .rating-area > input:checked ~ label:hover ~ label,
+.full-book-content .book-full-info .evaluations .rating-area > label:hover ~ input:checked ~ label,
+.full-group-content .book-full-info .evaluations .rating-area > label:hover ~ input:checked ~ label,
+.full-book-content .group-full-info .evaluations .rating-area > label:hover ~ input:checked ~ label,
+.full-group-content .group-full-info .evaluations .rating-area > label:hover ~ input:checked ~ label {
+  color: gold;
+  text-shadow: 1px 1px goldenrod;
+}
+.full-book-content .book-full-info .evaluations .rate-area > label:active,
+.full-group-content .book-full-info .evaluations .rate-area > label:active,
+.full-book-content .group-full-info .evaluations .rate-area > label:active,
+.full-group-content .group-full-info .evaluations .rate-area > label:active {
+  position: relative;
 }
 .full-book-content .book-full-info .statistics-numbers,
 .full-group-content .book-full-info .statistics-numbers,

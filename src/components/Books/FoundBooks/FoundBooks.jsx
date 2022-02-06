@@ -1,33 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import baseURL from "../../../common/baseUrl/serverUrl";
 import Pagination from '../../../common/Pagination/Pagination';
-import { getAllBooksThunk, foundBooksThunk } from '../../../redux/book-reducer';
+import { setBookIdNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk } from '../../../redux/book-reducer';
 import { compose } from 'redux';
 
 const FoundBooks = (props) => {
     const query = new URLSearchParams(props.location.search);
     const page = query.get('page') || '1'; //!!! Не работает кнопка назад, при поиске
-    // console.log(query.toString());
     const [fieldFind, setFieldFind] = useState();
     const [search, setSearch] = useState();
 
+    let { typeBook } = useParams(); //для определения к какому типу учебной литературы относятся книги
+
     useEffect(() => {
+        //Обнуляем bookId чтобы понять когда новые данные будут загружены
+        props.setBookIdNull();
+    }, [])
+
+    useEffect(() => {
+        console.log(typeBook)
         if (document.querySelector("input[name='search']").value) {
-            props.foundBooksThunk(page, props.pageSize, fieldFind, search)
+            props.foundBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, fieldFind, search, typeBook)
         }
         else
-            props.getAllBooksThunk(page, props.pageSize);
-    }, [page])
+            props.getAllBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, typeBook);
+    }, [page, typeBook])
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             fieldFind: 'book_name'
         }
     });
+
+    const funcSorting = (event) => {
+        let fieldSort = "";
+        switch (event.target.id) {
+            case "popularity":
+                fieldSort = "year_publication";
+                break;
+            case "novelty":
+                fieldSort = "year_publication";
+                break;
+            case "rating":
+                fieldSort = "year_publication";
+                break;
+            case "cancel":
+                fieldSort = false;
+                break;
+        }
+        if (document.querySelector("input[name='search']").value)
+            props.sortBooksThunk(page, props.pageSize, fieldSort, fieldFind, search, typeBook);
+        else
+            props.sortBooksThunk(page, props.pageSize, fieldSort, "", "", typeBook);
+    }
 
     const onSubmit = (formData) => {
         console.log(formData);
@@ -36,7 +65,7 @@ const FoundBooks = (props) => {
         // query.set('page', 1)
         // query.set('search', formData.search)
         // console.log(query.toString());
-        props.foundBooksThunk(page, props.pageSize, formData.fieldFind, formData.search);
+        props.foundBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, formData.fieldFind, formData.search, typeBook)
     };
 
     return (
@@ -64,6 +93,15 @@ const FoundBooks = (props) => {
                                 <option value="book_description">Поиск по описанию</option>
                             </select>
                         </div>
+                        <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Сортировка
+                        </button>
+                        <ul className="dropdown-menu" onClick={funcSorting}>
+                            <li><span id="popularity" className="dropdown-item">По популярности</span></li>
+                            <li><span id="novelty" className="dropdown-item">По новизне</span></li>
+                            <li><span id="rating" className="dropdown-item">По рейтингу</span></li>
+                            <li><span id="cancel" className="dropdown-item">Не сортировать</span></li>
+                        </ul>
                         <button className="btn btn-outline-primary" type="submit">Найти</button>
                     </form>
                     {/* <form className="d-flex">
@@ -100,7 +138,7 @@ const FoundBooks = (props) => {
                         })
                     }
                 </div>
-                {props.totalBooksCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalBooksCount} pageSize={props.pageSize} portionSize={props.portionSize} link={'books'} />}
+                {props.totalBooksCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalBooksCount} pageSize={props.pageSize} portionSize={props.portionSize} link={window.location.pathname} />}
             </div>
         </section>
     )
@@ -111,6 +149,8 @@ const mapStateToProps = (state) => ({
     pageSize: state.bookPages.pageSize,
     totalBooksCount: state.bookPages.totalBooksCount,
     portionSize: state.bookPages.portionSize,
+    isSorted: state.bookPages.isSorted,
+    fieldSort: state.bookPages.fieldSort,
 })
 
-export default compose(connect(mapStateToProps, { getAllBooksThunk, foundBooksThunk }), withRouter)(FoundBooks);
+export default compose(connect(mapStateToProps, { setBookIdNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk }), withRouter)(FoundBooks);

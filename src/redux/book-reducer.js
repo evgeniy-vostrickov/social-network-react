@@ -6,12 +6,22 @@ const GET_DATA_ABOUT_BOOK = 'getDataAboutBook';
 const SET_BOOK_ID_NULL = 'setBookIdNull';
 const SET_BOOK_ID = 'setBookId';
 const GET_ALL_BOOKS = 'getAllBooks';
+const SORT_BOOKS = 'SortBooks';
+const GET_ALL_SORT_BOOKS = 'getAllSortBooks';
+const GET_RATING = 'setRating';
+const GET_MY_RATING = 'setMyRating';
 
 const typesDiary = {
     past: 'Прочитанные книги',
     unfinished: 'Не дочитал',
     want: 'Хочу прочитать',
     now: 'Читаю сейчас',
+}
+
+const typesBook = {
+    junior: 'Для младших классов',
+    senior: 'Для старших классов',
+    students: 'Для студентов'
 }
 
 let initialState = {
@@ -26,6 +36,10 @@ let initialState = {
     illustrationCover: null,
     ageRestrictions: "",
     booksItems: [],
+    isSorted: false,
+    rating: null,
+    myRating: null,
+    fieldSort: "", //поле по которому сортируют
     pageSize: 3, //число книг на странице
     totalBooksCount: null, //общее число книг
     portionSize: 10, //количество страниц в paginations
@@ -39,13 +53,21 @@ const bookReducer = (state = initialState, action) => {
         case GET_PAYLOAD_DATA_ADD_BOOK:
             return { ...state, listAllLanguage: [...action.payload.languages], listAllPublication: [...action.payload.publish], listAllGenres: [...action.payload.genres] }
         case GET_DATA_ABOUT_BOOK:
-            return { ...state, bookId: action.dataAboutBook.book_id, bookName: action.dataAboutBook.book_name, bookDescription: action.dataAboutBook.book_description, author: action.dataAboutBook.author, yearPublication: action.dataAboutBook.year_publication, illustrationCover: baseURL + action.dataAboutBook.illustration_cover, ageRestrictions: action.dataAboutBook.age_restrictions, language: action.additionalData.language_name, genre: action.additionalData.genre_name, publish: action.additionalData.publish_name }
+            return { ...state, bookId: action.dataAboutBook.book_id, bookName: action.dataAboutBook.book_name, bookDescription: action.dataAboutBook.book_description, author: action.dataAboutBook.author, yearPublication: action.dataAboutBook.year_publication, illustrationCover: baseURL + action.dataAboutBook.illustration_cover, ageRestrictions: action.dataAboutBook.age_restrictions, rating: action.dataAboutBook.rating, language: action.additionalData.language_name, genre: action.additionalData.genre_name, publish: action.additionalData.publish_name }
         case SET_BOOK_ID_NULL:
             return { ...state, bookId: null }
         case SET_BOOK_ID:
             return { ...state, bookId: action.bookId }
         case GET_ALL_BOOKS:
             return { ...state, booksItems: [...action.listBooks.books], totalBooksCount: action.listBooks.totalCount }
+        // case GET_ALL_SORT_BOOKS:
+        //     return { ...state, booksItems: [...action.listBooks.books], totalBooksCount: action.listBooks.totalCount, fieldSort: action.fieldSort, isSorted: true }
+        case SORT_BOOKS:
+            return { ...state, isSorted: action.isSorted, fieldSort: action.fieldSort }
+        case GET_RATING:
+            return { ...state, rating: action.rating }
+        case GET_MY_RATING:
+            return { ...state, myRating: action.myRating }
         default:
             return state;
     }
@@ -59,6 +81,10 @@ export const getDataAboutBook = (dataAboutBook, additionalData) => ({ type: GET_
 export const setBookIdNull = () => ({ type: SET_BOOK_ID_NULL });
 export const setBookId = (bookId) => ({ type: SET_BOOK_ID, bookId });
 export const getAllBooks = (listBooks) => ({ type: GET_ALL_BOOKS, listBooks });
+export const sortBooksAction = (isSorted, fieldSort) => ({ type: SORT_BOOKS, isSorted, fieldSort });
+export const getAllSortBooks = (listBooks, fieldSort) => ({ type: GET_ALL_SORT_BOOKS, listBooks, fieldSort });
+export const getRating = (rating) => ({ type: GET_RATING, rating });
+export const getMyRating = (myRating) => ({ type: GET_MY_RATING, myRating });
 
 
 export const getPayloadForAddBookThunk = () => {
@@ -112,8 +138,24 @@ export const addBookInDiaryReaderThunk = (bookId, sectionDiary) => (dispatch) =>
         )
 }
 
-export const getAllBooksThunk = (page, count) => (dispatch) => {
-    bookAPI.getAllBooks(page, count)
+export const getAllBooksThunk = (page, count, isSorted, fieldSort, typeBook) => (dispatch) => {
+    // if (isSorted)
+    //     bookAPI.getAllBooks(page, count, fieldSort, typeBook)
+    //         .then(
+    //             listBooks => {
+    //                 console.log(listBooks)
+    //                 dispatch(getAllBooks(listBooks))
+    //             }
+    //         )
+    // else
+    //     bookAPI.getAllBooks(page, count, typeBook)
+    //         .then(
+    //             listBooks => {
+    //                 console.log(listBooks)
+    //                 dispatch(getAllBooks(listBooks))
+    //             }
+    //         )
+    bookAPI.getAllBooks(page, count, isSorted, fieldSort, typesBook[typeBook])
         .then(
             listBooks => {
                 console.log(listBooks)
@@ -122,14 +164,17 @@ export const getAllBooksThunk = (page, count) => (dispatch) => {
         )
 }
 
-export const foundBooksThunk = (page, count, fieldFind, searchField) => (dispatch) => {
-    bookAPI.foundBooks(page, count, fieldFind, searchField)
-        .then(
-            listBooks => {
-                console.log(listBooks)
-                dispatch(getAllBooks(listBooks))
-            }
-        )
+export const foundBooksThunk = (page, count, isSorted, fieldSort, fieldFind, search, typeBook) => (dispatch) => {
+    //page, count, isSorted, fieldSort, fieldFind, search, typeBook
+    console.log(isSorted)
+    console.log(fieldSort)
+    bookAPI.foundBooks(page, count, isSorted, fieldSort, typesBook[typeBook], fieldFind, search)
+    .then(
+        listBooks => {
+            console.log(listBooks)
+            dispatch(getAllBooks(listBooks))
+        }
+    )
 }
 
 export const getBooksDiaryReaderThunk = (typeDiary) => (dispatch) => {
@@ -150,6 +195,87 @@ export const setBooksDiaryReaderThunk = (bookId, typeDiary, currentTypeDiary) =>
             data => {
                 console.log(data)
                 dispatch(getBooksDiaryReaderThunk(currentTypeDiary))
+            }
+        )
+}
+
+export const sortBooksThunk = (page, count, fieldSort, fieldFind, search, typeBook) => async (dispatch) => {
+
+    dispatch(sortBooksAction("true", fieldSort)); //первый вызов сортировки
+    !fieldSort && dispatch(sortBooksAction("false", fieldSort)); //проверка на отмену сортировки
+
+    if (fieldFind)
+        bookAPI.foundBooks(page, count, fieldSort ? "true" : "false", fieldSort, typesBook[typeBook], fieldFind, search)
+            .then(
+                listBooks => {
+                    console.log(listBooks)
+                    dispatch(getAllBooks(listBooks))
+                }
+            )
+    else
+        bookAPI.getAllBooks(page, count, fieldSort ? "true" : "false", fieldSort, typesBook[typeBook])
+            .then(
+                listBooks => {
+                    console.log(listBooks)
+                    dispatch(getAllBooks(listBooks))
+                }
+            )
+
+    // if (fieldSort)
+    //     if (fieldFind)
+    //         bookAPI.foundBooks(page, count, fieldFind, search, fieldSort)
+    //             .then(
+    //                 listBooks => {
+    //                     console.log(listBooks)
+    //                     dispatch(getAllSortBooks(listBooks, fieldSort))
+    //                 }
+    //             )
+    //     else
+    //         bookAPI.getAllBooks(page, count, "true", fieldSort, "")
+    //             .then(
+    //                 listBooks => {
+    //                     console.log(listBooks)
+    //                     dispatch(getAllSortBooks(listBooks, fieldSort))
+    //                 }
+    //             )
+    // else
+    //     if (fieldFind)
+    //         bookAPI.foundBooks(page, count, fieldFind, search)
+    //             .then(
+    //                 listBooks => {
+    //                     console.log(listBooks)
+    //                     dispatch(getAllBooks(listBooks))
+    //                     dispatch(notSortBooksAction())
+    //                 }
+    //             )
+    //     else
+    //         bookAPI.getAllBooks(page, count, "false", fieldSort, "")
+    //             .then(
+    //                 listBooks => {
+    //                     console.log(listBooks)
+    //                     dispatch(getAllBooks(listBooks))
+    //                     dispatch(notSortBooksAction())
+    //                 }
+    //             )
+}
+
+export const setRatingThunk = (bookId, rating) => (dispatch) => {
+    bookAPI.setRating(bookId, rating)
+        .then(
+            dataRating => {
+                console.log(dataRating)
+                dispatch(getMyRating(rating))
+                dispatch(getRating(dataRating))
+            }
+        )
+}
+
+export const getMyRatingThunk = (bookId) => (dispatch) => {
+    bookAPI.getMyRating(bookId)
+        .then(
+            rating => {
+                console.log(rating)
+                dispatch(getMyRating(rating))
             }
         )
 }

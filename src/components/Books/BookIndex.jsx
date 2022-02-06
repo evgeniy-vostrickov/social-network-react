@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { compose } from 'redux';
-import { getFullInfoBookThunk, addBookInDiaryReaderThunk } from '../../redux/book-reducer';
+import { getFullInfoBookThunk, addBookInDiaryReaderThunk, setRatingThunk, getMyRatingThunk } from '../../redux/book-reducer';
 import { getAllCommentsThunk, addNewCommentThunk } from '../../redux/comments-reducer';
 import BasicInfoBook from './BasicInfoBook/BasicInfoBook';
 import Comments from './Comments/Comments';
@@ -17,8 +17,8 @@ const BookIndex = (props) => {
     }, [])
 
     // !!!! Мерцаание, когда меняешь книги
-    // if (!props.bookId)
-    //     return <div>Loading...</div>
+    if (!props.bookId)
+        return <div>Loading...</div>
 
     return (
         <section className="main-content full-book-content">
@@ -29,7 +29,7 @@ const BookIndex = (props) => {
                         <BookNavigation bookId={props.bookId} />
                         <Switch>
                             <Route path="/books/:bookId/:comment/add" render={() => <Comments bookId={props.bookId} comments={props.comments} myAvatar={props.myAvatar} getAllCommentsThunk={props.getAllCommentsThunk} addNewCommentThunk={props.addNewCommentThunk} />} />
-                            <Route path="/books/:bookId" render={() => <BasicInfoBook bookName={props.bookName} author={props.author} bookDescription={props.bookDescription} yearPublication={props.yearPublication} publish={props.publish} language={props.language} ageRestrictions={props.ageRestrictions} />} />
+                            <Route path="/books/:bookId" render={() => <BasicInfoBook bookId={props.bookId} bookName={props.bookName} author={props.author} bookDescription={props.bookDescription} yearPublication={props.yearPublication} publish={props.publish} language={props.language} ageRestrictions={props.ageRestrictions} rating={props.rating} myRating={props.myRating} setRatingThunk={props.setRatingThunk} getMyRatingThunk={props.getMyRatingThunk} />} />
                         </Switch>
                     </div>
                 </div>
@@ -50,7 +50,9 @@ const mapStateToProps = (state) => ({
     illustrationCover: state.bookPages.illustrationCover,
     ageRestrictions: state.bookPages.ageRestrictions,
     comments: state.comments.comments,
-    myAvatar: state.auth.avatar
+    myAvatar: state.auth.avatar,
+    rating: state.bookPages.rating,
+    myRating: state.bookPages.myRating,
 })
 
-export default compose(connect(mapStateToProps, { getFullInfoBookThunk, getAllCommentsThunk, addNewCommentThunk, addBookInDiaryReaderThunk }), withRouter)(BookIndex);
+export default compose(connect(mapStateToProps, { getFullInfoBookThunk, getAllCommentsThunk, addNewCommentThunk, addBookInDiaryReaderThunk, setRatingThunk, getMyRatingThunk }), withRouter)(BookIndex);

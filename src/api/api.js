@@ -116,6 +116,10 @@ export const bookAPI = {
         return instance.get(`book/comments?book=${bookId}&comment=${commentName}`)
             .then(response => response.data.values);
     },
+    getAllCommentsUser(commentName) {
+        return instance.get(`book/comments/user?comment=${commentName}`)
+            .then(response => response.data.values);
+    },
     addNewComment(bookId, commentName, comment) {
         return instance.post(`book/comments?book=${bookId}&comment=${commentName}`, { comment })
             .then(response => response.data.values);
@@ -124,12 +128,12 @@ export const bookAPI = {
         return instance.post(`book/diary/add?book=${bookId}`, { sectionDiary })
             .then(response => response.data.values);
     },
-    getAllBooks(page, count) {
-        return instance.get(`book/all?page=${page}&count=${count}`)
+    getAllBooks(page, count, isSorted, fieldSort, typeBook) {
+        return instance.get(`book/all?page=${page}&count=${count}&isSorted=${isSorted}&fieldSort=${fieldSort}&typeBook=${typeBook}`)
             .then(response => response.data.values);
     },
-    foundBooks(page, count, fieldFind, searchField) {
-        return instance.get(`book/find?page=${page}&count=${count}&fieldFind=${fieldFind}&searchField=${searchField}`)
+    foundBooks(page, count, isSorted, fieldSort, typeBook, fieldFind, searchField) {
+        return instance.get(`book/find?page=${page}&count=${count}&isSorted=${isSorted}&fieldFind=${fieldFind}&typeBook=${typeBook}&searchField=${searchField}&fieldSort=${fieldSort}`)
             .then(response => response.data.values);
     },
     getBooksDiaryReader(typeDiary) {
@@ -138,6 +142,14 @@ export const bookAPI = {
     },
     setBooksDiaryReader(bookId, typeDiary) {
         return instance.post(`book/diary?book=${bookId}`, {typeDiary})
+            .then(response => response.data.values);
+    },
+    setRating(bookId, rating) {
+        return instance.post(`book/rating?book=${bookId}`, {rating})
+            .then(response => response.data.values);
+    },
+    getMyRating(bookId) {
+        return instance.get(`book/rating?book=${bookId}`)
             .then(response => response.data.values);
     },
 }

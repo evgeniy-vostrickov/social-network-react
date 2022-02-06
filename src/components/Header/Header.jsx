@@ -24,8 +24,13 @@ const Header = (props) => {
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/groups">Группы</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="/educational-literature">Учебная литература</NavLink>
+                            <li className="nav-item dropdown">
+                                <NavLink className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Учебная литература</NavLink>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><NavLink className="dropdown-item" to="/books/educational/junior">Для младших классов</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="/books/educational/senior">Для старших классов</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="/books/educational/students">Для студентов</NavLink></li>
+                                </ul>
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/Quotes">Цитаты</NavLink>
@@ -36,7 +41,7 @@ const Header = (props) => {
                         </ul>
                         <form className="d-flex">
                             <input className="form-control me-2 nav-find" type="text" placeholder="Введите название" />
-                                <button className="btn btn-primary" type="button">Найти</button>
+                            <button className="btn btn-primary" type="button">Найти</button>
                         </form>
                         <div className="menu-quick">
                             <ul className="menu-quick-list">

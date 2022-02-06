@@ -53,3 +53,12 @@ export const addNewCommentThunk = (bookId, commentName, comment) => (dispatch) =
             }
         )
 }
+export const getAllCommentsUserThunk = (commentName) => (dispatch) => {
+    bookAPI.getAllCommentsUser(comments[commentName])
+        .then(
+            comments => {
+                console.log(comments);
+                dispatch(getAllComments(comments));
+            }
+        )
+}

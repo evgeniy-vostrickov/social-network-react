@@ -11,6 +11,7 @@ import DiaryReader from './DiaryReader/DiaryReader';
 import FoundUsers from './Users/FoundUsers';
 import UserProfile from './Users/UserProfile';
 import MessengerApp from '../MessengerApp/MessengerApp';
+import MyComment from './Comments/MyComment';
 
 const Profile = (props) => {
     useEffect(() => {
@@ -35,6 +36,7 @@ const Profile = (props) => {
                 <Route path="/profile/groups" render={() => <Groups />} />
                 <Route path="/profile/dialog/:dialogId?" render={() => <MessengerApp />} />
                 <Route path="/profile/diary/:typeDiary" render={() => <DiaryReader />} />
+                <Route path="/profile/comments/:typeComment" render={() => <MyComment />} />
                 <Route path="/profile" render={() => <ProfileContent friends={props.friends} groups={props.groups} user_name={props.user_name} surname={props.surname} email={props.email} date_births={props.date_births} place_work_study={props.place_work_study} direction_work_study={props.direction_work_study} status={props.status} avatar={props.avatar} setStatusUserThunk={props.setStatusUserThunk} saveAvatarThunk={props.saveAvatarThunk} />} />
             </Switch>
         </>

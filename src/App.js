@@ -44,6 +44,7 @@ const App = (props) => {
         <Route path="/profile/diary/:typeDiary" render={() => <DiaryReader />} /> */}
         <Route path="/profile" render={() => <Profile />} />
         <Route path="/books/add" render={() => <FormAddBook />} />
+        <Route path="/books/educational/:typeBook" render={() => <FoundBooks />} />
         <Route path="/books/:bookId" render={() => <BookIndex />} />
         <Route path="/books/" render={() => <FoundBooks />} />
         <Route path="/groups/add" render={() => <FormAddGroup />} />
