@@ -2,6 +2,7 @@ import { bookAPI } from "../api/api";
 
 const GET_ALL_COMMENTS = 'getAllComments';
 const SET_COMMENTS = 'setComments';
+const GET_LAST_QUOTES = 'getLastQuotes';
 
 const comments = {
     reviews: "Рецензия",
@@ -13,6 +14,7 @@ const comments = {
 
 let initialState = {
     comments: [],
+    quotes: [], //страница с цитатами
 }
 
 const commentsReducer = (state = initialState, action) => {
@@ -23,6 +25,8 @@ const commentsReducer = (state = initialState, action) => {
         case SET_COMMENTS:
             state.comments.unshift(action.comment); //сохраняем в начале массива для правильного отображения
             return { ...state, comments: [...state.comments] }
+        case GET_LAST_QUOTES:
+            return { ...state, quotes: [...action.quotes] }
         default:
             return state;
     }
@@ -33,6 +37,7 @@ export default commentsReducer;
 
 export const getAllComments = (comments) => ({ type: GET_ALL_COMMENTS, comments });
 export const setComments = (comment) => ({ type: SET_COMMENTS, comment });
+export const getLastQuotes = (quotes) => ({ type: GET_LAST_QUOTES, quotes });
 
 
 export const getAllCommentsThunk = (bookId, commentName) => (dispatch) => {
@@ -59,6 +64,15 @@ export const getAllCommentsUserThunk = (commentName) => (dispatch) => {
             comments => {
                 console.log(comments);
                 dispatch(getAllComments(comments));
+            }
+        )
+}
+export const getLastQuotesThunk = () => (dispatch) => {
+    bookAPI.getLastQuotes()
+        .then(
+            quotes => {
+                console.log(quotes)
+                dispatch(getLastQuotes(quotes));
             }
         )
 }

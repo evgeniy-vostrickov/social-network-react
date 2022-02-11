@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import { useForm } from "react-hook-form";
 import { connect } from 'react-redux';
 import { loginUserThunk } from '../../redux/auth_reducer'
+import { NavLink } from 'react-router-dom';
 
 const Login = ({loginUserThunk, isAuth}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -53,6 +54,9 @@ const Login = ({loginUserThunk, isAuth}) => {
                     {errors?.password && <p>{errors?.password?.message || "Error"}</p>}
                 </div>
                 <div className="but-center"><input type="submit" value="Войти" className="btn btn-primary" /></div>
+                <div className="mt-3 text-center">
+                    Если у вас нет аккаунта в социальной сети, то пройдите по ссылке на страницу <NavLink to="/registration" className="bold">Регистрации</NavLink>
+                </div>
             </form>
         </section>
     )

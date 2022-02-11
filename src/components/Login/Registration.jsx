@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { registrationUserThunk } from '../../redux/auth_reducer'
 
 const Registration = ({registrationUserThunk, isAuth}) => {
@@ -105,6 +106,9 @@ const Registration = ({registrationUserThunk, isAuth}) => {
                     {errors?.repeatPassword && <p>{errors?.repeatPassword?.message || "Error"}</p>}
                 </div>
                 <div className="but-center"><input type="submit" value="Зарегистрироваться" className="btn btn-primary" /></div>
+                <div className="mt-3 text-center">
+                    Если у вас уже есть аккаунт в социальной сети, то пройдите по ссылке на страницу <NavLink to="/login" className="bold">Авторизации</NavLink>
+                </div>
             </form>
         </section>
     )

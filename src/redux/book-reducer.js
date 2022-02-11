@@ -4,12 +4,15 @@ import baseURL from "../common/baseUrl/serverUrl";
 const GET_PAYLOAD_DATA_ADD_BOOK = 'getPayloadDataAddBook';
 const GET_DATA_ABOUT_BOOK = 'getDataAboutBook';
 const SET_BOOK_ID_NULL = 'setBookIdNull';
+const SET_SORTED_NULL = 'setSortedNull';
 const SET_BOOK_ID = 'setBookId';
 const GET_ALL_BOOKS = 'getAllBooks';
 const SORT_BOOKS = 'SortBooks';
 const GET_ALL_SORT_BOOKS = 'getAllSortBooks';
 const GET_RATING = 'setRating';
 const GET_MY_RATING = 'setMyRating';
+const GET_STATISTICS = 'getStatistics';
+const GET_LAST_QUOTES = 'getLastQuotes';
 
 const typesDiary = {
     past: 'Прочитанные книги',
@@ -35,6 +38,8 @@ let initialState = {
     publish: "",
     illustrationCover: null,
     ageRestrictions: "",
+    type_book: "",
+    statistics: null,
     booksItems: [],
     isSorted: false,
     rating: null,
@@ -53,9 +58,11 @@ const bookReducer = (state = initialState, action) => {
         case GET_PAYLOAD_DATA_ADD_BOOK:
             return { ...state, listAllLanguage: [...action.payload.languages], listAllPublication: [...action.payload.publish], listAllGenres: [...action.payload.genres] }
         case GET_DATA_ABOUT_BOOK:
-            return { ...state, bookId: action.dataAboutBook.book_id, bookName: action.dataAboutBook.book_name, bookDescription: action.dataAboutBook.book_description, author: action.dataAboutBook.author, yearPublication: action.dataAboutBook.year_publication, illustrationCover: baseURL + action.dataAboutBook.illustration_cover, ageRestrictions: action.dataAboutBook.age_restrictions, rating: action.dataAboutBook.rating, language: action.additionalData.language_name, genre: action.additionalData.genre_name, publish: action.additionalData.publish_name }
+            return { ...state, bookId: action.dataAboutBook.book_id, bookName: action.dataAboutBook.book_name, bookDescription: action.dataAboutBook.book_description, author: action.dataAboutBook.author, yearPublication: action.dataAboutBook.year_publication, illustrationCover: baseURL + action.dataAboutBook.illustration_cover, ageRestrictions: action.dataAboutBook.age_restrictions, rating: action.dataAboutBook.rating, type_book: action.dataAboutBook.type_book, language: action.additionalData.language_name, genre: action.additionalData.genre_name, publish: action.additionalData.publish_name }
         case SET_BOOK_ID_NULL:
             return { ...state, bookId: null }
+        case SET_SORTED_NULL:
+            return { ...state, isSorted: false, fieldSort: "" }
         case SET_BOOK_ID:
             return { ...state, bookId: action.bookId }
         case GET_ALL_BOOKS:
@@ -68,6 +75,10 @@ const bookReducer = (state = initialState, action) => {
             return { ...state, rating: action.rating }
         case GET_MY_RATING:
             return { ...state, myRating: action.myRating }
+        case GET_STATISTICS:
+            return { ...state, statistics: {...action.statistics} }
+        case GET_LAST_QUOTES:
+            return { ...state, quotes: [...action.quotes] }
         default:
             return state;
     }
@@ -80,11 +91,14 @@ export const getPayloadDataAddBook = (payload) => ({ type: GET_PAYLOAD_DATA_ADD_
 export const getDataAboutBook = (dataAboutBook, additionalData) => ({ type: GET_DATA_ABOUT_BOOK, dataAboutBook, additionalData });
 export const setBookIdNull = () => ({ type: SET_BOOK_ID_NULL });
 export const setBookId = (bookId) => ({ type: SET_BOOK_ID, bookId });
+export const setSortedNull = () => ({ type: SET_SORTED_NULL });
 export const getAllBooks = (listBooks) => ({ type: GET_ALL_BOOKS, listBooks });
 export const sortBooksAction = (isSorted, fieldSort) => ({ type: SORT_BOOKS, isSorted, fieldSort });
 export const getAllSortBooks = (listBooks, fieldSort) => ({ type: GET_ALL_SORT_BOOKS, listBooks, fieldSort });
 export const getRating = (rating) => ({ type: GET_RATING, rating });
 export const getMyRating = (myRating) => ({ type: GET_MY_RATING, myRating });
+export const getStatistics = (statistics) => ({ type: GET_STATISTICS, statistics });
+export const getLastQuotes = (quotes) => ({ type: GET_LAST_QUOTES, quotes });
 
 
 export const getPayloadForAddBookThunk = () => {
@@ -116,6 +130,16 @@ export const getFullInfoBookThunk = (bookId) => (dispatch) => {
             dataAboutBook => {
                 dataAboutBook = dataAboutBook[0]; //получаем единственную запись
                 dispatch(getAdditionalInformation(dataAboutBook.language_id, dataAboutBook.genre_id, dataAboutBook.publish_id, dataAboutBook));
+            }
+        )
+}
+
+export const getStatisticsBookThunk = (bookId) => (dispatch) => {
+    bookAPI.getStatisticsBook(bookId)
+        .then(
+            statistics => {
+                console.log(statistics);
+                dispatch(getStatistics(statistics));
             }
         )
 }
@@ -263,7 +287,6 @@ export const setRatingThunk = (bookId, rating) => (dispatch) => {
     bookAPI.setRating(bookId, rating)
         .then(
             dataRating => {
-                console.log(dataRating)
                 dispatch(getMyRating(rating))
                 dispatch(getRating(dataRating))
             }
@@ -274,7 +297,6 @@ export const getMyRatingThunk = (bookId) => (dispatch) => {
     bookAPI.getMyRating(bookId)
         .then(
             rating => {
-                console.log(rating)
                 dispatch(getMyRating(rating))
             }
         )

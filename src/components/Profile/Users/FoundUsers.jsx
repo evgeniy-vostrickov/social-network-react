@@ -77,7 +77,7 @@ const FoundUsers = (props) => {
                             })
                         }
                     </div>
-                    {props.totalUsersCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalUsersCount} pageSize={props.pageSize} portionSize={props.portionSize} link={'users'} />}
+                    {props.totalUsersCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalUsersCount} pageSize={props.pageSize} portionSize={props.portionSize} link={window.location.pathname} />}
                 </div>
 
                 <ModalWindowNewDialog addNewDialogThunk={props.addNewDialogThunk} userIdDialog={props.userIdDialog} />

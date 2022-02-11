@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../../common/hoc/withAuthRedirect';
 import { Route, Switch } from 'react-router-dom';
 import { getFriendsThunk, getGroupsThunk } from '../../redux/profile-reducer';
 import { authUserThunk, setStatusUserThunk, saveAvatarThunk } from '../../redux/auth_reducer';
@@ -56,4 +58,5 @@ const mapStateToProps = (state) => ({
     avatar: state.auth.avatar
 })
 
-export default connect(mapStateToProps, { getFriendsThunk, getGroupsThunk, authUserThunk, setStatusUserThunk, saveAvatarThunk })(Profile);
+export default compose(connect(mapStateToProps, { getFriendsThunk, getGroupsThunk, authUserThunk, setStatusUserThunk, saveAvatarThunk }), withAuthRedirect)(Profile);
+// withAuthRedirect - хок, который возвращает компоненты и добавляет проверку на то что залогинни пользователь или нет

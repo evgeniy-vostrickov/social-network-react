@@ -108,6 +108,10 @@ export const bookAPI = {
         return instance.get(`book/info/full?book=${bookId}`)
             .then(response => response.data.values);
     },
+    getStatisticsBook(bookId) {
+        return instance.get(`book/statistics?book=${bookId}`)
+            .then(response => response.data.values);
+    },
     getAdditionalDataBook(language_id, genre_id, publish_id) {
         return instance.get(`book/info/additional?language=${language_id}&genre=${genre_id}&publish=${publish_id}`)
             .then(response => response.data.values);
@@ -150,6 +154,10 @@ export const bookAPI = {
     },
     getMyRating(bookId) {
         return instance.get(`book/rating?book=${bookId}`)
+            .then(response => response.data.values);
+    },
+    getLastQuotes() {
+        return instance.get(`book/quotes`)
             .then(response => response.data.values);
     },
 }

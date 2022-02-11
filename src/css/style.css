@@ -31,6 +31,9 @@ header nav .menu-quick-list {
 header nav .menu-quick-list li {
   width: 3.3rem;
 }
+header nav .menu-quick-enter {
+  margin: 0 2rem 0 7rem;
+}
 header nav .menu-quick .img-container {
   width: 3rem;
   height: 3rem;
@@ -189,7 +192,7 @@ header nav .nav-item {
   display: none;
 }
 .load-photo span {
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 .load-photo span:hover {
   cursor: pointer;
@@ -322,6 +325,25 @@ header nav .nav-item {
   font-size: 3rem;
   font-weight: 800;
 }
+.profile-content .my-comments h2 {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+}
+.profile-content .my-comments .data-book {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-shadow: -1px -1px #444444, 0 1px 0 #000000;
+  color: #1923af;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.profile-content .my-comments .profile-review {
+  width: 70%;
+  margin-right: 3rem;
+  margin: 0 auto;
+}
 .search-bar {
   height: 5rem;
   padding-top: 3rem;
@@ -365,9 +387,6 @@ header nav .nav-item {
 .book-small-info .book-author {
   font-style: italic;
 }
-.h-30r {
-  height: 30rem !important;
-}
 .full-book-content,
 .full-group-content {
   padding-top: 3rem;
@@ -379,11 +398,12 @@ header nav .nav-item {
 .full-group-content .nav-group {
   margin-bottom: 1rem;
 }
-.full-book-content .nav-book button,
-.full-group-content .nav-book button,
-.full-book-content .nav-group button,
-.full-group-content .nav-group button {
+.full-book-content .nav-book a,
+.full-group-content .nav-book a,
+.full-book-content .nav-group a,
+.full-group-content .nav-group a {
   font-size: 1.5rem;
+  margin-right: 1rem;
 }
 .full-book-content h2,
 .full-group-content h2 {
@@ -509,6 +529,12 @@ header nav .nav-item {
 .full-book-content .actions-item,
 .full-group-content .actions-item {
   margin-top: 1rem;
+  text-align: center;
+}
+.full-book-content .actions-item button,
+.full-group-content .actions-item button {
+  font-size: 1.8rem;
+  width: 35rem;
 }
 .full-book-content .actions-dop-item,
 .full-group-content .actions-dop-item {
@@ -671,13 +697,6 @@ header nav .nav-item {
   height: auto;
   border-radius: 50%;
 }
-.block-reviews .reviews .review-item {
-  position: relative;
-  padding: 2rem;
-  background-color: #adbdd4;
-  margin-top: 2rem;
-  border-radius: 2rem;
-}
 .block-reviews .reviews button {
   width: 7rem;
   font-size: 1.5rem;
@@ -685,7 +704,7 @@ header nav .nav-item {
 .block-reviews .reviews .date-comment {
   position: absolute;
   right: 1.5rem;
-  bottom: 2rem;
+  bottom: 1.7rem;
 }
 .block-reviews .reviews .header-comment {
   display: -webkit-box;
@@ -694,6 +713,13 @@ header nav .nav-item {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+.block-reviews .reviews .review-item {
+  position: relative;
+  padding: 2rem;
+  background-color: #adbdd4;
+  margin-top: 2rem;
+  border-radius: 2rem;
 }
 .block-reviews .reviews .user-name {
   margin-left: 2rem;
@@ -725,6 +751,18 @@ header nav .nav-item {
 }
 .registration .but-center,
 .registration h2 {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+}
+.quote-content .review-item {
+  position: relative;
+  padding: 2rem;
+  background-color: #adbdd4;
+  margin-top: 1rem;
+  border-radius: 2rem;
+}
+.header {
   text-align: center;
   font-size: 3rem;
   font-weight: 800;
@@ -882,14 +920,26 @@ header nav .nav-item {
 .h100vh {
   height: 90vh;
 }
+.h-30r {
+  height: 30rem !important;
+}
+.h-14r {
+  height: 14rem !important;
+}
 .w80r {
   max-width: 80rem;
 }
 .w60r {
   max-width: 60rem;
 }
+.w35r {
+  width: 35rem;
+}
 .fs2-2r {
   font-size: 2.2rem;
+}
+.fs1-8r {
+  font-size: 1.8rem;
 }
 .br50 {
   border-radius: 50% !important;
@@ -900,8 +950,29 @@ header nav .nav-item {
 .text-center {
   text-align: center;
 }
+.bold {
+  font-weight: 700;
+}
+.fl-left {
+  float: left;
+}
+.fl-right {
+  float: right;
+}
 .card-diary span,
 .card-diary span::before,
 .card-diary span::after {
   background-color: #000;
+}
+#test {
+  width: 200px;
+  height: 200px;
+  border: 5px solid #515151;
+}
+.exmpl {
+  overflow: hidden;
+}
+.exmpl img {
+  width: auto;
+  height: 100%;
 }

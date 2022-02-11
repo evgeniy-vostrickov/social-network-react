@@ -110,7 +110,7 @@ const FoundBooks = (props) => {
                         </div>
                     </div> */}
                 </div>
-                {props.totalGroupsCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalGroupsCount} pageSize={props.pageSize} portionSize={props.portionSize} link={'groups'} />}
+                {props.totalGroupsCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalGroupsCount} pageSize={props.pageSize} portionSize={props.portionSize} link={window.location.pathname} />}
             </div>
         </section>
     )

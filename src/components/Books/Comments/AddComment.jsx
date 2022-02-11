@@ -21,8 +21,8 @@ const AddComment = ({ comment, bookId, myAvatar, addNewCommentThunk }) => {
                     {
                         required: 'Вы ничего не написали!',
                         maxLength: {
-                            value: 400,
-                            message: 'Число символов должно быть меньше 400'
+                            value: 500,
+                            message: 'Число символов должно быть меньше 500'
                         }
                     })}>
                 </textarea>

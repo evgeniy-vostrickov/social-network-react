@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../../common/hoc/withAuthRedirect';
 import { getFullInfoGroupThunk, joinGroupThunk, leaveGroupThunk, addNewEventThunk, getAllEventThunk, savePhotoGroupThunk } from '../../redux/group-reducer';
 import BasicInfoGroup from './BasicInfoGroup/BasicInfoGroup';
 import Event from './EventsGroup/Event';
@@ -57,4 +59,4 @@ const mapStateToProps = (state) => ({
     owner_id: state.groupPages.owner_id
 })
 
-export default connect(mapStateToProps, { getFullInfoGroupThunk, joinGroupThunk, leaveGroupThunk, addNewEventThunk, getAllEventThunk, savePhotoGroupThunk })(GroupIndex);
+export default compose(connect(mapStateToProps, { getFullInfoGroupThunk, joinGroupThunk, leaveGroupThunk, addNewEventThunk, getAllEventThunk, savePhotoGroupThunk }), withAuthRedirect)(GroupIndex);

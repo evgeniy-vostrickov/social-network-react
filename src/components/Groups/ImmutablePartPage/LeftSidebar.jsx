@@ -31,23 +31,25 @@ const LeftSidebar = ({ groupId, subscribe, illustration_group, userOwner, joinGr
                             </a>
                         </div> */}
 
-                        <div className="load-photo">
-                        <i className="bi bi-brush"></i>
-                            <label>
-                                <span className="nav-link">Изменить картинку <input type="file" className="load-photo-input" name="input-name" onChange={savePhotoInGroup} /></span>
-                            </label>
+                        <div className="load-photo actions-item">
+                            <a href="#">
+                                <i className="bi bi-brush"></i>
+                                <label>
+                                    <span className="nav-link">Изменить картинку <input type="file" className="load-photo-input" name="input-name" onChange={savePhotoInGroup} /></span>
+                                </label>
+                            </a>
                         </div>
-                        
+
                         <div className="actions-item">
                             <a href="#">
                                 <i className="bi bi-brush"></i>
-                                <span>Удалить группу</span>
+                                <span> Удалить группу</span>
                             </a>
                         </div>
                         <div className="actions-item">
                             <a href="#" data-bs-toggle="modal" data-bs-target="#windowNewEvent">
                                 <i className="bi bi-brush"></i>
-                                <span>Добавить событие</span>
+                                <span> Добавить событие</span>
                             </a>
                         </div>
                     </>

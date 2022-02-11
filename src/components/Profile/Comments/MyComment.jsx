@@ -30,15 +30,15 @@ const MyComment = ({ comments, getAllCommentsUserThunk }) => {
 
     return (
         <section className={comments.length < 3 ? "main-content profile-content h100vh" : "main-content profile-content"}>
-            <div className="block-reviews">
+            <div className="block-reviews my-comments">
                 <h2>{headerPage[typeComment]}({comments.length})</h2>
                 {/* <a className="find-other-elements" href="#">Найти новых друзей</a> */}
                 <div className="reviews">
                     {
                         comments.map((comment, index) => {
-                            // index > 0 && comments[index].book_name != comments[index-1].book_name && <div>Книга: {comment.book_name} Автор: {comment.author} <Comment key={comment.comment_id} comment={comment} /></div>
-                            // console.log(index > 0 && comments[index].book_name != comments[index-1].book_name && <div><hr />Книга: {comment.book_name} Автор: {comment.author}</div>)
-                            return <div>Книга: {comment.book_name} Автор: {comment.author} <Comment key={comment.comment_id} comment={comment} /></div>
+                            if ((index > 0 && comments[index].book_name != comments[index-1].book_name) || index === 0)
+                                return <><div className='data-book'>{comment.book_name} ({comment.author})</div> <Comment key={comment.comment_id} comment={comment} /></>
+                            return <Comment key={comment.comment_id} comment={comment} />
                         })
                     }
                 </div>

@@ -5,11 +5,12 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import baseURL from "../../../common/baseUrl/serverUrl";
 import Pagination from '../../../common/Pagination/Pagination';
-import { setBookIdNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk } from '../../../redux/book-reducer';
+import { setBookIdNull, setSortedNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk } from '../../../redux/book-reducer';
 import { compose } from 'redux';
 
 const FoundBooks = (props) => {
     const query = new URLSearchParams(props.location.search);
+    // const query = props.query;
     const page = query.get('page') || '1'; //!!! Не работает кнопка назад, при поиске
     const [fieldFind, setFieldFind] = useState();
     const [search, setSearch] = useState();
@@ -17,18 +18,25 @@ const FoundBooks = (props) => {
     let { typeBook } = useParams(); //для определения к какому типу учебной литературы относятся книги
 
     useEffect(() => {
-        //Обнуляем bookId чтобы понять когда новые данные будут загружены
+        //Обнуляем bookId чтобы понять когда новые данные будут загружены.
         props.setBookIdNull();
     }, [])
 
     useEffect(() => {
-        console.log(typeBook)
-        if (document.querySelector("input[name='search']").value) {
-            props.foundBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, fieldFind, search, typeBook)
+        //Обнуляем переменную сортировки и поиска
+        console.log("window.location")
+        props.setSortedNull();
+        document.querySelector("input[name='search']").value = "";
+        props.getAllBooksThunk(page, props.pageSize, "false", props.fieldSort, typeBook);
+    }, [window.location.pathname])
+
+    useEffect(() => {
+        if (document.querySelector("input[name='search']").value || document.querySelector("input[name='search2']").value) {
+            props.foundBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, fieldFind || 'book_name', search || document.querySelector("input[name='search2']").value, typeBook)
         }
         else
             props.getAllBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, typeBook);
-    }, [page, typeBook])
+    }, [page])
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -40,13 +48,13 @@ const FoundBooks = (props) => {
         let fieldSort = "";
         switch (event.target.id) {
             case "popularity":
-                fieldSort = "year_publication";
+                fieldSort = "count_rating";
                 break;
             case "novelty":
                 fieldSort = "year_publication";
                 break;
             case "rating":
-                fieldSort = "year_publication";
+                fieldSort = "rating";
                 break;
             case "cancel":
                 fieldSort = false;
@@ -86,8 +94,8 @@ const FoundBooks = (props) => {
                         <div>
                             {errors?.book_name && <p>{errors?.book_name?.message || "Error"}</p>}
                         </div>
-                        <div className="btn-group">
-                            <select className="form-select" aria-label="Default select example" {...register("fieldFind")}>
+                        <div className="btn-group w35r">
+                            <select className="form-select fs1-8r" aria-label="Default select example" {...register("fieldFind")}>
                                 <option value="book_name">Поиск по названию</option>
                                 <option value="author">Поиск по автору</option>
                                 <option value="book_description">Поиск по описанию</option>
@@ -104,21 +112,6 @@ const FoundBooks = (props) => {
                         </ul>
                         <button className="btn btn-outline-primary" type="submit">Найти</button>
                     </form>
-                    {/* <form className="d-flex">
-                        <input className="form-control me-2" type="text" placeholder="Поиск книг" />
-                        <i className="bi bi-search"></i>
-                        <button className="btn btn-outline-primary" type="submit">Найти</button>
-                        <div className="btn-group">
-                            <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Сортировка
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">По популярности</a></li>
-                                <li><a className="dropdown-item" href="#">По новизне</a></li>
-                                <li><a className="dropdown-item" href="#">По рейтингу</a></li>
-                            </ul>
-                        </div>
-                    </form> */}
                 </div>
                 <div className="list-card">
                     {
@@ -153,4 +146,4 @@ const mapStateToProps = (state) => ({
     fieldSort: state.bookPages.fieldSort,
 })
 
-export default compose(connect(mapStateToProps, { setBookIdNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk }), withRouter)(FoundBooks);
+export default compose(connect(mapStateToProps, { setBookIdNull, setSortedNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk }), withRouter)(FoundBooks);
