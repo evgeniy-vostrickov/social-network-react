@@ -32,10 +32,10 @@ export const profileAPI = {
         return instance.put(`profile/status/`, { status: status })
             .then(response => response.data.values)
     },
-    saveAvatar(image) {
-        const fd = new FormData();
-        fd.append('image', image);
-        return instance.put(`profile/avatar/`, fd)
+    saveAvatar(file) {
+        // const fd = new FormData();
+        // fd.append('image', image);
+        return instance.put(`profile/avatar/`, {file})
             .then(response => response.data.values)
     }
 }

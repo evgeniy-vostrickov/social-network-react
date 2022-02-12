@@ -12,7 +12,7 @@ exports.checkFilePhoto = (files) => {
         console.log("Неверный тип");
         return false;
     }
-    else if (selectedFile.size > 1700000) {
+    else if (selectedFile.size > 5000000) {
         console.log("Слишком большой размер");
         return false;
     }

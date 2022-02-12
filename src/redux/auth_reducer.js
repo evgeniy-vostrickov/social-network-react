@@ -39,7 +39,7 @@ const authReducer = (state = initialState, action) => {
 
 export default authReducer;
 
-export const setAuthUserData = (dataUser, isAuth) => ({ type: SET_USER_DATA, payload: {...dataUser, isAuth} });
+export const setAuthUserData = (dataUser, isAuth) => ({ type: SET_USER_DATA, payload: { ...dataUser, isAuth } });
 export const setStatusUserSuccess = (status) => ({ type: SET_STATUS_USER, status });
 export const setNewAvatarSuccess = (avatar) => ({ type: SAVE_PHOTO, avatar });
 
@@ -59,26 +59,26 @@ export const authUserThunk = () => (dispatch) => {
 export const setStatusUserThunk = (status) => {
     return (dispatch) => {
         profileAPI.setStatusUser(status)
-        .then(
-            newStatus => {
-                console.log(newStatus);
-                dispatch(setStatusUserSuccess(status));
-            },
-            error => {
-                console.log(error);
-            }
-        )
+            .then(
+                newStatus => {
+                    console.log(newStatus);
+                    dispatch(setStatusUserSuccess(status));
+                },
+                error => {
+                    console.log(error);
+                }
+            )
     }
 }
 
 export const saveAvatarThunk = (file) => {
     return (dispatch) => {
         profileAPI.saveAvatar(file)
-        .then(
-            avatar => {
-                dispatch(setNewAvatarSuccess(avatar));
-            }
-        )
+            .then(
+                avatar => {
+                    dispatch(setNewAvatarSuccess(avatar));
+                }
+            )
     }
 }
 
@@ -137,11 +137,11 @@ export const loginUserThunk = (email, password) => {
             .then(
                 data => {
                     console.log(data);
-                    if (typeof data.token != 'undefined'){
+                    if (typeof data.token != 'undefined') {
                         console.log(data);
                         localStorage.setItem('token', data.token); //записываем в localstorage значение приходящего токена
                         dispatch(authUserThunk());
-                    } 
+                    }
                     else
                         //Выводим Alert с ошибкой data (не всегда в data)
                         console.log(data);
@@ -149,7 +149,7 @@ export const loginUserThunk = (email, password) => {
                 },
                 error => {
                     console.log(error);
-                    
+
                 }
             )
     }

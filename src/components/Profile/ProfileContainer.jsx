@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import Friend from './Friends/Friend'
 import Group from './Groups/Group'
@@ -6,17 +6,77 @@ import ProfileStatusHook from './Status/ProfileStatusHook'
 import { checkFilePhoto } from '../../common/validate/checkImage'
 import userPhotoDefault from '../../assets/images/user.jpg'
 import moment from 'moment'
+import Croppie from 'croppie'
+
 
 const ProfileContent = (props) => {
 
+    const [loadAvatar, setLoadAvatar] = useState(false);
+
+    // let uploadCrop;
+    let uploadCrop = useRef();
+
+    const readFile = (event) => {
+        document.querySelector('.photo-user').style.display = 'none';
+        document.querySelector('.upload-avatar-wrap').style.display = 'block';
+        const input = event.target;
+        uploadCrop.current = new Croppie(document.querySelector('#upload-avatar'),
+            {
+                enableExif: true,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'square'
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                }
+            });
+        if (checkFilePhoto(event.target.files)) {
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.querySelector('.upload-avatar').classList.add("ready");
+                uploadCrop.current.bind({ url: e.target.result })
+                    .then(function () {
+                        console.log('jQuery bind complete');
+                    });
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+        else {
+            console.log("Sorry - you're browser doesn't support the FileReader API");
+        }
+        setLoadAvatar(true);
+    }
+
+    const result = () => {
+        console.log(uploadCrop.current)
+        uploadCrop.current.result({
+            type: 'canvas',
+            size: 'viewport'
+        }).then(resp => {
+            // document.querySelector('#avatar').setAttribute("src", resp);
+            props.saveAvatarThunk(resp)
+            setLoadAvatar(false);
+            document.querySelector('.upload-avatar-wrap').style.display = 'none';
+            document.querySelector('.photo-user').style.display = 'block';
+        });
+    }
+
     const savePhotoOnAvatar = (event) => {
-        checkFilePhoto(event.target.files) && props.saveAvatarThunk(event.target.files[0])
+        // checkFilePhoto(event.target.files) && props.saveAvatarThunk(event.target.files[0])
     }
     return (
         <section className="main-content profile-content">
             <div className="about-me">
                 <div className="photo-user">
-                    <img src={!props.avatar ? userPhotoDefault : props.avatar} />
+                    <img id="avatar" src={!props.avatar ? userPhotoDefault : props.avatar} />
+                </div>
+                <div className="upload-avatar-wrap">
+                    <div id="upload-avatar"></div>
                 </div>
                 <div className="personal-data">
                     <h2>{props.user_name} {props.surname}</h2>
@@ -29,8 +89,15 @@ const ProfileContent = (props) => {
                 </div>
             </div>
 
-            <div className="load-photo">
-                { window.location.pathname === "/profile" && <label><span className="nav-link">Изменить изображение <input type="file" className="load-photo-input" name="input-name" onChange={savePhotoOnAvatar} /></span></label> }
+            <div className='upload-avatar'>
+                {
+                    !loadAvatar ?
+                        <div className="load-photo">
+                            {window.location.pathname === "/profile" && <label><span className="nav-link">Изменить изображение <input type="file" className="load-photo-input" id="upload" name="input-name" onChange={readFile} /></span></label>}
+                        </div>
+                        :
+                        <button className="btn btn-outline-primary" onClick={result} type="submit">Сохранить</button>
+                }
             </div>
             {/* <input type="file" /> */}
 
