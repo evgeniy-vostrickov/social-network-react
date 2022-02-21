@@ -1,4 +1,4 @@
-import { authAPI, usersAPI, profileAPI } from "../api/api";
+import { authAPI, profileAPI } from "../api/api";
 import baseURL from "../common/baseUrl/serverUrl";
 
 const SET_USER_DATA = 'setAuthUserData';

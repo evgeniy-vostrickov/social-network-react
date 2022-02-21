@@ -12,7 +12,7 @@ const Header = (props) => {
         <header>
             <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <NavLink className="navbar-brand" to="/main">KOOBNET</NavLink>
+                    <NavLink className="logotip" to="/main">KOOBNET</NavLink>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -40,7 +40,7 @@ const Header = (props) => {
                             </li>
                         </ul>
                         <form className="d-flex">
-                            <input className="form-control me-2 nav-find" type="text" name="search2" placeholder="Введите название" />
+                            <input className="form-control me-2 nav-find" type="text" name="search2" placeholder="Введите название книги" />
                             <NavLink to="/books" className="btn btn-primary fs1-8r" role="button">Найти</NavLink>
                         </form>
                         <div className="menu-quick">

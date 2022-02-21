@@ -1,44 +1,109 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
+import Croppie from 'croppie'
 import { NavLink } from 'react-router-dom'
 import NewEvent from '../EventsGroup/NewEvent';
 import { checkFilePhoto } from '../../../common/validate/checkImage'
+import groupPhotoDefault from '../../../assets/images/booknet.png'
 
 const LeftSidebar = ({ groupId, subscribe, illustration_group, userOwner, joinGroupThunk, leaveGroupThunk, addNewEventThunk, savePhotoGroupThunk }) => {
-    const savePhotoInGroup = (event) => {
-        checkFilePhoto(event.target.files) && savePhotoGroupThunk(groupId, event.target.files[0])
+
+    const [loadAvatar, setLoadAvatar] = useState(false);
+
+    let uploadCrop = useRef();
+
+    const readFile = (event) => {
+        document.querySelector('.group-photo').style.display = 'none';
+        document.querySelector('.upload-avatar-group').style.display = 'block';
+        const input = event.target;
+        uploadCrop.current = new Croppie(document.querySelector('#upload-avatar'),
+            {
+                enableExif: true,
+                viewport: {
+                    width: 300,
+                    height: 300,
+                    type: 'square'
+                },
+                boundary: {
+                    width: 400,
+                    height: 400
+                }
+            });
+        if (checkFilePhoto(event.target.files)) {
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.querySelector('.upload-avatar').classList.add("ready");
+                uploadCrop.current.bind({ url: e.target.result })
+                    .then(function () {
+                        console.log('jQuery bind complete');
+                    });
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+        else {
+            console.log("Sorry - you're browser doesn't support the FileReader API");
+        }
+        setLoadAvatar(true);
+    }
+
+    const result = () => {
+        console.log(uploadCrop.current)
+        uploadCrop.current.result({
+            type: 'canvas',
+            size: 'viewport'
+        }).then(resp => {
+            // document.querySelector('#avatar').setAttribute("src", resp);
+            savePhotoGroupThunk(groupId, resp)
+            setLoadAvatar(false);
+            document.querySelector('.upload-avatar-group').style.display = 'none';
+            document.querySelector('.group-photo').style.display = 'block';
+        });
     }
 
     return (
         <div className="col-lg-4">
-            <div className="group-photo"><img src={illustration_group} alt="" /></div>
+            <div className="group-photo"><img src={illustration_group || groupPhotoDefault} /></div>
+            <div className="upload-avatar-group">
+                <div id="upload-avatar"></div>
+            </div>
             <div className="actions">
+                {/* Владельцы не могут выйти из группы */}
                 <div className="actions-dop-item">
                     {
                         subscribe ?
-                            <button className="btn btn-outline-primary" onClick={() => leaveGroupThunk(groupId)} type="submit">Отписаться от группы</button> :
-                            <button className="btn btn-outline-primary" onClick={() => joinGroupThunk(groupId)} type="submit">Вступить в группу</button>
+                            !userOwner && <button className="btn btn-outline-primary" onClick={() => leaveGroupThunk(groupId)} type="submit">Отписаться от группы</button> :
+                            !userOwner && <button className="btn btn-outline-primary" onClick={() => joinGroupThunk(groupId)} type="submit">Вступить в группу</button>
                     }
                 </div>
                 {/* Только для владельца группы */}
-                {console.log(userOwner)}
                 {
                     userOwner &&
                     <>
-                        {/* <div className="actions-item">
-                            <a href="#">
-                                <i className="bi bi-brush"></i>
-                                <span>Изменить картинку</span>
-                            </a>
-                        </div> */}
+                        <div className='upload-avatar'>
+                            {
+                                !loadAvatar ?
+                                    <div className="load-photo actions-item">
+                                        <a href="#">
+                                            <i className="bi bi-brush"></i>
+                                            <label>
+                                                <span className="nav-link">Изменить картинку <input type="file" className="load-photo-input" name="input-name" onChange={readFile} /></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    :
+                                    <button className="btn btn-outline-primary" onClick={result} type="submit">Сохранить</button>
+                            }
+                        </div>
 
-                        <div className="load-photo actions-item">
+                        {/* <div className="load-photo actions-item">
                             <a href="#">
                                 <i className="bi bi-brush"></i>
                                 <label>
                                     <span className="nav-link">Изменить картинку <input type="file" className="load-photo-input" name="input-name" onChange={savePhotoInGroup} /></span>
                                 </label>
                             </a>
-                        </div>
+                        </div> */}
 
                         <div className="actions-item">
                             <a href="#">

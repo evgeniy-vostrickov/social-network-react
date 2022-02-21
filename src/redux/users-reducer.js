@@ -1,5 +1,6 @@
 import { userAPI } from "../api/api";
 import { getFriendsThunk } from "./profile-reducer";
+import baseURL from "../common/baseUrl/serverUrl";
 
 // const ADD_POST = 'addPost';
 const GET_USERS = 'getUsers';
@@ -22,6 +23,7 @@ const userReducer = (state = initialState, action) => {
         case GET_USERS:
             return { ...state, users: [...action.listUsers.users], totalUsersCount: action.listUsers.totalCount }
         case GET_FULL_INFO_USER:
+            action.dataUser.userInfo.avatar = action.dataUser.userInfo.avatar ? baseURL + action.dataUser.userInfo.avatar : null;
             return { ...state, friends: [...action.dataUser.friends], groups: [...action.dataUser.groups], userInfo: action.dataUser.userInfo }
         case GET_USER_ID_NEW_DIALOG:
             return { ...state, userIdDialog: action.userId }

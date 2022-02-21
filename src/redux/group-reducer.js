@@ -31,7 +31,7 @@ let initialState = {
 const groupReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_DATA_ABOUT_GROUP:
-            return { ...state, groupId: action.dataAboutGroup.group_id, groupName: action.dataAboutGroup.group_name, groupDescription: action.dataAboutGroup.group_description, owner_id: action.dataAboutGroup.owner, owner_name: action.dataAboutGroup.user_name, owner_surname: action.dataAboutGroup.surname, city: action.dataAboutGroup.city, illustration_group: baseURL + action.dataAboutGroup.illustration_group, number_participants: action.dataAboutGroup.number_participants, subscribe: action.dataAboutGroup.subscribe }
+            return { ...state, groupId: action.dataAboutGroup.group_id, groupName: action.dataAboutGroup.group_name, groupDescription: action.dataAboutGroup.group_description, owner_id: action.dataAboutGroup.owner, owner_name: action.dataAboutGroup.user_name, owner_surname: action.dataAboutGroup.surname, city: action.dataAboutGroup.city, illustration_group: action.dataAboutGroup.illustration_group ? baseURL + action.dataAboutGroup.illustration_group : null, number_participants: action.dataAboutGroup.number_participants, subscribe: action.dataAboutGroup.subscribe }
         case SUBSCRIBE_GROUP:
             return { ...state, subscribe: true }
         case UNSUBSCRIBE_GROUP:
@@ -126,15 +126,13 @@ export const getAllEventThunk = (groupId) => (dispatch) => {
         )
 }
 
-export const savePhotoGroupThunk = (groupId, image) => {
-    return (dispatch) => {
-        groupAPI.savePhotoGroup(groupId, image)
-            .then(
-                image => {
-                    dispatch(savePhotoGroupSuccess(image));
-                }
-            )
-    }
+export const savePhotoGroupThunk = (groupId, image) => (dispatch) => {
+    groupAPI.savePhotoGroup(groupId, image)
+        .then(
+            image => {
+                dispatch(savePhotoGroupSuccess(image));
+            }
+        )
 }
 
 export const getAllGroupsThunk = (page, count) => (dispatch) => {

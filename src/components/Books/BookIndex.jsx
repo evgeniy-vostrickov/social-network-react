@@ -34,9 +34,6 @@ const BookIndex = (props) => {
                         </Switch>
                     </div>
                 </div>
-                <div id="test" className='exmpl'>
-                    <img src="http://192.168.0.165:3500/uploads/23012022-164024_829-photo-user.jpg" />
-                </div>
             </div>
         </section>
     )

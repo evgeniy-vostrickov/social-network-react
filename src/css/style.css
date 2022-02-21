@@ -57,6 +57,18 @@ header nav .d-flex button {
 header nav .nav-item {
   margin-right: 1.7rem;
 }
+header nav .logotip {
+  padding: 1rem 1rem 0;
+  font-family: Georgia;
+  text-shadow: -1px -1px 0 #ff5500, -2px -2px 0 #ff5500, -3px -3px 0 #ff9500, -4px -4px 0 #ff9500, -5px -5px 0 #ffbf00, -6px -6px 0 #ffc61a, -7px -7px 0 #ffee33, -8px -8px 0 #fff04d;
+  color: #cc0000;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+header nav .logotip:hover {
+  text-shadow: 1px -1px 0 #aa00cc, 2px -2px 0 #aa00cc, 3px -3px 0 #bb33ff, 4px -4px 0 #bb33ff, 5px -5px 0 #bf80ff, 6px -6px 0 #cc99ff, 7px -7px 0 #ccb3ff, 8px -8px 0 #ddccff;
+  color: #990099;
+}
 .retractable-menu {
   width: 20%;
   height: 100%;
@@ -661,7 +673,7 @@ header nav .nav-item {
   font-size: 2rem;
   bottom: 0;
 }
-.group-small-info button {
+.group-small-info .more {
   font-size: 1.7rem;
 }
 .block-reviews h2 {
@@ -915,12 +927,18 @@ header nav .nav-item {
 .rad-input:checked ~ .rad-text {
   color: #666666;
 }
-.upload-avatar-wrap {
+.upload-avatar-user {
   display: none;
-}
-.upload-avatar-wrap {
   width: 300px;
   height: 300px;
+}
+.upload-avatar-group {
+  display: none;
+  width: 400px;
+  height: 400px;
+}
+.inset {
+  inset: -14rem auto auto 9rem !important;
 }
 .h100vh {
   height: 90vh;

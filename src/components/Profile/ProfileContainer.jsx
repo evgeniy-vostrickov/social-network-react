@@ -18,7 +18,7 @@ const ProfileContent = (props) => {
 
     const readFile = (event) => {
         document.querySelector('.photo-user').style.display = 'none';
-        document.querySelector('.upload-avatar-wrap').style.display = 'block';
+        document.querySelector('.upload-avatar-user').style.display = 'block';
         const input = event.target;
         uploadCrop.current = new Croppie(document.querySelector('#upload-avatar'),
             {
@@ -61,7 +61,7 @@ const ProfileContent = (props) => {
             // document.querySelector('#avatar').setAttribute("src", resp);
             props.saveAvatarThunk(resp)
             setLoadAvatar(false);
-            document.querySelector('.upload-avatar-wrap').style.display = 'none';
+            document.querySelector('.upload-avatar-user').style.display = 'none';
             document.querySelector('.photo-user').style.display = 'block';
         });
     }
@@ -75,7 +75,7 @@ const ProfileContent = (props) => {
                 <div className="photo-user">
                     <img id="avatar" src={!props.avatar ? userPhotoDefault : props.avatar} />
                 </div>
-                <div className="upload-avatar-wrap">
+                <div className="upload-avatar-user">
                     <div id="upload-avatar"></div>
                 </div>
                 <div className="personal-data">
@@ -105,60 +105,6 @@ const ProfileContent = (props) => {
                 <h2>Мои друзья</h2>
                 <a className="view-all-elements" href="#">Просмотр всех друзей</a>
                 <div className="list-elements">
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-1.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Программист</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-2.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Ученик</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-3.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Системный администратор</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-4.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Учитель</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-5.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Студент</div>
-                    </div>
-                </div>
-                <div className="list-elements">
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-6.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Врач</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-7.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Студент</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-8.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Ученик</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-9.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Ученик</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/friend-10.jpg" /></div>
-                        <span className="item-name">Андрей Иванов, 33</span>
-                        <div className="item-work">Студент</div>
-                    </div>
-                </div>
-                <div className="list-elements">
                     {
                         props.friends.map((friend, index) => { friend.id = index; return <Friend key={index} friend={friend} /> })
                     }
@@ -168,60 +114,6 @@ const ProfileContent = (props) => {
             <div className="block-friends-and-group">
                 <h2>Мои группы</h2>
                 <a className="view-all-elements" href="#">Просмотр все группы</a>
-                <div className="list-elements">
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                </div>
-                <div className="list-elements">
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                    <div className="col-lg-2 list-elements-item">
-                        <div className="item-img"><img src="img/img-group.png" /></div>
-                        <span className="item-name">Книжный мир</span>
-                        <div className="item-work">120 участников</div>
-                    </div>
-                </div>
                 <div className="list-elements">
                     {
                         props.groups.map((group, index) => { return <Group key={index} group={group} /> })

@@ -7,6 +7,7 @@ import baseURL from "../../../common/baseUrl/serverUrl";
 import Pagination from '../../../common/Pagination/Pagination';
 import { getAllGroupsThunk, foundGroupsThunk } from '../../../redux/group-reducer';
 import { compose } from 'redux';
+import groupPhotoDefault from '../../../assets/images/booknet.png'
 
 const FoundBooks = (props) => {
     const query = new URLSearchParams(props.location.search);
@@ -81,7 +82,7 @@ const FoundBooks = (props) => {
                             return (
                                 <div key={group.group_id} className="row element">
                                     <div className="col-lg-2 element-photo">
-                                        <NavLink to={'/groups/' + group.group_id}><img src={baseURL + group.illustration_group} /></NavLink>
+                                        <NavLink to={'/groups/' + group.group_id}><img src={group.illustration_group ? baseURL + group.illustration_group : groupPhotoDefault} /></NavLink>
                                     </div>
                                     <div className="col-lg-10 group-small-info">
                                         <NavLink to={'/groups/' + group.group_id}><h2>{group.group_name}</h2></NavLink>

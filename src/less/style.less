@@ -75,6 +75,35 @@ header nav {
             margin-right: 1.7rem;
         }
     }
+
+    .logotip {
+        padding: 1rem 1rem 0;
+        font-family: Georgia;
+        text-shadow:
+            -1px -1px 0 hsl(20, 100%, 50%),
+            -2px -2px 0 hsl(20, 100%, 50%),
+            -3px -3px 0 hsl(35, 100%, 50%),
+            -4px -4px 0 hsl(35, 100%, 50%),
+            -5px -5px 0 hsl(45, 100%, 50%),
+            -6px -6px 0 hsl(45, 100%, 55%),
+            -7px -7px 0 hsl(55, 100%, 60%),
+            -8px -8px 0 hsl(55, 100%, 65%);
+        color: hsl(0, 100%, 40%);
+        transition: all 1s;
+    }
+
+    .logotip:hover {
+        text-shadow:
+            1px -1px 0 hsl(290, 100%, 40%),
+            2px -2px 0 hsl(290, 100%, 40%),
+            3px -3px 0 hsl(280, 100%, 60%),
+            4px -4px 0 hsl(280, 100%, 60%),
+            5px -5px 0 hsl(270, 100%, 75%),
+            6px -6px 0 hsl(270, 100%, 80%),
+            7px -7px 0 hsl(260, 100%, 85%),
+            8px -8px 0 hsl(260, 100%, 90%);
+        color: hsl(300, 100%, 30%);
+    }
 }
 
 //Выдвигающаяся панель
@@ -746,7 +775,7 @@ header nav {
         bottom: 0;
     }
 
-    button {
+    .more {
         font-size: 1.7rem;
     }
 }
@@ -1045,16 +1074,22 @@ header nav {
 }
 
 //Загрузка иконки пользователя
-.upload-avatar-wrap {
+.upload-avatar-user {
     display: none;
-}
-
-// .upload-avatar.ready .upload-avatar-wrap {
-//     display: block;
-// }
-.upload-avatar-wrap {
     width: 300px;
     height: 300px;
+}
+
+//Загрузка иконки группы
+.upload-avatar-group {
+    display: none;
+    width: 400px;
+    height: 400px;
+}
+
+//Абсолютное позиционирование меню в друзьях
+.inset {
+    inset: -14rem auto auto 9rem !important;
 }
 
 

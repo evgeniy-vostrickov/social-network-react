@@ -186,11 +186,9 @@ export const groupAPI = {
         return instance.get(`group/events?group=${groupId}`)
             .then(response => response.data.values);
     },
-    savePhotoGroup(groupId, image) {
-        const fd = new FormData();
-        fd.append('image', image);
-        return instance.put(`group/image?group=${groupId}`, fd)
-            .then(response => response.data.values)
+    savePhotoGroup(groupId, file) {
+        return instance.put(`group/image?group=${groupId}`, {file})
+        .then(response => response.data.values)
     },
     getAllGroups(page, count) {
         return instance.get(`group/all?page=${page}&count=${count}`)
@@ -229,5 +227,11 @@ export const userAPI = {
     unfollowUser(userId) {
         return instance.get(`users/unfollow?user=${userId}`)
             .then(response => response.data.values);
+    },
+}
+export const adminAPI = {
+    login(username, password) {
+        return instance.get(`admin/login?username=${username}&password=${password}`)
+            .then(response => response.data);
     },
 }
