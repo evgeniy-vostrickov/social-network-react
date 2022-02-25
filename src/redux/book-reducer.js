@@ -5,6 +5,7 @@ const GET_PAYLOAD_DATA_ADD_BOOK = 'getPayloadDataAddBook';
 const GET_DATA_ABOUT_BOOK = 'getDataAboutBook';
 const SET_BOOK_ID_NULL = 'setBookIdNull';
 const SET_SORTED_NULL = 'setSortedNull';
+const SET_CHECK_NULL = 'setCheckNull';
 const SET_BOOK_ID = 'setBookId';
 const GET_ALL_BOOKS = 'getAllBooks';
 const SORT_BOOKS = 'SortBooks';
@@ -13,6 +14,7 @@ const GET_RATING = 'setRating';
 const GET_MY_RATING = 'setMyRating';
 const GET_STATISTICS = 'getStatistics';
 const GET_LAST_QUOTES = 'getLastQuotes';
+const CHECK_IN_DIARY_READER = 'checkInDiaryReader';
 
 const typesDiary = {
     past: 'Прочитанные книги',
@@ -44,6 +46,7 @@ let initialState = {
     isSorted: false,
     rating: null,
     myRating: null,
+    isDiaryReader: "", //проверка на нахождении книиг в дневнике читателя
     fieldSort: "", //поле по которому сортируют
     pageSize: 3, //число книг на странице
     totalBooksCount: null, //общее число книг
@@ -63,6 +66,8 @@ const bookReducer = (state = initialState, action) => {
             return { ...state, bookId: null }
         case SET_SORTED_NULL:
             return { ...state, isSorted: false, fieldSort: "" }
+        case SET_CHECK_NULL:
+            return { ...state, isDiaryReader: "" }
         case SET_BOOK_ID:
             return { ...state, bookId: action.bookId }
         case GET_ALL_BOOKS:
@@ -76,9 +81,11 @@ const bookReducer = (state = initialState, action) => {
         case GET_MY_RATING:
             return { ...state, myRating: action.myRating }
         case GET_STATISTICS:
-            return { ...state, statistics: {...action.statistics} }
+            return { ...state, statistics: { ...action.statistics } }
         case GET_LAST_QUOTES:
             return { ...state, quotes: [...action.quotes] }
+        case CHECK_IN_DIARY_READER:
+            return { ...state, isDiaryReader: action.data }
         default:
             return state;
     }
@@ -92,6 +99,7 @@ export const getDataAboutBook = (dataAboutBook, additionalData) => ({ type: GET_
 export const setBookIdNull = () => ({ type: SET_BOOK_ID_NULL });
 export const setBookId = (bookId) => ({ type: SET_BOOK_ID, bookId });
 export const setSortedNull = () => ({ type: SET_SORTED_NULL });
+export const setCheckNull = () => ({ type: SET_CHECK_NULL });
 export const getAllBooks = (listBooks) => ({ type: GET_ALL_BOOKS, listBooks });
 export const sortBooksAction = (isSorted, fieldSort) => ({ type: SORT_BOOKS, isSorted, fieldSort });
 export const getAllSortBooks = (listBooks, fieldSort) => ({ type: GET_ALL_SORT_BOOKS, listBooks, fieldSort });
@@ -99,6 +107,7 @@ export const getRating = (rating) => ({ type: GET_RATING, rating });
 export const getMyRating = (myRating) => ({ type: GET_MY_RATING, myRating });
 export const getStatistics = (statistics) => ({ type: GET_STATISTICS, statistics });
 export const getLastQuotes = (quotes) => ({ type: GET_LAST_QUOTES, quotes });
+export const checkInDiaryReader = (data) => ({ type: CHECK_IN_DIARY_READER, data });
 
 
 export const getPayloadForAddBookThunk = () => {
@@ -158,6 +167,7 @@ export const addBookInDiaryReaderThunk = (bookId, sectionDiary) => (dispatch) =>
         .then(
             data => {
                 console.log(data)
+                dispatch(checkInDiaryReader(data))
             }
         )
 }
@@ -193,12 +203,12 @@ export const foundBooksThunk = (page, count, isSorted, fieldSort, fieldFind, sea
     console.log(isSorted)
     console.log(fieldSort)
     bookAPI.foundBooks(page, count, isSorted, fieldSort, typesBook[typeBook], fieldFind, search)
-    .then(
-        listBooks => {
-            console.log(listBooks)
-            dispatch(getAllBooks(listBooks))
-        }
-    )
+        .then(
+            listBooks => {
+                console.log(listBooks)
+                dispatch(getAllBooks(listBooks))
+            }
+        )
 }
 
 export const getBooksDiaryReaderThunk = (typeDiary) => (dispatch) => {
@@ -244,43 +254,6 @@ export const sortBooksThunk = (page, count, fieldSort, fieldFind, search, typeBo
                     dispatch(getAllBooks(listBooks))
                 }
             )
-
-    // if (fieldSort)
-    //     if (fieldFind)
-    //         bookAPI.foundBooks(page, count, fieldFind, search, fieldSort)
-    //             .then(
-    //                 listBooks => {
-    //                     console.log(listBooks)
-    //                     dispatch(getAllSortBooks(listBooks, fieldSort))
-    //                 }
-    //             )
-    //     else
-    //         bookAPI.getAllBooks(page, count, "true", fieldSort, "")
-    //             .then(
-    //                 listBooks => {
-    //                     console.log(listBooks)
-    //                     dispatch(getAllSortBooks(listBooks, fieldSort))
-    //                 }
-    //             )
-    // else
-    //     if (fieldFind)
-    //         bookAPI.foundBooks(page, count, fieldFind, search)
-    //             .then(
-    //                 listBooks => {
-    //                     console.log(listBooks)
-    //                     dispatch(getAllBooks(listBooks))
-    //                     dispatch(notSortBooksAction())
-    //                 }
-    //             )
-    //     else
-    //         bookAPI.getAllBooks(page, count, "false", fieldSort, "")
-    //             .then(
-    //                 listBooks => {
-    //                     console.log(listBooks)
-    //                     dispatch(getAllBooks(listBooks))
-    //                     dispatch(notSortBooksAction())
-    //                 }
-    //             )
 }
 
 export const setRatingThunk = (bookId, rating) => (dispatch) => {
@@ -298,6 +271,16 @@ export const getMyRatingThunk = (bookId) => (dispatch) => {
         .then(
             rating => {
                 dispatch(getMyRating(rating))
+            }
+        )
+}
+
+export const checkInDiaryReaderThunk = (bookId) => (dispatch) => {
+    bookAPI.checkInDiaryReader(bookId)
+        .then(
+            data => {
+                console.log(data)
+                dispatch(checkInDiaryReader(data.type_book))
             }
         )
 }

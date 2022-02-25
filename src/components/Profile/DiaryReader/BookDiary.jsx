@@ -11,7 +11,7 @@ const BookDiary = ({ book, setBookId }) => {
             </div>
             <span className="item-name">{book.book_name}</span>
             <div className="item-work">{book.author}</div>
-            <NavLink to="#"><div className="menu-btn card-diary" data-bs-toggle="modal" data-bs-target="#windowChangeType" onClick={() => setBookId(book.book_id)}><span></span></div></NavLink>
+            {setBookId && <NavLink to="#"><div className="menu-btn card-diary" data-bs-toggle="modal" data-bs-target="#windowChangeType" onClick={() => setBookId(book.book_id)}><span></span></div></NavLink>}
         </div>
     )
 }

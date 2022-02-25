@@ -28,14 +28,16 @@ export const profileAPI = {
         return instance.get(`profile/groups`)
             .then(response => response.data.values, error => error.response.data)
     },
-    setStatusUser(status) {
-        return instance.put(`profile/status/`, { status: status })
+    setStatusUser(field, newData) {
+        return instance.put(`profile/personal?field=${field}`, { newData })
             .then(response => response.data.values)
     },
     saveAvatar(file) {
-        // const fd = new FormData();
-        // fd.append('image', image);
-        return instance.put(`profile/avatar/`, {file})
+        return instance.put(`profile/avatar`, {file})
+            .then(response => response.data.values)
+    },
+    getDataLike(id = "") {
+        return instance.get(`profile/like?id=${id}`)
             .then(response => response.data.values)
     }
 }
@@ -62,7 +64,7 @@ export const authAPI = {
     },
     registration(name, surname, email, password) {
         return instance.post(`auth/signup`, { name, surname, email, password })
-            .then(response => response.data, error => error.response.data)
+            .then(response => response.data.values, error => error.response.data.values.message)
     },
     login(email, password) {
         return instance.post(`auth/signin`, { email, password })
@@ -158,6 +160,10 @@ export const bookAPI = {
     },
     getLastQuotes() {
         return instance.get(`book/quotes`)
+            .then(response => response.data.values);
+    },
+    checkInDiaryReader(bookId) {
+        return instance.get(`book/check/diary?bookId=${bookId}`)
             .then(response => response.data.values);
     },
 }

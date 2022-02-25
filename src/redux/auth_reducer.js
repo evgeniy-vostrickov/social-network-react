@@ -1,9 +1,14 @@
 import { authAPI, profileAPI } from "../api/api";
 import baseURL from "../common/baseUrl/serverUrl";
+import { Toast } from 'bootstrap'
 
 const SET_USER_DATA = 'setAuthUserData';
-const SET_STATUS_USER = 'setStatusUser';
+const SET_PERSONAL_DATA_USER = 'setPersonalDataUser';
 const SAVE_PHOTO = 'savePhoto';
+const LOGOUT_USER = 'logoutUser';
+const IS_LOADING = 'isLoading';
+const TEXT_ERROR = 'textError';
+const TEXT_ERROR_NULL = 'textErrorNull';
 
 let initialState = {
     user_id: null,
@@ -15,7 +20,9 @@ let initialState = {
     direction_work_study: null,
     status: "",
     avatar: null,
-    isAuth: false
+    isAuth: false,
+    isLoading: false,
+    textError: ""
 }
 
 const authReducer = (state = initialState, action) => {
@@ -25,12 +32,25 @@ const authReducer = (state = initialState, action) => {
                 action.payload.avatar = baseURL + action.payload.avatar;
             return { ...state, ...action.payload }
 
-        case SET_STATUS_USER:
-            return { ...state, status: action.status };
+        case SET_PERSONAL_DATA_USER:
+            return { ...state, [action.field]: action.newData };
 
         case SAVE_PHOTO:
             action.avatar = baseURL + action.avatar;
             return { ...state, avatar: action.avatar };
+
+        case LOGOUT_USER:
+            localStorage.setItem('token', ""); //обнуляем в localstorage значение токена
+            return { ...state, user_id: null, user_name: null, surname: null, email: null, date_births: null, place_work_study: null, direction_work_study: null, status: "", avatar: null, isAuth: false };
+
+        case IS_LOADING:
+            return { ...state, isLoading: !state.isLoading };
+
+        case TEXT_ERROR:
+            return { ...state, textError: action.textError };
+
+        case TEXT_ERROR_NULL:
+            return { ...state, textError: "" };
 
         default:
             return state;
@@ -40,8 +60,12 @@ const authReducer = (state = initialState, action) => {
 export default authReducer;
 
 export const setAuthUserData = (dataUser, isAuth) => ({ type: SET_USER_DATA, payload: { ...dataUser, isAuth } });
-export const setStatusUserSuccess = (status) => ({ type: SET_STATUS_USER, status });
+export const setPersonalDataUserSuccess = (field, newData) => ({ type: SET_PERSONAL_DATA_USER, field, newData });
 export const setNewAvatarSuccess = (avatar) => ({ type: SAVE_PHOTO, avatar });
+export const logoutUser = () => ({ type: LOGOUT_USER })
+export const isLoadingAction = () => ({ type: IS_LOADING })
+export const textErrorAction = (textError) => ({ type: TEXT_ERROR, textError })
+export const textErrorNull = () => ({ type: TEXT_ERROR_NULL })
 
 
 //Санки(thunk)
@@ -56,16 +80,13 @@ export const authUserThunk = () => (dispatch) => {
         )
 }
 
-export const setStatusUserThunk = (status) => {
+export const setPersonalDataUserThunk = (field, newData) => {
     return (dispatch) => {
-        profileAPI.setStatusUser(status)
+        profileAPI.setStatusUser(field, newData)
             .then(
-                newStatus => {
-                    console.log(newStatus);
-                    dispatch(setStatusUserSuccess(status));
-                },
-                error => {
-                    console.log(error);
+                message => {
+                    console.log(message);
+                    dispatch(setPersonalDataUserSuccess(field, newData));
                 }
             )
     }
@@ -83,76 +104,42 @@ export const saveAvatarThunk = (file) => {
 }
 
 //Регистрация
-export const registrationUserThunk = (name, surname, email, password) => {
-    return (dispatch) => {
-        authAPI.registration(name, surname, email, password)
-            .then(
-                data => {
-                    console.log(data);
-                    //dispatch(setAuthUserData(data.values.results.insertId, name, surname, email, true));
-                },
-                error => {
-                    console.log(error);
-                    //Выводим Alert с ошибкой
+export const registrationUserThunk = (name, surname, email, password) => (dispatch) => {
+    authAPI.registration(name, surname, email, password)
+        .then(
+            data => {
+                console.log(data);
+                if (typeof data.token != 'undefined') {
+                    localStorage.setItem('token', data.token); //записываем в localstorage значение приходящего токена
+                    dispatch(authUserThunk());
+                    // dispatch(setAuthUserData(data.values.results.insertId, name, surname, email, true));
+                    dispatch(isLoadingAction());
                 }
-            )
-
-        // usersAPI.getUsers()
-        //     .then(
-        //         data => {
-        //             console.log(data);
-        //         },
-        //         error => {
-        //             console.log(error);
-        //         }
-        //     )
-
-        // profileAPI.getFriends()
-        //     .then(
-        //         data => {
-        //             console.log(data);
-        //         },
-        //         error => {
-        //             console.log(error);
-        //         }
-        //     )
-
-        // authAPI.authUser()
-        //     .then(
-        //         data => {
-        //             console.log(data);
-        //             console.log(data.values[0]);
-        //         },
-        //         error => {
-        //             console.log(error);
-        //         }
-        //     )
-    }
+                else {
+                    dispatch(isLoadingAction());
+                    dispatch(textErrorAction(data));
+                }
+            }
+        )
 }
 
 //Авторизация
-export const loginUserThunk = (email, password) => {
-    return (dispatch) => {
-        authAPI.login(email, password)
-            .then(
-                data => {
-                    console.log(data);
-                    if (typeof data.token != 'undefined') {
-                        console.log(data);
-                        localStorage.setItem('token', data.token); //записываем в localstorage значение приходящего токена
-                        dispatch(authUserThunk());
-                    }
-                    else
-                        //Выводим Alert с ошибкой data (не всегда в data)
-                        console.log(data);
-                    //dispatch(setAuthUserData(data.values.results.insertId, name, surname, email, true));
-                },
-                error => {
-                    console.log(error);
-
+export const loginUserThunk = (email, password) => (dispatch) => {
+    authAPI.login(email, password)
+        .then(
+            data => {
+                console.log(data);
+                if (typeof data.token != 'undefined') {
+                    localStorage.setItem('token', data.token); //записываем в localstorage значение приходящего токена
+                    dispatch(authUserThunk());
+                    dispatch(isLoadingAction());
                 }
-            )
-    }
+                else {
+                    dispatch(isLoadingAction());
+                    dispatch(textErrorAction(data));
+                }
+            }
+        )
 }
 
 // export const logoutUserThunk = (login) => {

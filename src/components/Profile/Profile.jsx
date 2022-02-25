@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../common/hoc/withAuthRedirect';
 import { Route, Switch } from 'react-router-dom';
-import { getFriendsThunk, getGroupsThunk } from '../../redux/profile-reducer';
-import { authUserThunk, setStatusUserThunk, saveAvatarThunk } from '../../redux/auth_reducer';
+import { getFriendsThunk, getGroupsThunk, getDataLikeThunk } from '../../redux/profile-reducer';
+import { logoutUser, authUserThunk, setPersonalDataUserThunk, saveAvatarThunk } from '../../redux/auth_reducer';
 import ProfileContent from './ProfileContainer';
 import ProfileRetractableMenu from './ProfileRetractableMenu';
 import Friends from './Friends/Friends';
@@ -16,21 +16,23 @@ import MessengerApp from '../MessengerApp/MessengerApp';
 import MyComment from './Comments/MyComment';
 
 const Profile = (props) => {
-    useEffect(() => {
-        props.getFriendsThunk();
-    }, [props.friends.length])
-
-    useEffect(() => {
-        props.getGroupsThunk();
-    }, [props.groups.length])
+    // useEffect(() => {
+    //     props.getFriendsThunk();
+    // }, [props.friends.length])
 
     // useEffect(() => {
-    //     props.authUserThunk();
-    // }, [])
+    //     props.getGroupsThunk();
+    // }, [props.groups.length])
+
+    useEffect(() => {
+        props.getFriendsThunk();
+        props.getGroupsThunk();
+        props.getDataLikeThunk();
+    }, [])
 
     return (
         <>
-            <ProfileRetractableMenu />
+            <ProfileRetractableMenu logoutUser={props.logoutUser} />
             <Switch>
                 <Route path="/profile/users/:userId" render={() => <UserProfile />} />
                 <Route path="/profile/users" render={() => <FoundUsers />} />
@@ -39,7 +41,7 @@ const Profile = (props) => {
                 <Route path="/profile/dialog/:dialogId?" render={() => <MessengerApp />} />
                 <Route path="/profile/diary/:typeDiary" render={() => <DiaryReader />} />
                 <Route path="/profile/comments/:typeComment" render={() => <MyComment />} />
-                <Route path="/profile" render={() => <ProfileContent friends={props.friends} groups={props.groups} user_name={props.user_name} surname={props.surname} email={props.email} date_births={props.date_births} place_work_study={props.place_work_study} direction_work_study={props.direction_work_study} status={props.status} avatar={props.avatar} setStatusUserThunk={props.setStatusUserThunk} saveAvatarThunk={props.saveAvatarThunk} />} />
+                <Route path="/profile" render={() => <ProfileContent friends={props.friends} groups={props.groups} user_name={props.user_name} surname={props.surname} email={props.email} date_births={props.date_births} place_work_study={props.place_work_study} direction_work_study={props.direction_work_study} status={props.status} avatar={props.avatar} likeAuthors={props.likeAuthors} likeGenres={props.likeGenres} likeBooks={props.likeBooks} setPersonalDataUserThunk={props.setPersonalDataUserThunk} saveAvatarThunk={props.saveAvatarThunk} />} />
             </Switch>
         </>
     )
@@ -55,8 +57,11 @@ const mapStateToProps = (state) => ({
     place_work_study: state.auth.place_work_study,
     direction_work_study: state.auth.direction_work_study,
     status: state.auth.status,
-    avatar: state.auth.avatar
+    avatar: state.auth.avatar,
+    likeAuthors: state.profilePage.likeAuthors,
+    likeGenres: state.profilePage.likeGenres,
+    likeBooks: state.profilePage.likeBooks
 })
 
-export default compose(connect(mapStateToProps, { getFriendsThunk, getGroupsThunk, authUserThunk, setStatusUserThunk, saveAvatarThunk }), withAuthRedirect)(Profile);
+export default compose(connect(mapStateToProps, { logoutUser, getFriendsThunk, getGroupsThunk, authUserThunk, setPersonalDataUserThunk, saveAvatarThunk, getDataLikeThunk }), withAuthRedirect)(Profile);
 // withAuthRedirect - хок, который возвращает компоненты и добавляет проверку на то что залогинни пользователь или нет

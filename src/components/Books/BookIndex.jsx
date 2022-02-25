@@ -4,7 +4,8 @@ import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../common/hoc/withAuthRedirect'
-import { getFullInfoBookThunk, getStatisticsBookThunk, addBookInDiaryReaderThunk, setRatingThunk, getMyRatingThunk } from '../../redux/book-reducer';
+import Preloader from '../../common/Preloader/Preloader';
+import { getFullInfoBookThunk, getStatisticsBookThunk, addBookInDiaryReaderThunk, setRatingThunk, getMyRatingThunk, checkInDiaryReaderThunk } from '../../redux/book-reducer';
 import { getAllCommentsThunk, addNewCommentThunk } from '../../redux/comments-reducer';
 import BasicInfoBook from './BasicInfoBook/BasicInfoBook';
 import Comments from './Comments/Comments';
@@ -15,17 +16,17 @@ const BookIndex = (props) => {
     useEffect(() => {
         console.log(props.match.params)
         props.getFullInfoBookThunk(props.match.params.bookId)
+        props.checkInDiaryReaderThunk(props.match.params.bookId)
     }, [])
 
-    // !!!! Мерцаание, когда меняешь книги
     if (!props.bookId)
-        return <div>Loading...</div>
+        return <Preloader />
 
     return (
         <section className="main-content full-book-content">
             <div className="container">
                 <div className="row">
-                    <LeftSidebar bookId={props.bookId} illustrationCover={props.illustrationCover} addBookInDiaryReaderThunk={props.addBookInDiaryReaderThunk} />
+                    <LeftSidebar bookId={props.bookId} illustrationCover={props.illustrationCover} isDiaryReader={props.isDiaryReader} addBookInDiaryReaderThunk={props.addBookInDiaryReaderThunk} />
                     <div className="col-lg-8">
                         <BookNavigation bookId={props.bookId} type_book={props.type_book} />
                         <Switch>
@@ -56,6 +57,7 @@ const mapStateToProps = (state) => ({
     rating: state.bookPages.rating,
     myRating: state.bookPages.myRating,
     statistics: state.bookPages.statistics,
+    isDiaryReader: state.bookPages.isDiaryReader,
 })
 
-export default compose(connect(mapStateToProps, { getFullInfoBookThunk, getStatisticsBookThunk, getAllCommentsThunk, addNewCommentThunk, addBookInDiaryReaderThunk, setRatingThunk, getMyRatingThunk }), withRouter, withAuthRedirect)(BookIndex);
+export default compose(connect(mapStateToProps, { getFullInfoBookThunk, getStatisticsBookThunk, getAllCommentsThunk, addNewCommentThunk, addBookInDiaryReaderThunk, setRatingThunk, getMyRatingThunk, checkInDiaryReaderThunk }), withRouter, withAuthRedirect)(BookIndex);

@@ -1,11 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 
-const LeftSidebar = ({ bookId, illustrationCover, addBookInDiaryReaderThunk }) => {
+const LeftSidebar = ({ bookId, illustrationCover, isDiaryReader, addBookInDiaryReaderThunk }) => {
     const urlBook = '/books/' + bookId;
     const addBookInDiaryReader = event => {
         addBookInDiaryReaderThunk(bookId, event.currentTarget.getAttribute("data-section"));
     }
+
+    useEffect(() => {
+        if (document.querySelector(`[disabled]`))
+            document.querySelector(`[disabled]`).disabled = false;
+        if (isDiaryReader)
+            document.querySelector(`[data-section="${isDiaryReader}"]`).disabled = true;
+    }, [isDiaryReader])
+    
     return (
         <div className="col-lg-4">
             <div className="book-photo"><img src={illustrationCover} /></div>

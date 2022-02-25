@@ -4,6 +4,7 @@ import './ToolbarButton.css';
 export default function ToolbarButton(props) {
     const { icon } = props;
     return (
-      <i className={`toolbar-button ${icon}`} />
+      // <i className={`toolbar-button ${icon}`} />
+      <i className={`bi ${icon} input-elements`}></i>
     );
 }

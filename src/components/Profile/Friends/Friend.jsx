@@ -10,7 +10,7 @@ const Friend = ({ friend, follow, unfollow }) => {
             <span className="item-name">{friend.user_name} {friend.surname}</span>
             <div className="item-work">{friend.direction_work_study || "Не указано"}</div>
             
-            <NavLink to="#" id={"dropdownMenuSetting" + friend.user_id} data-bs-toggle="dropdown" aria-expanded="false"><div className="menu-btn card-diary"><span></span></div></NavLink>
+            <NavLink to="#" id={"dropdownMenuSetting" + friend.user_id} data-bs-toggle="dropdown" aria-expanded="true"><div className="menu-btn card-diary"><span></span></div></NavLink>
             {friend.confirmation ?
                 <ul className="dropdown-menu inset fs1-8r" aria-labelledby={"dropdownMenuSetting" + friend.user_id}>
                     <li className='p-2' onClick={() => unfollow(friend.user_id)}><NavLink to="">Удалить из друзей</NavLink></li>

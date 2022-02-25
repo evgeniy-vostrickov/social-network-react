@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
-const ProfileRetractableMenu = (props) => {
+const ProfileRetractableMenu = ({logoutUser}) => {
     const retractableMenu = () => {
         document.querySelector('.retractable-menu').classList.toggle('retractable-menu-active');
         document.querySelector('.menu-btn').classList.toggle('menu-btn_active');
@@ -33,7 +33,7 @@ const ProfileRetractableMenu = (props) => {
                     </ul>
                 </li>
                 {/* <li key="6"><a href="#" className="retractable-menu-link"><i className="bi bi-cash-coin"></i><span>Книги на продажу</span></a></li> */}
-                <li key="7"><a href="#" className="retractable-menu-link"><i className="bi bi-door-open"></i><span>Выйти</span></a></li>
+                <li key="7" onClick={logoutUser}><NavLink to="/login/" className="retractable-menu-link"><i className="bi bi-door-open"></i><span>Выйти</span></NavLink></li>
             </ul>
         </section>
     )

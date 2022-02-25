@@ -2,14 +2,14 @@ import React from 'react'
 import moment from 'moment';
 import baseURL from "../../../common/baseUrl/serverUrl";
 
-const Event = ({ event }) => {
+const Event = ({ event, dopParametr }) => {
     return (
         <div className="event">
             <div className="event-header">
 
             </div>
             <div className="event-content">
-                <div className="event-content-img"><img src={baseURL + event.illustration_event} /></div>
+                <div className="event-content-img"><img src={baseURL + event.illustration_event} className={dopParametr && "w77"} /></div>
                 <h4 className="event-content-name">{event.event_name}</h4>
                 <div className="event-content-text">{event.event_text}</div>
             </div>

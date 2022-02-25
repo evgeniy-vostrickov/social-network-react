@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import NewEvent from '../EventsGroup/NewEvent';
 import { checkFilePhoto } from '../../../common/validate/checkImage'
 import groupPhotoDefault from '../../../assets/images/booknet.png'
+import { Toast } from 'bootstrap'
 
 const LeftSidebar = ({ groupId, subscribe, illustration_group, userOwner, joinGroupThunk, leaveGroupThunk, addNewEventThunk, savePhotoGroupThunk }) => {
 
@@ -12,23 +13,29 @@ const LeftSidebar = ({ groupId, subscribe, illustration_group, userOwner, joinGr
     let uploadCrop = useRef();
 
     const readFile = (event) => {
-        document.querySelector('.group-photo').style.display = 'none';
-        document.querySelector('.upload-avatar-group').style.display = 'block';
-        const input = event.target;
-        uploadCrop.current = new Croppie(document.querySelector('#upload-avatar'),
-            {
-                enableExif: true,
-                viewport: {
-                    width: 300,
-                    height: 300,
-                    type: 'square'
-                },
-                boundary: {
-                    width: 400,
-                    height: 400
-                }
-            });
-        if (checkFilePhoto(event.target.files)) {
+        const checkFile = checkFilePhoto(event.target.files);
+        if (checkFile.value) {
+            document.querySelector('.toast-body').textContent = checkFile.text;
+            const bsToast = new Toast(document.getElementById('toastNotice'));
+            bsToast.show();
+
+            document.querySelector('.group-photo').style.display = 'none';
+            document.querySelector('.upload-avatar-group').style.display = 'block';
+            const input = event.target;
+            uploadCrop.current = new Croppie(document.querySelector('#upload-avatar'),
+                {
+                    enableExif: true,
+                    viewport: {
+                        width: 300,
+                        height: 300,
+                        type: 'square'
+                    },
+                    boundary: {
+                        width: 400,
+                        height: 400
+                    }
+                });
+
             let reader = new FileReader();
 
             reader.onload = function (e) {
@@ -38,17 +45,18 @@ const LeftSidebar = ({ groupId, subscribe, illustration_group, userOwner, joinGr
                         console.log('jQuery bind complete');
                     });
             }
-
             reader.readAsDataURL(input.files[0]);
+
+            setLoadAvatar(true);
         }
         else {
-            console.log("Sorry - you're browser doesn't support the FileReader API");
+            document.querySelector('.toast-body').textContent = checkFile.text;
+            const bsToast = new Toast(document.getElementById('toastNotice'));
+            bsToast.show();
         }
-        setLoadAvatar(true);
     }
 
     const result = () => {
-        console.log(uploadCrop.current)
         uploadCrop.current.result({
             type: 'canvas',
             size: 'viewport'

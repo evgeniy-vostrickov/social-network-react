@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import baseURL from "../../../common/baseUrl/serverUrl";
 import Pagination from '../../../common/Pagination/Pagination';
-import { getAllGroupsThunk, foundGroupsThunk } from '../../../redux/group-reducer';
+import { setGroupIdNull, getAllGroupsThunk, foundGroupsThunk } from '../../../redux/group-reducer';
 import { compose } from 'redux';
 import groupPhotoDefault from '../../../assets/images/booknet.png'
 
@@ -21,6 +21,10 @@ const FoundBooks = (props) => {
         else
             props.getAllGroupsThunk(page, props.pageSize);
     }, [page])
+
+    useEffect(() => {
+        props.setGroupIdNull();
+    }, [])
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -50,31 +54,6 @@ const FoundBooks = (props) => {
                         </div>
                         <button className="btn btn-outline-primary" type="submit">Найти</button>
                     </form>
-                    {/* <form class="d-flex">
-                        <input class="form-control me-2" type="text" placeholder="Поиск группы" />
-                            <i class="bi bi-search"></i>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Сортировка
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">По популярности</a></li>
-                                    <li><a class="dropdown-item" href="#">По новизне</a></li>
-                                    <li><a class="dropdown-item" href="#">По рейтингу</a></li>
-                                </ul>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Фильтрация
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">По популярности</a></li>
-                                    <li><a class="dropdown-item" href="#">По новизне</a></li>
-                                    <li><a class="dropdown-item" href="#">По рейтингу</a></li>
-                                </ul>
-                            </div>
-                            <button class="btn btn-outline-primary" type="submit">Найти</button>
-                    </form> */}
                 </div>
                 <div className="list-card">
                     {
@@ -96,20 +75,6 @@ const FoundBooks = (props) => {
                             )
                         })
                     }
-                    {/* <div class="row element">
-                        <div class="col-lg-2 element-photo">
-                            <a href="#"><img src="img/group-1.jpg" /></a>
-                        </div>
-                        <div class="col-lg-10 group-small-info">
-                            <a href="#"><h2>Клуб переводчиков</h2></a>
-                            <div class="group-description">Клуб "Перевод всем" - это площадка для совместного заказа переводов зарубежных видеокурсов и книг на русский язык.</div>
-                            <div class="dop-group-info"><i class="bi bi-people"></i><span> 200</span> участников</div>
-                            <div class="button-block-info">
-                                <button class="btn btn-outline-primary more" type="submit">Подробнее</button>
-                                <button class="btn btn-outline-primary join" type="submit">Вступить</button>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
                 {props.totalGroupsCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalGroupsCount} pageSize={props.pageSize} portionSize={props.portionSize} link={window.location.pathname} />}
             </div>
@@ -124,4 +89,4 @@ const mapStateToProps = (state) => ({
     portionSize: state.groupPages.portionSize,
 })
 
-export default compose(connect(mapStateToProps, { getAllGroupsThunk, foundGroupsThunk }), withRouter)(FoundBooks);
+export default compose(connect(mapStateToProps, { setGroupIdNull, getAllGroupsThunk, foundGroupsThunk }), withRouter)(FoundBooks);

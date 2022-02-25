@@ -21,6 +21,7 @@ let initialState = {
     illustration_group: "",
     number_participants: 0,
     subscribe: false,
+    participantsItems: [], //информация о подписчиках для страницы "Подписчики"
     eventsItems: [],
     groupsItems: [],
     pageSize: 3, //число групп на странице
@@ -31,7 +32,7 @@ let initialState = {
 const groupReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_DATA_ABOUT_GROUP:
-            return { ...state, groupId: action.dataAboutGroup.group_id, groupName: action.dataAboutGroup.group_name, groupDescription: action.dataAboutGroup.group_description, owner_id: action.dataAboutGroup.owner, owner_name: action.dataAboutGroup.user_name, owner_surname: action.dataAboutGroup.surname, city: action.dataAboutGroup.city, illustration_group: action.dataAboutGroup.illustration_group ? baseURL + action.dataAboutGroup.illustration_group : null, number_participants: action.dataAboutGroup.number_participants, subscribe: action.dataAboutGroup.subscribe }
+            return { ...state, groupId: action.dataAboutGroup.group_id, groupName: action.dataAboutGroup.group_name, groupDescription: action.dataAboutGroup.group_description, owner_id: action.dataAboutGroup.owner, owner_name: action.dataAboutGroup.user_name, owner_surname: action.dataAboutGroup.surname, city: action.dataAboutGroup.city, illustration_group: action.dataAboutGroup.illustration_group ? baseURL + action.dataAboutGroup.illustration_group : null, number_participants: action.dataAboutGroup.number_participants, subscribe: action.dataAboutGroup.subscribe, participantsItems: [...action.dataAboutGroup.participantsItems] }
         case SUBSCRIBE_GROUP:
             return { ...state, subscribe: true }
         case UNSUBSCRIBE_GROUP:

@@ -5,7 +5,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import baseURL from "../../../common/baseUrl/serverUrl";
 import Pagination from '../../../common/Pagination/Pagination';
-import { setBookIdNull, setSortedNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk } from '../../../redux/book-reducer';
+import { setBookIdNull, setSortedNull, setCheckNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk } from '../../../redux/book-reducer';
 import { compose } from 'redux';
 
 const FoundBooks = (props) => {
@@ -20,6 +20,8 @@ const FoundBooks = (props) => {
     useEffect(() => {
         //Обнуляем bookId чтобы понять когда новые данные будут загружены.
         props.setBookIdNull();
+        //Обнуляем переменную отвечающую за проверку нахождения книги в дневнике читателя.
+        props.setCheckNull();
     }, [])
 
     useEffect(() => {
@@ -146,4 +148,4 @@ const mapStateToProps = (state) => ({
     fieldSort: state.bookPages.fieldSort,
 })
 
-export default compose(connect(mapStateToProps, { setBookIdNull, setSortedNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk }), withRouter)(FoundBooks);
+export default compose(connect(mapStateToProps, { setBookIdNull, setSortedNull, setCheckNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk }), withRouter)(FoundBooks);

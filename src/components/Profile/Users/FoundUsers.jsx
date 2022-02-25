@@ -72,7 +72,7 @@ const FoundUsers = (props) => {
                                 props.masEmailFriend.indexOf(user.email) === -1 ? user.follow = false : user.follow = true
                                 // console.log(user)
                                 return (
-                                    <User key={user.user_id} user={user} follow={follow} unfollow={unfollow} getUserIdNewDialog={props.getUserIdNewDialog} />
+                                    <User key={user.user_id} user={user} follow={follow} unfollow={unfollow} getUserIdNewDialog={props.getUserIdNewDialog} dopParametr={{}} />
                                 )
                             })
                         }

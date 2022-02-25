@@ -336,6 +336,18 @@ header nav {
             font-weight: 700;
         }
 
+        .header-like {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .list-genres,
+        .list-authors {
+            color: red;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
         .list-elements {
             display: flex;
             flex-direction: row;
@@ -693,7 +705,9 @@ header nav {
             background-color: #adbdd4;
             border-radius: 2rem;
             padding: 2rem;
-            margin-top: 3rem;
+            // margin-top: 3rem;
+            width: 85%;
+            margin: 3rem auto;
             position: relative;
 
             &-header {
@@ -907,6 +921,23 @@ header nav {
     font-weight: 800;
 }
 
+//Страница сообщений
+.block-input-line {
+    border-radius: 2rem;
+    width: 145rem !important;
+    margin-bottom: .5rem;
+    .input-line {
+        border-radius: 1rem;
+        background-color: azure;
+        width: 135rem;
+    }
+    .input-elements {
+        font-size: 3rem;
+        padding-bottom: 1rem;
+        padding-left: 2rem;
+    }
+}
+
 //Форма (не дефолтная)
 .registration-form {
     padding: 10px 0;
@@ -1092,6 +1123,45 @@ header nav {
     inset: -14rem auto auto 9rem !important;
 }
 
+//Прелоадер (preloader)
+.preloader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    /* фоновый цвет */
+    background: #e0e0e0;
+    z-index: 1001;
+}
+
+.preloader__image {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-top: -35px;
+    margin-left: -35px;
+    text-align: center;
+    animation: preloader-rotate 2s infinite linear;
+}
+
+@keyframes preloader-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loaded_hiding .preloader {
+    transition: 0.3s opacity;
+    opacity: 0;
+}
+
+.loaded .preloader {
+    display: none;
+}
 
 
 
@@ -1109,6 +1179,10 @@ header nav {
     height: 14rem !important;
 }
 
+.h-100{
+    height: 100% !important;
+}
+
 .w80r {
     max-width: 80rem;
 }
@@ -1121,12 +1195,24 @@ header nav {
     width: 35rem;
 }
 
+.w77 {
+    width: 77% !important;
+}
+
 .fs2-2r {
     font-size: 2.2rem;
 }
 
 .fs1-8r {
     font-size: 1.8rem;
+}
+
+.fs1-6r {
+    font-size: 1.6rem;
+}
+
+.fs1-3r {
+    font-size: 1.3rem;
 }
 
 .br50 {
@@ -1153,16 +1239,15 @@ header nav {
     float: right;
 }
 
+.z-index-11 {
+    z-index: 11;
+}
+
 .card-diary span,
 .card-diary span::before,
 .card-diary span::after {
     background-color: #000;
 }
-
-// #test {
-//     width: 20rem;
-//     height: 20rem;
-// }
 
 #test {
     width: 200px;
@@ -1178,4 +1263,13 @@ header nav {
     width: auto;
     height: 100%;
     // margin: -60px 0 0 -240px;
+}
+
+.toast-img {
+    height: 3rem;
+    width: 6rem;
+}
+
+.opac-5 {
+    opacity: .5;
 }

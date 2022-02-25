@@ -13,21 +13,21 @@ export default function Compose(props) {
   };
 
   return (
-    <div className="compose">
+    <div className="compose block-input-line">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input className="compose-input" placeholder="Введите сообщение" {...register("textMessage",
+        <input className="compose-input input-line" placeholder="Введите сообщение" {...register("textMessage",
           {
             required: 'Поле обязательно для заполнения',
             maxLength: {
-              value: 300,
-              message: 'Число символов должно быть меньше 300'
+              value: 255,
+              message: 'Число символов должно быть меньше 255'
             }
           })}
         />
         <div>
           {errors?.textMessage && <p>{errors?.textMessage?.message || "Error"}</p>}
         </div>
-        <input type="submit" value="Отправить" className="btn btn-primary" />
+        {/* <input type="submit" value="Отправить" className="btn btn-primary" /> */}
       </form>
       {
         props.rightItems

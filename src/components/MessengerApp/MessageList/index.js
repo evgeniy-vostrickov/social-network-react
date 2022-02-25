@@ -170,7 +170,7 @@ export default function MessageList(props) {
   return (
     <div className="message-list">
       <Toolbar
-        title="Conversation Title"
+        title="Диалог"
         rightItems={[
           <ToolbarButton key="info" icon="ion-ios-information-circle-outline" />,
           <ToolbarButton key="video" icon="ion-ios-videocam" />,
@@ -181,12 +181,12 @@ export default function MessageList(props) {
       <div className="message-list-container">{renderMessages(props.messageItems)}</div>
 
       <Compose rightItems={[
-        <ToolbarButton key="photo" icon="ion-ios-camera" />,
-        <ToolbarButton key="image" icon="ion-ios-image" />,
-        <ToolbarButton key="audio" icon="ion-ios-mic" />,
-        <ToolbarButton key="money" icon="ion-ios-card" />,
-        <ToolbarButton key="games" icon="ion-logo-game-controller-b" />,
-        <ToolbarButton key="emoji" icon="ion-ios-happy" />
+        <ToolbarButton key="image" icon="bi-image-fill" />,
+        // <ToolbarButton key="photo" icon="ion-ios-image" />,
+        // <ToolbarButton key="audio" icon="ion-ios-mic" />,
+        // <ToolbarButton key="money" icon="ion-ios-card" />,
+        // <ToolbarButton key="games" icon="ion-logo-game-controller-b" />,
+        // <ToolbarButton key="emoji" icon="ion-ios-happy" />
       ]} numLastMessage={props.numLastMessage} userIdRecipient={props.userIdRecipient} dialogId={props.dialogId} addNewMessageThunk={props.addNewMessageThunk} />
     </div>
   );

@@ -1,22 +1,44 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import { useForm } from "react-hook-form";
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { registrationUserThunk } from '../../redux/auth_reducer'
+import { isLoadingAction, textErrorNull, registrationUserThunk } from '../../redux/auth_reducer'
+import Preloader from '../../common/Preloader/Preloader';
+import MyAlert from '../../common/Alert/MyAlert'
+import { Toast } from 'bootstrap'
 
-const Registration = ({registrationUserThunk, isAuth}) => {
+const Registration = ({isAuth, isLoading, textError, isLoadingAction, textErrorNull, registrationUserThunk}) => {
     const { register, handleSubmit, getValues, formState: { errors } } = useForm();
     
     const onSubmit = (formData) => {
         const repeatPassword = getValues("repeatPassword");
         const password = getValues("password");
-        if (password === repeatPassword)
+        if (password === repeatPassword){
+            isLoadingAction();
             registrationUserThunk(formData.name, formData.surname, formData.email, formData.password);
-            // console.log("Пароли совпадают!");
-        else
-            //Вызываем Alert с ошибкой
-            console.log("Пароли не совпадают!");
+        }
+        else {
+            document.querySelector('.toast-body').textContent = "Введенные пароли не совпадают!";
+            const bsToast = new Toast(document.getElementById('toastNotice'));
+            bsToast.show();
+        }
     };
+
+    const show = (message) => {
+        document.querySelector('.toast-body').textContent = message;
+        const bsToast = new Toast(document.getElementById('toastNotice'));
+        bsToast.show();
+        textErrorNull(); //!возможны ошибки
+    };
+
+    if (isAuth)
+        return <Redirect to={"/profile"} />
+
+    if (isLoading == true)
+        return <Preloader />
+
+    textError && show(textError)
     
     return (
         <section className="main-content registration">
@@ -110,15 +132,18 @@ const Registration = ({registrationUserThunk, isAuth}) => {
                     Если у вас уже есть аккаунт в социальной сети, то пройдите по ссылке на страницу <NavLink to="/login" className="bold">Авторизации</NavLink>
                 </div>
             </form>
+            <MyAlert />
         </section>
     )
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    isLoading: state.auth.isLoading,
+    textError: state.auth.textError,
 })
 
-export default connect(mapStateToProps, {registrationUserThunk})(Registration);
+export default connect(mapStateToProps, {isLoadingAction, textErrorNull, registrationUserThunk})(Registration);
 
 
 // import React, { Component } from "react";
