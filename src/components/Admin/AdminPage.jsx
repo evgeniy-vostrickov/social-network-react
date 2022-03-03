@@ -1,23 +1,27 @@
-import { Admin, Resource, ListGuesser, EditGuesser } from 'react-admin';
+import { Admin, Resource, ListGuesser, EditGuesser, CreateGuesser } from 'react-admin';
 import jsonServerProvider from 'ra-data-json-server';
+import jsonRestClient from 'aor-json-rest-client';
 import { UserList } from './Users/users';
-import { BookList } from './Books/books';
-import { CommentEdit, CommentList } from './Comments/comments';
+import { BookList, BookEdit, BookCreate } from './Books/books';
+import { CommentList, CommentEdit } from './Comments/comments';
 import authProvider from './authProvider';
+import myDataProvider from './myDataProvider';
 
-const dataProvider = jsonServerProvider("http://192.168.0.165:3500/admin");
-// const dataProvider = jsonServerProvider("https://jsonplaceholder.typicode.com");
+// const dataProvider = jsonServerProvider("http://192.168.0.165:3500/admin");
 
 const AdminPage = () => {
 
     document.querySelector("html").style.fontSize = '15px'; //изменяем дефолтный размер шрифта
 
     return (
-        <Admin dataProvider={dataProvider} authProvider={authProvider}>
+        <Admin dataProvider={myDataProvider} authProvider={authProvider} >
             {/* <Resource name="comments" list={ListGuesser} /> */}
             <Resource name="comments" list={CommentList} edit={CommentEdit} />
-            <Resource name="books" list={BookList} edit={CommentEdit} />
+            <Resource name="books" list={BookList} edit={BookEdit} create={BookCreate} />
             <Resource name="users" list={UserList} edit={CommentEdit} />
+            <Resource name="genres" list={ListGuesser} />
+            <Resource name="publish" list={ListGuesser} />
+            <Resource name="languages" list={ListGuesser} />
         </Admin>
     )
 }

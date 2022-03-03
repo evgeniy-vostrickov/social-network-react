@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import iconUser from '../../assets/images/user.jpg';
-import {foundBooksThunk} from "../../redux/book-reducer";
+import { foundBooksThunk } from "../../redux/book-reducer";
 import { connect } from 'react-redux';
+import 'bootstrap';
 
 //добавить logout logoutUserThunk
 
@@ -29,7 +30,7 @@ const Header = (props) => {
                             </li>
                             <li className="nav-item dropdown">
                                 <NavLink className="nav-link dropdown-toggle" to="/educational" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Учебная литература</NavLink>
-                                <ul className="dropdown-menu fs1-8r" aria-labelledby="navbarDropdown" onClick={event => document.querySelector(".dropdown-menu").classList.remove("show")}>
+                                <ul className="dropdown-menu fs1-8r" aria-labelledby="navbarDropdown">
                                     <li><NavLink className="dropdown-item" to="/educational/junior">Для младших классов</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="/educational/senior">Для старших классов</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="/educational/students">Для студентов</NavLink></li>
