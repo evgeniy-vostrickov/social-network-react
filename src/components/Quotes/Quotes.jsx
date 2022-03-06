@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import { getLastQuotesThunk } from '../../redux/comments-reducer';
+import Preloader from '../../common/Preloader/Preloader';
 import baseURL from "../../common/baseUrl/serverUrl"
 
 const Quotes = ({ quotes, getLastQuotesThunk }) => {
@@ -9,6 +10,11 @@ const Quotes = ({ quotes, getLastQuotesThunk }) => {
     useEffect(() => {
         getLastQuotesThunk();
     }, [])
+    
+    if (!quotes){
+        debugger
+        return <Preloader />
+    }
 
     return (
         <section className="main-content quote-content">

@@ -803,6 +803,128 @@ header nav .logotip:hover {
   padding-bottom: 1rem;
   padding-left: 2rem;
 }
+.main-page {
+  height: 100vh;
+  position: relative;
+  background: url(../assets/images/back-main-page.jpg) top center no-repeat;
+  background-size: cover;
+}
+.main-page .wrap {
+  padding: 0 15px;
+  margin: 0 auto;
+  width: 100%;
+}
+.main-page .wrap .wrap_container_quote {
+  height: inherit;
+  display: table-cell;
+  vertical-align: middle;
+}
+.main-page .wrap .wrap_container_quote .container-quote {
+  position: relative;
+  height: 614px;
+  width: 580px;
+  padding-top: 194px;
+  padding-bottom: 30px;
+  padding-left: 175px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote {
+  position: absolute;
+  height: 390px;
+  width: 390px;
+  top: auto;
+  bottom: 30px;
+  left: auto;
+  right: 0;
+  color: #fff;
+  background: rgba(43, 43, 45, 0.82);
+  border-radius: 50%;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote .main-quote-h1 {
+  position: relative;
+  color: inherit;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 20px 15px 15px;
+  margin: 20px auto 15px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote .main-quote-h1::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 182px;
+  height: 0;
+  background: none transparent;
+  border: 0 solid #fff;
+  border-bottom-width: 1px;
+  margin: 0 auto;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote .main-quote-h1-after {
+  font-size: 17px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote .main-quote-h1-after p {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote .main-quote-h1-after ul {
+  margin: 0;
+  padding: 0 0 0 30px;
+  list-style: none;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote .main-quote-h1-after ul li {
+  position: relative;
+  list-style-type: disc;
+  list-style-position: inside;
+  margin-left: 15px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul li {
+  position: absolute;
+  background: rgba(113, 110, 110, 0.43);
+  border-radius: 50%;
+  padding: 9px;
+  font-size: 20px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul li p {
+  text-align: center;
+  background: #fff;
+  line-height: 24px;
+  border-radius: 50%;
+  width: 115px;
+  height: 115px;
+  margin: 0;
+  padding-top: 30px;
+  padding-left: 5px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul .first-item {
+  top: 75px;
+  left: 550px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul .second-item {
+  top: 215px;
+  left: 660px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul .third-item {
+  top: 405px;
+  left: 670px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul .fourth-item {
+  top: 565px;
+  left: 550px;
+}
+.main-page .wrap .wrap_container_quote .container-quote .main-quote-ul .five-item {
+  top: 635px;
+  left: 340px;
+}
 .registration-form {
   padding: 10px 0;
 }

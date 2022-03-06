@@ -3,6 +3,7 @@ import socket from '../../../common/socket/socket';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
 import './Messenger.css';
+import MyAlert from '../../../common/Alert/MyAlert'
 
 export default function Messenger(props) {
 
@@ -52,8 +53,10 @@ export default function Messenger(props) {
       </div>
 
       <div className="content">
-        <MessageList dialogId={props.dialogId} myUserId={props.myUserId} userIdRecipient={props.userIdRecipient} messageItems={props.messageItems} firstDialogId={props.firstDialogId} numLastMessage={props.numLastMessage} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} getAllMessagesThunk={props.getAllMessagesThunk} addNewMessageThunk={props.addNewMessageThunk} />
+        <MessageList dialogId={props.dialogId || props.firstDialogId} myUserId={props.myUserId} userIdRecipient={props.userIdRecipient} messageItems={props.messageItems} firstDialogId={props.firstDialogId} numLastMessage={props.numLastMessage} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} getAllMessagesThunk={props.getAllMessagesThunk} addNewMessageThunk={props.addNewMessageThunk} />
       </div>
+
+      <MyAlert />
     </div>
   );
 }

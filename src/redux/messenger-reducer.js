@@ -45,6 +45,7 @@ const messengerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 messageItems: [...state.messageItems, action.message],
+                numLastMessage: state.numLastMessage + 1
             };
         case NUM_LAST_MESSAGE:
             return {
@@ -140,7 +141,7 @@ export const getAllMessagesThunk = (dialogId) => {
                     console.log(data);
                     // dispatch(setUserAction(data.userId))
                     dispatch(setMessagesAction(data))
-                    // console.log(data.messages.length - 1)
+                    console.log(data.length)
                     dispatch(numLastMessageAction(data.length))
                 }
             )
@@ -164,10 +165,10 @@ export const addNewDialogThunk = (userId, message) => {
     }
 }
 
-export const addNewMessageThunk = (dialogId, numLastMessage, userIdRecipient, message) => {
+export const addNewMessageThunk = (dialogId, numLastMessage, userIdRecipient, message, dopParametr = "") => {
     const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     return (dispatch) => {
-        messageAPI.addNewMessage(dialogId, numLastMessage, userIdRecipient, message, timestamp)
+        messageAPI.addNewMessage(dialogId, numLastMessage, userIdRecipient, message, timestamp, dopParametr)
             .then(
                 newMessage => {
                     console.log(newMessage)

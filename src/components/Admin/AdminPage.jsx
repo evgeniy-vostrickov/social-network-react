@@ -1,7 +1,8 @@
 import { Admin, Resource, ListGuesser, EditGuesser, CreateGuesser } from 'react-admin';
 import jsonServerProvider from 'ra-data-json-server';
 import jsonRestClient from 'aor-json-rest-client';
-import { UserList } from './Users/users';
+import { UserList, UserEdit } from './Users/users';
+import { GroupList } from './Groups/groups';
 import { BookList, BookEdit, BookCreate } from './Books/books';
 import { CommentList, CommentEdit } from './Comments/comments';
 import authProvider from './authProvider';
@@ -18,7 +19,8 @@ const AdminPage = () => {
             {/* <Resource name="comments" list={ListGuesser} /> */}
             <Resource name="comments" list={CommentList} edit={CommentEdit} />
             <Resource name="books" list={BookList} edit={BookEdit} create={BookCreate} />
-            <Resource name="users" list={UserList} edit={CommentEdit} />
+            <Resource name="users" list={UserList} edit={UserEdit} />
+            <Resource name="groups" list={GroupList} />
             <Resource name="genres" list={ListGuesser} />
             <Resource name="publish" list={ListGuesser} />
             <Resource name="languages" list={ListGuesser} />

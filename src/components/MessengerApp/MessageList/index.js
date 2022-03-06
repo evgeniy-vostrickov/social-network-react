@@ -19,19 +19,20 @@ export default function MessageList(props) {
   
   const onNewMessage = (dataNewMessage) => {
     console.log(dataNewMessage);
+    // console.log(props.numLastMessage);
     const currentDialogId = props.dialogId;
 
-    if (dataNewMessage.dialogId === currentDialogId) {
+    if (dataNewMessage.dialogId == currentDialogId) {
       props.addNewMessageAction(dataNewMessage.message);
-      props.numLastMessageAction(props.numLastMessage + 1);
+      // props.numLastMessageAction(props.numLastMessage + 1);
     }
   }
 
   useEffect(() => {
     let dialogId = props.dialogId;
-    if (typeof dialogId === 'undefined' && typeof props.firstDialogId !== 'undefined'){
-      dialogId = props.firstDialogId;
-    }
+    // if (typeof dialogId === 'undefined' && typeof props.firstDialogId !== 'undefined'){
+    //   dialogId = props.firstDialogId;
+    // }
     if (dialogId){
       props.getAllMessagesThunk(dialogId);
     }

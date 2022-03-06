@@ -88,8 +88,8 @@ export const messageAPI = {
         return instance.post(`dialog/add`, { user_id, message, timestamp })
             .then(response => response.data, error => error.response.data);
     },
-    addNewMessage(dialogId, numLastMessage, userIdRecipient, message, timestamp) {
-        return instance.post(`dialog/message/send`, { dialogId, numLastMessage, userIdRecipient, message, timestamp })
+    addNewMessage(dialogId, numLastMessage, userIdRecipient, message, timestamp, dopParametr) {
+        return instance.post(`dialog/message/send?image=${dopParametr ? dopParametr : "false"}`, { dialogId, numLastMessage, userIdRecipient, message, timestamp })
             .then(response => response.data.values);
     }
 }

@@ -16,6 +16,7 @@ import GroupIndex from './components/Groups/GroupIndex';
 import FoundGroups from './components/Groups/FoundGroups/FoundGroups';
 import FormAddGroup from './components/Groups/NewGroupAdd/FormAddGroup';
 import Quotes from './components/Quotes/Quotes';
+import IntroductoryPage from './components/IntroductoryPage/IntroductoryPage';
 // import Preloader from './components/common/Preloader/Preloader';
 
 //Ленивая загрузка. Нужна в те моменты, когда мы хотим, чтобы все страницы не подгружались сразу, а поступляли по мере надобности.
@@ -47,6 +48,7 @@ const App = ({ initialized, isAuth, initializeAppThunk }) => {
         <Route path="/quotes/" render={() => <Quotes />} />
         <Route path="/registration" render={() => <Registration />} />
         <Route path="/login" render={() => <Login />} />
+        <Route path="/" render={() => <IntroductoryPage />} />
         <Route path="*" render={() => <div>404  NOT FOUND</div>} />
       </Switch>
     </div>

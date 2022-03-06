@@ -46,6 +46,7 @@ let initialState = {
     isSorted: false,
     rating: null,
     myRating: null,
+    quotes: null, //список последних цитат
     isDiaryReader: "", //проверка на нахождении книиг в дневнике читателя
     fieldSort: "", //поле по которому сортируют
     pageSize: 3, //число книг на странице
