@@ -26,8 +26,8 @@ const AddComment = ({ comment, bookId, myAvatar, addNewCommentThunk }) => {
                         }
                     })}>
                 </textarea>
-                <div>
-                    {errors?.review && <p>{errors?.review?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.comment && <p>{errors?.comment?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="but-center"><input type="submit" value="Отправить" className="btn btn-primary" /></div>
             </form>

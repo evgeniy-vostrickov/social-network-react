@@ -5,15 +5,18 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import baseURL from "../../../common/baseUrl/serverUrl";
 import Pagination from '../../../common/Pagination/Pagination';
-import { setBookIdNull, setSortedNull, setCheckNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk } from '../../../redux/book-reducer';
+import { setBookIdNull, setSortedNull, setCheckNull, getAllBooksThunk } from '../../../redux/book-reducer';
 import { compose } from 'redux';
+import Preloader from '../../../common/Preloader/Preloader';
+import MyAlert from '../../../common/Alert/MyAlert';
+import { Toast } from 'bootstrap'
 
 const FoundBooks = (props) => {
     const query = new URLSearchParams(props.location.search);
     // const query = props.query;
     const page = query.get('page') || '1'; //!!! Не работает кнопка назад, при поиске
-    const [fieldFind, setFieldFind] = useState();
-    const [search, setSearch] = useState();
+    const [fieldFind, setFieldFind] = useState("");
+    const [search, setSearch] = useState("");
 
     let { typeBook } = useParams(); //для определения к какому типу учебной литературы относятся книги
 
@@ -26,18 +29,15 @@ const FoundBooks = (props) => {
 
     useEffect(() => {
         //Обнуляем переменную сортировки и поиска
-        console.log("window.location")
         props.setSortedNull();
+        setFieldFind("");
+        setSearch("");
         document.querySelector("input[name='search']").value = "";
-        props.getAllBooksThunk(page, props.pageSize, "false", props.fieldSort, typeBook);
+        props.getAllBooksThunk(page, props.pageSize, false, "", typeBook, "", "");
     }, [window.location.pathname])
 
     useEffect(() => {
-        if (document.querySelector("input[name='search']").value || document.querySelector("input[name='search2']").value) {
-            props.foundBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, fieldFind || 'book_name', search || document.querySelector("input[name='search2']").value, typeBook)
-        }
-        else
-            props.getAllBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, typeBook);
+        props.getAllBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, typeBook, fieldFind || 'book_name', search || document.querySelector("input[name='search2']").value);
     }, [page])
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -48,6 +48,7 @@ const FoundBooks = (props) => {
 
     const funcSorting = (event) => {
         let fieldSort = "";
+        let isSorted = true;
         switch (event.target.id) {
             case "popularity":
                 fieldSort = "count_rating";
@@ -59,13 +60,11 @@ const FoundBooks = (props) => {
                 fieldSort = "rating";
                 break;
             case "cancel":
-                fieldSort = false;
+                isSorted = false;
                 break;
         }
-        if (document.querySelector("input[name='search']").value)
-            props.sortBooksThunk(page, props.pageSize, fieldSort, fieldFind, search, typeBook);
-        else
-            props.sortBooksThunk(page, props.pageSize, fieldSort, "", "", typeBook);
+
+        props.getAllBooksThunk(page, props.pageSize, isSorted, fieldSort, typeBook, fieldFind || 'book_name', search || document.querySelector("input[name='search2']").value);
     }
 
     const onSubmit = (formData) => {
@@ -75,8 +74,15 @@ const FoundBooks = (props) => {
         // query.set('page', 1)
         // query.set('search', formData.search)
         // console.log(query.toString());
-        props.foundBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, formData.fieldFind, formData.search, typeBook)
+        // props.foundBooksThunk(page, props.pageSize, props.isSorted, props.fieldSort, formData.fieldFind, formData.search, typeBook)
+        props.getAllBooksThunk(page, props.pageSize, false, "", typeBook, formData.fieldFind, formData.search);
     };
+
+    const ShowToast = (textError) => {
+        document.querySelector('.toast-body').textContent = textError;
+        const bsToast = new Toast(document.getElementById('toastNotice'));
+        bsToast.show();
+    }
 
     return (
         <section className="main-content books-content">
@@ -93,9 +99,7 @@ const FoundBooks = (props) => {
                             })}
                         />
                         <i className="bi bi-search"></i>
-                        <div>
-                            {errors?.book_name && <p>{errors?.book_name?.message || "Error"}</p>}
-                        </div>
+                        {errors?.search && ShowToast(errors?.search?.message || "Ошибка!")}
                         <div className="btn-group w35r">
                             <select className="form-select fs1-8r" aria-label="Default select example" {...register("fieldFind")}>
                                 <option value="book_name">Поиск по названию</option>
@@ -135,6 +139,7 @@ const FoundBooks = (props) => {
                 </div>
                 {props.totalBooksCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalBooksCount} pageSize={props.pageSize} portionSize={props.portionSize} link={window.location.pathname} />}
             </div>
+            <MyAlert />
         </section>
     )
 }
@@ -148,4 +153,4 @@ const mapStateToProps = (state) => ({
     fieldSort: state.bookPages.fieldSort,
 })
 
-export default compose(connect(mapStateToProps, { setBookIdNull, setSortedNull, setCheckNull, getAllBooksThunk, foundBooksThunk, sortBooksThunk }), withRouter)(FoundBooks);
+export default compose(connect(mapStateToProps, { setBookIdNull, setSortedNull, setCheckNull, getAllBooksThunk }), withRouter)(FoundBooks);

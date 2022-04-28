@@ -30,7 +30,7 @@ const Header = (props) => {
                             </li>
                             <li className="nav-item dropdown">
                                 <NavLink className="nav-link dropdown-toggle" to="/educational" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Учебная литература</NavLink>
-                                <ul className="dropdown-menu fs1-8r" aria-labelledby="navbarDropdown">
+                                <ul className="dropdown-menu fs1-8r" aria-labelledby="navbarDropdown" onClick={event => document.querySelector(".dropdown-menu").classList.remove("show")}>
                                     <li><NavLink className="dropdown-item" to="/educational/junior">Для младших классов</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="/educational/senior">Для старших классов</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="/educational/students">Для студентов</NavLink></li>

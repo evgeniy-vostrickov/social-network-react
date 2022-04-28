@@ -56,8 +56,8 @@ const Registration = ({isAuth, isLoading, textError, isLoadingAction, textErrorN
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.name && <p>{errors?.name?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.name && <p>{errors?.name?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="surname" className="form-label">Фамилия</label>
@@ -71,8 +71,8 @@ const Registration = ({isAuth, isLoading, textError, isLoadingAction, textErrorN
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.surname && <p>{errors?.surname?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.surname && <p>{errors?.surname?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email*</label>
@@ -86,8 +86,8 @@ const Registration = ({isAuth, isLoading, textError, isLoadingAction, textErrorN
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.email && <p>{errors?.email?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.email && <p>{errors?.email?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Пароль*</label>
@@ -105,8 +105,8 @@ const Registration = ({isAuth, isLoading, textError, isLoadingAction, textErrorN
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.password && <p>{errors?.password?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.password && <p>{errors?.password?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="repeat-password" className="form-label">Повторите пароль*</label>
@@ -124,8 +124,8 @@ const Registration = ({isAuth, isLoading, textError, isLoadingAction, textErrorN
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.repeatPassword && <p>{errors?.repeatPassword?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.repeatPassword && <p>{errors?.repeatPassword?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="but-center"><input type="submit" value="Зарегистрироваться" className="btn btn-primary" /></div>
                 <div className="mt-3 text-center">

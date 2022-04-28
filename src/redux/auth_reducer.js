@@ -7,8 +7,8 @@ const SET_PERSONAL_DATA_USER = 'setPersonalDataUser';
 const SAVE_PHOTO = 'savePhoto';
 const LOGOUT_USER = 'logoutUser';
 const IS_LOADING = 'isLoading';
-const TEXT_ERROR = 'textError';
-const TEXT_ERROR_NULL = 'textErrorNull';
+const TEXT_ERROR = 'Auth:textError';
+const TEXT_ERROR_NULL = 'Auth:textErrorNull';
 
 let initialState = {
     user_id: null,

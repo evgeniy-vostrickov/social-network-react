@@ -173,37 +173,13 @@ export const addBookInDiaryReaderThunk = (bookId, sectionDiary) => (dispatch) =>
         )
 }
 
-export const getAllBooksThunk = (page, count, isSorted, fieldSort, typeBook) => (dispatch) => {
-    // if (isSorted)
-    //     bookAPI.getAllBooks(page, count, fieldSort, typeBook)
-    //         .then(
-    //             listBooks => {
-    //                 console.log(listBooks)
-    //                 dispatch(getAllBooks(listBooks))
-    //             }
-    //         )
-    // else
-    //     bookAPI.getAllBooks(page, count, typeBook)
-    //         .then(
-    //             listBooks => {
-    //                 console.log(listBooks)
-    //                 dispatch(getAllBooks(listBooks))
-    //             }
-    //         )
-    bookAPI.getAllBooks(page, count, isSorted, fieldSort, typesBook[typeBook])
-        .then(
-            listBooks => {
-                console.log(listBooks)
-                dispatch(getAllBooks(listBooks))
-            }
-        )
-}
-
-export const foundBooksThunk = (page, count, isSorted, fieldSort, fieldFind, search, typeBook) => (dispatch) => {
-    //page, count, isSorted, fieldSort, fieldFind, search, typeBook
-    console.log(isSorted)
-    console.log(fieldSort)
-    bookAPI.foundBooks(page, count, isSorted, fieldSort, typesBook[typeBook], fieldFind, search)
+export const getAllBooksThunk = (page, count, isSorted, fieldSort, typeBook, fieldFind, search) => (dispatch) => {
+    if (isSorted === true) {
+        dispatch(sortBooksAction(true, fieldSort));
+    } else {
+        dispatch(sortBooksAction(false, ""));
+    }
+    bookAPI.getAllBooks(page, count, isSorted, fieldSort, typesBook[typeBook], fieldFind, search)
         .then(
             listBooks => {
                 console.log(listBooks)
@@ -234,28 +210,19 @@ export const setBooksDiaryReaderThunk = (bookId, typeDiary, currentTypeDiary) =>
         )
 }
 
-export const sortBooksThunk = (page, count, fieldSort, fieldFind, search, typeBook) => async (dispatch) => {
+// export const sortBooksThunk = (page, count, fieldSort, fieldFind, search, typeBook) => async (dispatch) => {
 
-    dispatch(sortBooksAction("true", fieldSort)); //первый вызов сортировки
-    !fieldSort && dispatch(sortBooksAction("false", fieldSort)); //проверка на отмену сортировки
+//     dispatch(sortBooksAction("true", fieldSort)); //первый вызов сортировки
+//     !fieldSort && dispatch(sortBooksAction("false", fieldSort)); //проверка на отмену сортировки
 
-    if (fieldFind)
-        bookAPI.foundBooks(page, count, fieldSort ? "true" : "false", fieldSort, typesBook[typeBook], fieldFind, search)
-            .then(
-                listBooks => {
-                    console.log(listBooks)
-                    dispatch(getAllBooks(listBooks))
-                }
-            )
-    else
-        bookAPI.getAllBooks(page, count, fieldSort ? "true" : "false", fieldSort, typesBook[typeBook])
-            .then(
-                listBooks => {
-                    console.log(listBooks)
-                    dispatch(getAllBooks(listBooks))
-                }
-            )
-}
+//     bookAPI.getAllBooks(page, count, fieldSort ? "true" : "false", fieldSort, typesBook[typeBook], fieldFind, search)
+//         .then(
+//             listBooks => {
+//                 console.log(listBooks)
+//                 dispatch(getAllBooks(listBooks))
+//             }
+//         )
+// }
 
 export const setRatingThunk = (bookId, rating) => (dispatch) => {
     bookAPI.setRating(bookId, rating)

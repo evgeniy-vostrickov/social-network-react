@@ -10,9 +10,8 @@ const Quotes = ({ quotes, getLastQuotesThunk }) => {
     useEffect(() => {
         getLastQuotesThunk();
     }, [])
-    
-    if (!quotes){
-        debugger
+
+    if (!quotes.length){
         return <Preloader />
     }
 

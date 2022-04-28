@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router';
 import Preloader from '../../common/Preloader/Preloader';
 import { useForm } from "react-hook-form";
@@ -10,6 +10,11 @@ import { Toast } from 'bootstrap'
 
 const Login = ({ isAuth, isLoading, textError, isLoadingAction, textErrorNull, loginUserThunk }) => {
     // const [submitForm, setSubmitForm] = useState(false);
+
+    useEffect(() => {
+        textErrorNull();
+    }, [textError])
+
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (formData) => {
@@ -18,20 +23,17 @@ const Login = ({ isAuth, isLoading, textError, isLoadingAction, textErrorNull, l
         loginUserThunk(formData.email, formData.password);
     };
 
-    const show = (message) => {
-        document.querySelector('.toast-body').textContent = message;
-        const bsToast = new Toast(document.getElementById('toastNotice'));
-        bsToast.show();
-        textErrorNull(); //!возможны ошибки
-    };
-
     if (isAuth)
         return <Redirect to={"/profile"} />
 
     if (isLoading == true)
         return <Preloader />
 
-    textError && show(textError)
+    if (textError) {
+        document.querySelector('.toast-body').textContent = textError;
+        const bsToast = new Toast(document.getElementById('toastNotice'));
+        bsToast.show();
+    }
 
     return (
         <section className="main-content registration">
@@ -49,27 +51,27 @@ const Login = ({ isAuth, isLoading, textError, isLoadingAction, textErrorNull, l
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.email && <p>{errors?.email?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.email && <p>{errors?.email?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Пароль*</label>
-                    <input id="password" className="form-control" placeholder="Введите пароль" {...register("password",
+                    <input id="password" type="password" className="form-control" placeholder="Введите пароль" {...register("password",
                         {
                             required: 'Поле обязательно для заполнения',
                             minLength: {
                                 value: 6,
-                                message: 'Число символов должно быть больше 6'
+                                message: 'Число символов в пароле должно быть больше 6'
                             },
                             maxLength: {
                                 value: 15,
-                                message: 'Число символов должно быть меньше 16'
+                                message: 'Число символов в пароле должно быть меньше 16'
                             }
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.password && <p>{errors?.password?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.password && <p>{errors?.password?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="but-center"><input type="submit" value="Войти" className="btn btn-primary" /></div>
                 <div className="mt-3 text-center">

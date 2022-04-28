@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import { withRouter } from 'react-router';
 import { compose } from 'redux';
 import { getUserIdNewDialog, getAllUsersThunk, foundUsersThunk, followThunk, unfollowThunk } from '../../../redux/users-reducer';
-import { addNewDialogThunk } from '../../../redux/messenger-reducer';
+import { textErrorNull, addNewDialogThunk } from '../../../redux/messenger-reducer';
 import Pagination from '../../../common/Pagination/Pagination';
 import User from './User';
 import ModalWindowNewDialog from './ModalWindowNewDialog';
+import MyAlert from '../../../common/Alert/MyAlert';
+import { Toast } from 'bootstrap';
 
 const FoundUsers = (props) => {
     const query = new URLSearchParams(props.location.search);
@@ -28,6 +30,10 @@ const FoundUsers = (props) => {
             props.getAllUsersThunk(page, props.pageSize);
     }, [page])
 
+    useEffect(() => {
+        props.textErrorNull();
+    }, [props.textError])
+
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (formData) => {
@@ -42,6 +48,20 @@ const FoundUsers = (props) => {
 
     const unfollow = (userId) => {
         props.unfollowThunk(userId);
+    }
+
+    if (props.textError)
+    {
+        document.querySelector('.toast-body').textContent = props.textError;
+        const bsToast = new Toast(document.getElementById('toastNotice'));
+        bsToast.show();
+        // props.textErrorNull();
+    }
+
+    const ShowToast = (textError) => {
+        document.querySelector('.toast-body').textContent = textError;
+        const bsToast = new Toast(document.getElementById('toastNotice'));
+        bsToast.show();
     }
 
     return (
@@ -60,9 +80,7 @@ const FoundUsers = (props) => {
                                 })}
                             />
                             <i className="bi bi-search"></i>
-                            <div>
-                                {errors?.user_name && <p>{errors?.user_name?.message || "Error"}</p>}
-                            </div>
+                            {errors?.search && ShowToast(errors?.search?.message || "Ошибка!")}
                             <button className="btn btn-outline-primary" type="submit">Найти</button>
                         </form>
                     </div>
@@ -81,6 +99,7 @@ const FoundUsers = (props) => {
                 </div>
 
                 <ModalWindowNewDialog addNewDialogThunk={props.addNewDialogThunk} userIdDialog={props.userIdDialog} />
+                <MyAlert />
             </section>
         </>
     )
@@ -94,6 +113,7 @@ const mapStateToProps = (state) => ({
     pageSize: state.userPages.pageSize,
     totalUsersCount: state.userPages.totalUsersCount,
     portionSize: state.userPages.portionSize,
+    textError: state.messengerPage.textError
 })
 
-export default compose(connect(mapStateToProps, { getUserIdNewDialog, getAllUsersThunk, foundUsersThunk, followThunk, unfollowThunk, addNewDialogThunk }), withRouter)(FoundUsers);
+export default compose(connect(mapStateToProps, { getUserIdNewDialog, textErrorNull, getAllUsersThunk, foundUsersThunk, followThunk, unfollowThunk, addNewDialogThunk }), withRouter)(FoundUsers);

@@ -28,8 +28,8 @@ const ModalWindowNewDialog = ({ userIdDialog, addNewDialogThunk }) => {
                                         }
                                     })}
                                 ></textarea>
-                                <div>
-                                    {errors?.textMessage && <p>{errors?.textMessage?.message || "Error"}</p>}
+                                <div className='text-error'>
+                                    {errors?.textMessage && <p>{errors?.textMessage?.message || "Ошибка!"}</p>}
                                 </div>
                                 <div className="form-group gap-2 text-center">
                                     <button className="btn create-account mt-0" type="submit" data-bs-dismiss="modal">Отправить</button>

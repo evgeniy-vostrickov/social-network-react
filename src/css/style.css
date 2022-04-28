@@ -383,6 +383,10 @@ header nav .logotip:hover {
   font-size: 1.8rem;
   margin-left: 2rem;
 }
+.search-bar button li,
+.search-bar .dropdown-menu li {
+  cursor: pointer;
+}
 .list-card {
   padding-top: 5rem;
 }
@@ -1130,6 +1134,10 @@ header nav .logotip:hover {
 }
 .loaded .preloader {
   display: none;
+}
+.text-error {
+  color: red;
+  font-style: italic;
 }
 .h100vh {
   height: 90vh;

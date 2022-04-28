@@ -8,6 +8,8 @@ import Pagination from '../../../common/Pagination/Pagination';
 import { setGroupIdNull, getAllGroupsThunk, foundGroupsThunk } from '../../../redux/group-reducer';
 import { compose } from 'redux';
 import groupPhotoDefault from '../../../assets/images/booknet.png'
+import { Toast } from 'bootstrap';
+import MyAlert from '../../../common/Alert/MyAlert';
 
 const FoundBooks = (props) => {
     const query = new URLSearchParams(props.location.search);
@@ -33,6 +35,12 @@ const FoundBooks = (props) => {
         setSearch(formData.search);
         props.foundGroupsThunk(page, props.pageSize, formData.search);
     };
+    
+    const ShowToast = (textError) => {
+        document.querySelector('.toast-body').textContent = textError;
+        const bsToast = new Toast(document.getElementById('toastNotice'));
+        bsToast.show();
+    }
 
     return (
         <section className="main-content groups-content">
@@ -49,9 +57,7 @@ const FoundBooks = (props) => {
                             })}
                         />
                         <i className="bi bi-search"></i>
-                        <div>
-                            {errors?.group_name && <p>{errors?.group_name?.message || "Error"}</p>}
-                        </div>
+                        {errors?.search && ShowToast(errors?.search?.message || "Ошибка!")}
                         <button className="btn btn-outline-primary" type="submit">Найти</button>
                     </form>
                 </div>
@@ -78,6 +84,7 @@ const FoundBooks = (props) => {
                 </div>
                 {props.totalGroupsCount > parseInt(props.pageSize) && <Pagination totalCount={props.totalGroupsCount} pageSize={props.pageSize} portionSize={props.portionSize} link={window.location.pathname} />}
             </div>
+            <MyAlert />
         </section>
     )
 }

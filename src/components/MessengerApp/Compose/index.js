@@ -39,6 +39,12 @@ export default function Compose(props) {
     document.querySelector("input[name='textMessage']").value = ''
   };
 
+  const ShowToast = (textError) => {
+    document.querySelector('.toast-body').textContent = textError;
+    const bsToast = new Toast(document.getElementById('toastNotice'));
+    bsToast.show();
+  }
+
   return (
     <div className="compose block-input-line">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,9 +57,7 @@ export default function Compose(props) {
             }
           })}
         />
-        <div>
-          {errors?.textMessage && <p>{errors?.textMessage?.message || "Error"}</p>}
-        </div>
+        {errors?.search && ShowToast(errors?.textMessage?.message || "Ошибка!")}
         {/* <input type="submit" value="Отправить" className="btn btn-primary" /> */}
       </form>
       {

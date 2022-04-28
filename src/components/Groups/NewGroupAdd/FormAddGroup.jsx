@@ -40,8 +40,8 @@ const FormAddGroup = (props) => {
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.group_name && <p>{errors?.group_name?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.group_name && <p>{errors?.group_name?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="group_description" className="form-label">Описание группы</label>
@@ -55,8 +55,8 @@ const FormAddGroup = (props) => {
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.group_description && <p>{errors?.group_description?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.group_description && <p>{errors?.group_description?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="city" className="form-label">Место расположения</label>
@@ -70,8 +70,8 @@ const FormAddGroup = (props) => {
                         })}
                     />
                 </div>
-                <div>
-                    {errors?.city && <p>{errors?.city?.message || "Error"}</p>}
+                <div className='text-error'>
+                    {errors?.city && <p>{errors?.city?.message || "Ошибка!"}</p>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="illustration_group" className="form-label">Иллюстрация к группе</label>

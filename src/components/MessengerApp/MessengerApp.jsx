@@ -52,42 +52,6 @@ const MessengerApp = (props) => {
         console.log("Подключение")
     }
 
-    // return (
-    //     <div>
-    //         <h2>Messenger</h2>
-    //         <button onClick={connection}>Подключиться</button>
-    //         <form onSubmit={handleSubmit(onSubmit)}>
-    //             <div>
-    //                 {/* <input className="form-control" placeholder="Введите сообщение" {...register("user_id",
-    //                     {
-    //                         required: 'Поле обязательно для заполнения',
-    //                         maxLength: {
-    //                             value: 300,
-    //                             message: 'Число символов должно быть меньше 300'
-    //                         }
-    //                     })}
-    //                 />
-    //                 <div>
-    //                     {errors?.user_id && <p>{errors?.user_id?.message || "Error"}</p>}
-    //                 </div> */}
-    //                 <input className="form-control" placeholder="Введите сообщение" {...register("textMessage",
-    //                     {
-    //                         required: 'Поле обязательно для заполнения',
-    //                         maxLength: {
-    //                             value: 300,
-    //                             message: 'Число символов должно быть меньше 300'
-    //                         }
-    //                     })}
-    //                 />
-    //                 <div>
-    //                     {errors?.textMessage && <p>{errors?.textMessage?.message || "Error"}</p>}
-    //                 </div>
-    //             </div>
-    //             <input type="submit" value="Отправить" className="btn btn-primary" />
-    //         </form>
-    //     </div>
-    // )
-
     return (
         <div className="message-content">
             <Messenger dialogId={props.match.params.dialogId} firstDialogId={props.firstDialogId} myUserId={props.myUserId} numLastMessage={props.numLastMessage} userIdRecipient={props.userIdRecipient} messageItems={props.messageItems} dialogsItems={props.dialogsItems} addNewMessageAction={props.addNewMessageAction} numLastMessageAction={props.numLastMessageAction} setUserAction={props.setUserAction} addNewMessageThunk={props.addNewMessageThunk} getAllDialogsThunk={props.getAllDialogsThunk} getAllMessagesThunk={props.getAllMessagesThunk} />

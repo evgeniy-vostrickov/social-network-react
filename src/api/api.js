@@ -134,14 +134,14 @@ export const bookAPI = {
         return instance.post(`book/diary/add?book=${bookId}`, { sectionDiary })
             .then(response => response.data.values);
     },
-    getAllBooks(page, count, isSorted, fieldSort, typeBook) {
-        return instance.get(`book/all?page=${page}&count=${count}&isSorted=${isSorted}&fieldSort=${fieldSort}&typeBook=${typeBook}`)
+    getAllBooks(page, count, isSorted, fieldSort, typeBook, fieldFind, searchField) {
+        return instance.get(`book/all?page=${page}&count=${count}&isSorted=${isSorted}&fieldSort=${fieldSort}&typeBook=${typeBook}&fieldFind=${fieldFind}&searchField=${searchField}`)
             .then(response => response.data.values);
     },
-    foundBooks(page, count, isSorted, fieldSort, typeBook, fieldFind, searchField) {
-        return instance.get(`book/find?page=${page}&count=${count}&isSorted=${isSorted}&fieldFind=${fieldFind}&typeBook=${typeBook}&searchField=${searchField}&fieldSort=${fieldSort}`)
-            .then(response => response.data.values);
-    },
+    // foundBooks(page, count, isSorted, fieldSort, typeBook, fieldFind, searchField) {
+    //     return instance.get(`book/find?page=${page}&count=${count}&isSorted=${isSorted}&fieldFind=${fieldFind}&typeBook=${typeBook}&searchField=${searchField}&fieldSort=${fieldSort}`)
+    //         .then(response => response.data.values);
+    // },
     getBooksDiaryReader(typeDiary) {
         return instance.get(`book/diary?typeDiary=${typeDiary}`)
             .then(response => response.data.values);

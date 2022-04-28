@@ -9,13 +9,16 @@ const SET_FIRST_DIALOG = 'DIALOGS:SET_FIRST_DIALOG';
 const ADD_NEW_DIALOG = 'DIALOGS:ADD_NEW_DIALOG';
 const ADD_NEW_MESSAGE = 'MESSAGE:ADD_NEW_MESSAGE';
 const NUM_LAST_MESSAGE = 'MESSAGE:NUM_LAST_MESSAGE';
+const TEXT_ERROR = 'Messenger:textError';
+const TEXT_ERROR_NULL = 'Messenger:textErrorNull';
 
 let initialState = {
     dialogsItems: [],
     messageItems: [],
     numLastMessage: null,
     firstDialogId: null,
-    userIdRecipient: null
+    userIdRecipient: null,
+    textError: ""
 }
 
 const messengerReducer = (state = initialState, action) => {
@@ -57,6 +60,12 @@ const messengerReducer = (state = initialState, action) => {
                 ...state,
                 firstDialogId: action.dialogId
             }
+            
+        case TEXT_ERROR:
+            return { ...state, textError: action.textError };
+
+        case TEXT_ERROR_NULL:
+            return { ...state, textError: "" };
         // case 'DIALOGS:LAST_MESSAGE_READED_STATUS':
         //     return {
         //         ...state,
@@ -116,6 +125,8 @@ export const setFirstDialogAction = (dialogId) => ({ type: SET_FIRST_DIALOG, dia
 export const addNewDialogAction = (dialog) => ({ type: ADD_NEW_DIALOG, dialog });
 export const addNewMessageAction = (message) => ({ type: ADD_NEW_MESSAGE, message });
 export const numLastMessageAction = (number) => ({ type: NUM_LAST_MESSAGE, number });
+export const textErrorAction = (textError) => ({ type: TEXT_ERROR, textError })
+export const textErrorNull = () => ({ type: TEXT_ERROR_NULL })
 
 
 //Санки(thunk)
@@ -154,11 +165,15 @@ export const addNewDialogThunk = (userId, message) => {
         messageAPI.addNewDialog(userId, message, timestamp)
             .then(
                 data => {
-                    if (data.satus === 302)
+                    if (data.satus === 302){
                         //Alert вывести с сообщением
                         console.log("302 ошибка " + data.values.dialogExists);
-                    else
+                        dispatch(textErrorAction(data.values.dialogExists))
+                    }
+                    else {
                         console.log(data);
+                        dispatch(textErrorAction("Диалог успешно создан!"))
+                    }
                     // dispatch(addNewDialogAction(newDialog));
                 }
             )
